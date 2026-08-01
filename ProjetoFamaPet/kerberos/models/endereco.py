@@ -9,5 +9,6 @@ class Endereco(models.Model):
     def __str__(self):
         return f"{self.rua}, {self.numero}"
 
-    def criarEndereco(self):
-        return Endereco(rua, numero, bairro, cep)
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

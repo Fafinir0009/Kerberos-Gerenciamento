@@ -6,7 +6,7 @@ class Usuario(models.Model):
     telefone = models.CharField(max_length=15)
 
     endereco = models.ForeignKey(
-        Endereco,
+        "Endereco",
         on_delete=models.CASCADE,
         related_name="usuarios"
     )
@@ -14,6 +14,7 @@ class Usuario(models.Model):
     def __str__(self):
         return self.nome
 
-    def CriarUsuario(self):
-        return Usuario(nome, email, telefone, endereco)
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 

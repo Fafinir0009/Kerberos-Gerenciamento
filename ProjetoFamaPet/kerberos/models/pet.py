@@ -18,10 +18,10 @@ class Pet(models.Model):
     especie = models.CharField(max_length=20, choices=ESPECIE_ESCOLHA)
     raca = models.CharField(max_length=50)
     porte = models.CharField(max_length=20, choices=PORTE_ESCOLHA)
-    observacao = models.TextField(blank=True)
+    observacao = models.TextField(blank=True, null=True)
 
     usuario = models.ForeignKey(
-        Usuario,
+        "Usuario",
         on_delete=models.CASCADE,
         related_name="pets"
     )
@@ -29,5 +29,6 @@ class Pet(models.Model):
     def __str__(self):
         return self.nome
 
-    def criarPet(self):
-        return Pet(nome, idade, especie, raca, porte, observacao, usuario)
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
