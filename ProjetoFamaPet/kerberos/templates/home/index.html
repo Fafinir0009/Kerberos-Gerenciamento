@@ -1,13 +1,13 @@
-{% extends "base_site.html" %}
+{% extends "base/base_site.html" %}
+{% load static %}
 
 {% block meta %}
     <meta name="description" content="FamaPet — banho, tosa à tesoura, banho de ozônio, acessórios e Táxi Pet. Agende online o cuidado do seu pet.">
-{%- endblock %}
+{% endblock %}
 
 {% block titulo %}FamaPet — Trazemos a melhor versão do seu pet!{% endblock %}
 
 {% block conteudo %}
-
 
     <header class="hero">
         <span class="pata pata-1" aria-hidden="true"></span>
@@ -24,21 +24,18 @@
                         <span class="pata pata-titulo" aria-hidden="true"></span>
                     </h1>
 
-                    <div class="revelar mt-4" data-atraso="2">
-                        <a href="{{ url_for('login') }}?destino={{ url_for('novo_agendamento') }}" class="btn btn-agendar">Agende aqui</a>
+                    <div class="revelar mt-4" data-atraso="2"> 
+                        <a href="{% url 'login' %}?destino={% url 'novo_agendamento' %}" class="btn btn-agendar">Agende aqui</a>
                     </div>
                 </div>
 
                 <div class="col-lg-6 hero-arte revelar" data-atraso="1">
-                    <img src="{{ url_for('static', filename='img/hero-dog.png') }}"
-                        alt="Cachorro da raça beagle sorrindo ao lado de uma pata decorativa"
-                        fetchpriority="high">
+                    <img src="{% static 'img/hero-dog.png' %}" alt="Cachorro da raça beagle" fetchpriority="high">
                 </div>
 
             </div>
         </div>
     </header>
-
 
     <section class="diferenciais py-5" id="diferenciais">
         <div class="container py-lg-4">
@@ -54,8 +51,7 @@
 
             <div class="row g-4">
                 {% for card in diferenciais %}
-
-                <div class="col-md-6 col-lg-4 revelar"{% if loop.index0 % 3 %} data-atraso="{{ loop.index0 % 3 }}"{% endif %}>
+                <div class="col-md-6 col-lg-4 revelar" data-atraso="{{ forloop.counter0 }}">
                     <article class="card-servico">
                         <div class="cabecalho-card">
                             <div class="icone"><i class="bi {{ card.icone }}" aria-hidden="true"></i></div>
@@ -78,7 +74,8 @@
             <div class="row align-items-center">
 
                 <div class="col-lg-5 text-center contato-foto revelar">
-                    <img src="{{ url_for('static', filename='img/contact-dog.png') }}"
+                    {# 3. Imagem convertida para a tag {% static %} do Django #}
+                    <img src="{% static 'img/contact-dog.png' %}"
                         alt="Cachorro preto de orelhas em pé olhando atentamente para a câmera">
                 </div>
 

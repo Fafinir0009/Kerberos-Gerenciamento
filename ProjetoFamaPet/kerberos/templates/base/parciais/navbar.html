@@ -1,10 +1,12 @@
 
 
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-fama py-3 sticky-top">
     <div class="container">
 
-        <a class="navbar-brand marca" href="{{ url_for('index') }}">
-            <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Logotipo FamaPet">
+        <a class="navbar-brand marca" href="{% url 'index' %}">
+            <img src="{% static 'img/logo.svg' %}" alt="Logotipo FamaPet">
             <span class="marca-texto">Fama<span>Pet</span></span>
         </a>
 
@@ -16,10 +18,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="menu">
             <ul class="navbar-nav align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login') }}">Entrar</a>
+                    <a class="nav-link" href="{% url 'login/login.html' %}">Entrar</a>
                 </li>
                 <li class="nav-item mt-2 mt-lg-0">
-                    <a class="btn btn-escuro" href="{{ url_for('cadastro') }}">Cadastre-se</a>
+                    <a class="btn btn-escuro" href="{% url 'cadastro_usuario/cadastro.html' %}">Cadastre-se</a>
                 </li>
             </ul>
         </div>
