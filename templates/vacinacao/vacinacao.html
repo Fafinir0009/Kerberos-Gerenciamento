@@ -1,0 +1,104 @@
+{% extends "base_painel.html" %}
+
+{% block titulo %}Carteira de Vacinação — FamaPet{% endblock %}
+{% block data_pagina %}vacinacao{% endblock %}
+
+{% block painel %}
+            <div class="quadro-painel">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+                    <div>
+                        <h1 class="titulo-painel">Carteira de Vacinação</h1>
+                        <p class="subtitulo-painel fs-6" id="infoPetVacinacao"></p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="visually-hidden" for="petVacinacao">Pet</label>
+                        <select class="campo-painel" id="petVacinacao" style="min-width:180px"></select>
+                        <button class="btn-cta" id="botaoNovaVacina"><i class="bi bi-plus-lg"></i> Vacina</button>
+                    </div>
+                </div>
+
+                <div class="barra-tabela">
+                    <div class="filtro-mostrar">
+                        <label for="filtroVacinas">Show</label>
+                        <select id="filtroVacinas">
+                            <option value="todos" selected>todos</option>
+                            <option value="Aplicada">aplicadas</option>
+                            <option value="Atenção">atenção</option>
+                            <option value="Atrasada">atrasadas</option>
+                            <option value="Não aplicada">não aplicadas</option>
+                        </select>
+                    </div>
+                    <div class="busca-tabela">
+                        <i class="bi bi-search"></i>
+                        <input type="search" id="buscaVacinas" placeholder="Pesquisar" aria-label="Pesquisar vacinas">
+                    </div>
+                </div>
+
+                <div class="tabela-rolagem">
+                    <table class="tabela-fama">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Vacina
+                                    <button class="ordenar" data-ordenar="nome" aria-label="Ordenar por vacina"><i class="bi bi-chevron-expand"></i></button>
+                                </th>
+                                <th scope="col">Data Aplicada
+                                    <button class="ordenar" data-ordenar="aplicacao" aria-label="Ordenar por data de aplicação"><i class="bi bi-chevron-expand"></i></button>
+                                </th>
+                                <th scope="col">Próximo Reforço
+                                    <button class="ordenar" data-ordenar="reforco" aria-label="Ordenar por próximo reforço"><i class="bi bi-chevron-expand"></i></button>
+                                </th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoVacinas"></tbody>
+                    </table>
+                </div>
+
+                <nav class="paginacao-fama" id="paginacaoVacinas" aria-label="Paginação"></nav>
+            </div>
+{% endblock %}
+
+{% block modais %}
+
+    <div class="modal fade" id="modalVacina" tabindex="-1" aria-labelledby="tituloModalVacina" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="formVacina" novalidate>
+                    <div class="modal-header border-0 pb-0">
+                        <h2 class="modal-title fs-4" id="tituloModalVacina">Adicionar vacina</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="nomeVacina">Vacina:</label>
+                            <input type="text" class="campo-painel" id="nomeVacina" name="nomeVacina"
+                                placeholder="Ex.: Polivalente V10" required>
+                            <span class="msg-erro"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label" for="aplicacaoVacina">Data aplicada:</label>
+                                <input type="date" class="campo-painel" id="aplicacaoVacina" name="aplicacao">
+                                <span class="msg-erro"></span>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label" for="reforcoVacina">Próximo reforço:</label>
+                                <input type="date" class="campo-painel" id="reforcoVacina" name="reforco">
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="aplicadaVacina" name="aplicada" checked>
+                            <label class="form-check-label" for="aplicadaVacina">Vacina já aplicada</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn-contorno" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-cta">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

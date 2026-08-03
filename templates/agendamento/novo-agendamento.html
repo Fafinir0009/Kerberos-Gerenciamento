@@ -1,0 +1,95 @@
+{% extends "base_painel.html" %}
+
+{% block titulo %}Novo agendamento — FamaPet{% endblock %}
+{% block data_pagina %}novo-agendamento{% endblock %}
+
+{% block painel %}
+            <h1 class="titulo-painel">Agende um atendimento</h1>
+            <p class="subtitulo-painel">Selecione data, horário e informe os dados para criar o agendamento.</p>
+
+            <section id="agEtapa1">
+                <label class="rotulo-campo" for="agData">Data</label>
+                <div class="campo-icone mb-4">
+                    <i class="bi bi-calendar3"></i>
+                    <input type="date" id="agData" aria-label="Data do atendimento">
+                </div>
+
+                <div id="campoResponsavel" class="d-none mb-4">
+                    <label class="rotulo-campo" for="agResponsavel">Responsável</label>
+                    <div class="campo-icone">
+                        <i class="bi bi-person-vcard"></i>
+                        <select id="agResponsavel">
+                            <option value="" selected disabled>Selecione o cliente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p class="rotulo-campo mb-0">Horários</p>
+                <div id="gradeHorarios"></div>
+
+                <div class="acoes-passo">
+                    <button type="button" id="agProximo" class="btn-cta">Próximo</button>
+                </div>
+            </section>
+
+            <form id="agEtapa2" class="d-none" novalidate>
+                <div class="resumo-agendamento" id="resumoAg"></div>
+
+                <div class="mb-3" style="max-width:640px">
+                    <label class="rotulo-campo" for="agPet">Nome do pet:</label>
+                    <select class="campo-painel" id="agPet" required>
+                        <option value="" selected disabled>Selecione o pet</option>
+                    </select>
+                    <span class="msg-erro"></span>
+                </div>
+
+                <p class="rotulo-campo mb-1" style="max-width:640px">
+                    <a href="#" id="alternarEndereco" class="text-decoration-none" style="color:var(--preto)">
+                        Endereço (opcional — para o Táxi Pet) <i class="bi bi-caret-right-fill"></i>
+                    </a>
+                </p>
+                <div id="caixaEnderecoAg" class="caixa-opcional d-none mb-3" style="max-width:640px">
+                    <div class="row">
+                        <div class="col-6 col-md-4 mb-3">
+                            <label class="form-label" for="agCep">CEP</label>
+                            <input type="text" class="campo-painel" id="agCep" data-mascara="cep"
+                                placeholder="00000-000" inputmode="numeric">
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <label class="form-label" for="agNumero">Número</label>
+                            <input type="text" class="campo-painel" id="agNumero" placeholder="123">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="agRua">Rua</label>
+                            <input type="text" class="campo-painel" id="agRua" placeholder="Rua das Flores">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="agBairro">Bairro</label>
+                            <input type="text" class="campo-painel" id="agBairro" placeholder="Centro">
+                        </div>
+                    </div>
+                    <p class="small mb-2"><a class="link-politica" href="{{ url_for('politica_transporte') }}" target="_blank" rel="noopener">Consulte nossa política de transporte</a></p>
+                </div>
+
+                <div class="mb-3" style="max-width:640px">
+                    <label class="rotulo-campo" for="agServico">Serviço desejado:</label>
+                    <select class="campo-painel" id="agServico" required>
+                        <option value="" selected disabled>Selecione o serviço</option>
+                    </select>
+                    <span class="msg-erro"></span>
+                </div>
+
+                <div class="mb-2" style="max-width:640px">
+                    <label class="rotulo-campo" for="agObs">Adicionar observação:</label>
+                    <input type="text" class="campo-painel" id="agObs"
+                        placeholder="Ex.: Quero os serviços do Táxi Pet">
+                </div>
+
+                <div class="acoes-passo" style="max-width:640px">
+                    <button type="button" id="agVoltar" class="btn-contorno">Voltar</button>
+                    <button type="submit" class="btn-cta">Finalizar</button>
+                </div>
+            </form>
+{% endblock %}

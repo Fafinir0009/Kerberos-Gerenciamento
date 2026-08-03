@@ -1,0 +1,106 @@
+{% extends "base_conta.html" %}
+{% set aba_ativa = 'cadastrar' %}
+
+{% block titulo %}Criar conta — FamaPet{% endblock %}
+{% block data_pagina %}cadastro{% endblock %}
+
+{% block cartao %}
+        <h1>Criar<br>conta:</h1>
+
+        <div class="passos-conta" aria-hidden="true">
+            <span class="feito"></span><span></span>
+        </div>
+
+        <form id="etapa1" novalidate>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" class="campo-conta" id="nome" name="nome"
+                    placeholder="Ex.: Davi Joaquim" autocomplete="name" required>
+                <span class="msg-erro"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="emailCad" class="form-label">Email:</label>
+                <input type="email" class="campo-conta" id="emailCad" name="email"
+                    placeholder="Ex.: davijoaquim0009@gmail.com" autocomplete="email" required>
+                <span class="msg-erro"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input type="tel" class="campo-conta" id="telefone" name="telefone" data-mascara="telefone"
+                    placeholder="(15) 99634-3098" autocomplete="tel" inputmode="numeric" required>
+                <span class="msg-erro"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="senhaCad" class="form-label">Senha</label>
+                <div class="grupo-senha">
+                    <input type="password" class="campo-conta" id="senhaCad" name="senha"
+                        placeholder="Mínimo de 8 caracteres" autocomplete="new-password" required>
+                    <button type="button" class="ver-senha" aria-label="Mostrar senha"><i class="bi bi-eye"></i></button>
+                    <span class="msg-erro"></span>
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <label for="confirmar" class="form-label">Confirmar senha</label>
+                <div class="grupo-senha">
+                    <input type="password" class="campo-conta" id="confirmar" name="confirmar"
+                        placeholder="Repita a senha" autocomplete="new-password" required>
+                    <button type="button" class="ver-senha" aria-label="Mostrar senha"><i class="bi bi-eye"></i></button>
+                    <span class="msg-erro"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-conta">Continuar</button>
+        </form>
+
+        <form id="etapa2" class="d-none" novalidate>
+            <p class="form-label mb-2">Endereço</p>
+
+            <div class="caixa-endereco">
+                <div class="row">
+                    <div class="col-6 col-md-4 mb-3">
+                        <label for="cep" class="form-label">CEP</label>
+                        <input type="text" class="campo-conta" id="cep" name="cep" data-mascara="cep"
+                            placeholder="18558-064" inputmode="numeric" autocomplete="postal-code" required>
+                        <span class="msg-erro"></span>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <label for="numero" class="form-label">Número</label>
+                        <input type="text" class="campo-conta" id="numero" name="numero"
+                            placeholder="165" inputmode="numeric" required>
+                        <span class="msg-erro"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="rua" class="form-label">Rua</label>
+                        <input type="text" class="campo-conta" id="rua" name="rua"
+                            placeholder="Almerio Dorighelo" autocomplete="address-line1" required>
+                        <span class="msg-erro"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="bairro" class="form-label">Bairro</label>
+                        <input type="text" class="campo-conta" id="bairro" name="bairro"
+                            placeholder="Industrial II" required>
+                        <span class="msg-erro"></span>
+                    </div>
+                </div>
+                <p class="text-muted small mb-2"><i class="bi bi-magic me-1"></i>Digite o CEP e preenchemos rua e bairro para você.</p>
+            </div>
+
+            <button type="submit" class="btn-conta">Continuar</button>
+            <button type="button" id="voltarEtapa1" class="btn btn-link d-block mx-auto mt-2 text-decoration-none">
+                <i class="bi bi-arrow-left"></i> Voltar aos dados pessoais
+            </button>
+        </form>
+
+        <p class="rodape-cartao mt-3 mb-0">Já tem conta? <a href="{{ url_for('login') }}">Entrar</a></p>
+
+        <div class="ajuda-conta">
+            <a href="https://wa.me/5511963171197?text=Preciso%20de%20ajuda%20com%20o%20cadastro%20FamaPet."
+                target="_blank" rel="noopener">Precisa de ajuda?</a>
+        </div>
+{% endblock %}

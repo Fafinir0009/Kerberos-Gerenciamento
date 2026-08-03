@@ -1,0 +1,96 @@
+{% extends "base_conta.html" %}
+
+{% block titulo %}Agendamento — FamaPet{% endblock %}
+{% block data_pagina %}primeiro-agendamento{% endblock %}
+
+{% block topo_conta %}
+        <a class="marca" href="{{ url_for('index') }}" title="Voltar ao início">
+            <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Início — FamaPet">
+            <span class="marca-texto d-none d-sm-inline">Fama<span>Pet</span></span>
+        </a>
+        <span class="aba-conta ativa">Agendamento</span>
+{%- endblock %}
+
+{% block cartao %}
+        <h1>Agendamento:</h1>
+        <p class="text-muted mb-4">Tudo pronto! Que tal já garantir o primeiro horário do seu pet?</p>
+
+        <form id="formPrimeiroAg" novalidate>
+            <div class="mb-3">
+                <label for="pet" class="form-label">Nome do pet:</label>
+                <select class="campo-conta" id="pet" name="pet" required>
+                    <option value="" selected disabled>Selecione o pet</option>
+                </select>
+                <span class="msg-erro"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="data" class="form-label">Data:</label>
+                    <input type="date" class="campo-conta" id="data" name="data" required>
+                    <span class="msg-erro"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="hora" class="form-label">Horário:</label>
+                    <select class="campo-conta" id="hora" name="hora" required>
+                        <option value="" selected disabled>Selecione o horário</option>
+                    </select>
+                    <span class="msg-erro"></span>
+                </div>
+            </div>
+
+            <p class="form-label mb-1">
+                <a href="#" id="abrirEndereco" class="text-decoration-none" style="color:var(--preto)">
+                    Endereço (opcional — para o Táxi Pet) <i class="bi bi-caret-right-fill"></i>
+                </a>
+            </p>
+            <div id="caixaEndereco" class="caixa-endereco d-none mb-3">
+                <div class="row">
+                    <div class="col-6 col-md-4 mb-3">
+                        <label for="cepAg" class="form-label">CEP</label>
+                        <input type="text" class="campo-conta" id="cepAg" name="cep" data-mascara="cep"
+                            placeholder="00000-000" inputmode="numeric">
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <label for="numeroAg" class="form-label">Número</label>
+                        <input type="text" class="campo-conta" id="numeroAg" name="numero" placeholder="123">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="ruaAg" class="form-label">Rua</label>
+                        <input type="text" class="campo-conta" id="ruaAg" name="rua" placeholder="Rua das Flores">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="bairroAg" class="form-label">Bairro</label>
+                        <input type="text" class="campo-conta" id="bairroAg" name="bairro" placeholder="Centro">
+                    </div>
+                </div>
+                <p class="small mb-2"><a class="link-politica" href="{{ url_for('politica_transporte') }}" target="_blank" rel="noopener">Consulte nossa política de transporte</a></p>
+            </div>
+
+            <div class="mb-3">
+                <label for="servico" class="form-label">Serviço desejado:</label>
+                <select class="campo-conta" id="servico" name="servico" required>
+                    <option value="" selected disabled>Selecione o serviço</option>
+                </select>
+                <span class="msg-erro"></span>
+            </div>
+
+            <div class="mb-2">
+                <label for="obs" class="form-label">Adicionar observação:</label>
+                <input type="text" class="campo-conta" id="obs" name="obs"
+                    placeholder="Ex.: Quero os serviços do Táxi Pet">
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-4">
+                <button type="button" id="pularAgendamento" class="btn btn-contorno">Deixar para depois</button>
+                <button type="submit" class="btn-conta m-0" style="width:auto;padding-inline:2.4rem">Finalizar</button>
+            </div>
+        </form>
+
+        <div class="ajuda-conta">
+            <a href="https://wa.me/5511963171197?text=Preciso%20de%20ajuda%20com%20meu%20agendamento."
+                target="_blank" rel="noopener">Precisa de ajuda?</a>
+        </div>
+{% endblock %}
