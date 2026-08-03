@@ -1,0 +1,30 @@
+{% load static %}
+
+{#-
+  Abas "Entrar / Cadastrar" das telas de conta.
+  Variáveis esperadas do contexto:
+    aba_ativa      -> 'entrar' ou 'cadastrar'
+    link_cadastrar -> URL de destino personalizada para a aba Cadastrar (Opcional)
+-#}
+
+{% with url_cadastro=link_cadastrar|default:'' %}
+  {% if not url_cadastro %}
+    {% url 'cadastro' as url_cadastro %}
+  {% endif %}
+
+  <a class="aba-conta{% if aba_ativa == 'entrar' %} ativa{% endif %}" 
+     href="{% url 'login' %}"
+     {% if aba_ativa == 'entrar' %}aria-current="page"{% endif %}>
+     Entrar
+  </a>
+
+  <a class="marca d-none d-sm-inline-flex" href="{% url 'index' %}" title="Voltar ao início">
+      <img src="{% static 'img/logo.svg' %}" alt="Início — FamaPet">
+  </a>
+
+  <a class="aba-conta{% if aba_ativa == 'cadastrar' %} ativa{% endif %}" 
+     href="{{ url_cadastro }}"
+     {% if aba_ativa == 'cadastrar' %}aria-current="page"{% endif %}>
+     Cadastrar
+  </a>
+{% endwith %}

@@ -1,3 +1,8 @@
+/* ============================================================
+   FamaPet — Folha de estilos principal
+   Paleta e tipografia extraídas do protótipo Figma
+   ============================================================ */
+
 :root {
   /* Cores da marca (amostradas do protótipo) */
   --amarelo: #FFC446;          /* hero, sidebar, faixa de autenticação */

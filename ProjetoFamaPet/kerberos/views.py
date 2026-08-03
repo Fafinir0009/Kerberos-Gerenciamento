@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from .models import Usuario, Pet
 
 def home(request):
-    return render(request, 'home/home.html')
+    return render(request, 'home/index.html')
 
 
 def listar_usuarios(request):
     usuarios = Usuario.objects.all()
     contexto = {'usuarios': usuarios}
-    return render(request, 'usuario/listar_usuarios.html', contexto)
+    return render(request, 'usuario/clientes.html', contexto)

@@ -6,8 +6,8 @@
 {% block corpo %}
     <div class="topo-conta">
         {% block topo_conta %}
-        {%- include "parciais/abas_conta.html" %}
-        {%- endblock %}
+        {% include "parciais/abas_conta.html" %}
+        {% endblock %}
     </div>
 
     <main class="cartao-conta">
@@ -17,4 +17,4 @@
 
 {% block scripts %}
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
-{%- endblock %}
+{% endblock %}

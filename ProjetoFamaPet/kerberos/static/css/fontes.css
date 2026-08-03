@@ -1,3 +1,9 @@
+/* ============================================================
+   FamaPet — Fontes locais (Fredoka e Poppins)
+   Arquivos em ../vendor/fontes/ — o site funciona offline.
+   ============================================================ */
+
+/* Fredoka — marca e títulos de destaque */
 @font-face {
   font-family: "Fredoka";
   font-style: normal;
