@@ -1,0 +1,20 @@
+{#- Layout das telas de conta (entrar, cadastro, pet, 1º agendamento). -#}
+{% extends "base.html" %}
+
+{% block body_attrs %} class="pagina-conta" data-pagina="{% block data_pagina %}{% endblock %}"{% endblock %}
+
+{% block corpo %}
+    <div class="topo-conta">
+        {% block topo_conta %}
+        {%- include "parciais/abas_conta.html" %}
+        {%- endblock %}
+    </div>
+
+    <main class="cartao-conta">
+        {% block cartao %}{% endblock %}
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{%- endblock %}

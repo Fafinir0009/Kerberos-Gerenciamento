@@ -1,0 +1,97 @@
+{% extends "base_site.html" %}
+
+{% block meta %}
+    <meta name="description" content="FamaPet — banho, tosa à tesoura, banho de ozônio, acessórios e Táxi Pet. Agende online o cuidado do seu pet.">
+{%- endblock %}
+
+{% block titulo %}FamaPet — Trazemos a melhor versão do seu pet!{% endblock %}
+
+{% block conteudo %}
+
+
+    <header class="hero">
+        <span class="pata pata-1" aria-hidden="true"></span>
+        <span class="pata pata-2" aria-hidden="true"></span>
+
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-6 hero-conteudo">
+                    <p class="hero-subtitulo revelar">Trazemos a melhor versão do seu pet!</p>
+
+                    <h1 class="hero-titulo revelar" data-atraso="1">
+                        Fama<span>Pet</span>
+                        <span class="pata pata-titulo" aria-hidden="true"></span>
+                    </h1>
+
+                    <div class="revelar mt-4" data-atraso="2">
+                        <a href="{{ url_for('login') }}?destino={{ url_for('novo_agendamento') }}" class="btn btn-agendar">Agende aqui</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 hero-arte revelar" data-atraso="1">
+                    <img src="{{ url_for('static', filename='img/hero-dog.png') }}"
+                        alt="Cachorro da raça beagle sorrindo ao lado de uma pata decorativa"
+                        fetchpriority="high">
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+
+    <section class="diferenciais py-5" id="diferenciais">
+        <div class="container py-lg-4">
+
+            <h2 class="titulo-secao text-center mb-3 revelar">
+                Nossos <span>Diferenciais</span>
+            </h2>
+
+            <p class="subtitulo-secao text-center mb-5 revelar" data-atraso="1">
+                Vai muito além de aparar os pelos: transformamos o momento
+                num verdadeiro cuidado com o bem-estar do seu bichinho.
+            </p>
+
+            <div class="row g-4">
+                {% for card in diferenciais %}
+
+                <div class="col-md-6 col-lg-4 revelar"{% if loop.index0 % 3 %} data-atraso="{{ loop.index0 % 3 }}"{% endif %}>
+                    <article class="card-servico">
+                        <div class="cabecalho-card">
+                            <div class="icone"><i class="bi {{ card.icone }}" aria-hidden="true"></i></div>
+                            <h3>{{ card.titulo }}</h3>
+                        </div>
+                        <p>
+                            {{ card.texto }}
+                        </p>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="contato py-5">
+        <span class="pata pata-contato" aria-hidden="true"></span>
+
+        <div class="container py-lg-4">
+            <div class="row align-items-center">
+
+                <div class="col-lg-5 text-center contato-foto revelar">
+                    <img src="{{ url_for('static', filename='img/contact-dog.png') }}"
+                        alt="Cachorro preto de orelhas em pé olhando atentamente para a câmera">
+                </div>
+
+                <div class="col-lg-7 revelar" data-atraso="1">
+                    <h2>Está com dúvidas?</h2>
+                    <p class="mb-4">Entre em contato com a gente e tenha mais informações.</p>
+                    <a href="https://wa.me/5511963171197?text=Ol%C3%A1%2C%20FamaPet!%20Quero%20mais%20informa%C3%A7%C3%B5es."
+                        target="_blank" rel="noopener" class="btn btn-conosco">
+                        Fale conosco!
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

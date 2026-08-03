@@ -1,0 +1,26 @@
+{#- Layout do painel (sidebar montada pelo dashboard.js). -#}
+{% extends "base.html" %}
+
+{% block body_attrs %} data-pagina="{% block data_pagina %}{% endblock %}"{% endblock %}
+
+{% block corpo %}
+    <div class="topo-mobile">
+        <button class="btn-menu" id="abrirMenu" aria-label="Abrir menu"><i class="bi bi-list"></i></button>
+        <a class="marca" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.svg') }}" alt="FamaPet" style="width:34px;height:34px"></a>
+    </div>
+    <div class="fundo-sidebar"></div>
+
+    <div class="layout-painel">
+        <aside class="sidebar" aria-label="Menu lateral"></aside>
+
+        <main class="conteudo-painel">
+            {% block painel %}{% endblock %}
+        </main>
+    </div>
+
+    {% block modais %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{%- endblock %}

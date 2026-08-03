@@ -1,0 +1,43 @@
+{% extends "base_conta.html" %}
+{% set aba_ativa = 'entrar' %}
+
+{% block titulo %}Entrar — FamaPet{% endblock %}
+{% block data_pagina %}login{% endblock %}
+
+{% block cartao %}
+        <h1>Inicie a sua<br>sessão:</h1>
+
+        <form id="formLogin" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="campo-conta" id="email" name="email"
+                    placeholder="seu@email.com" autocomplete="email" required>
+                <span class="msg-erro"></span>
+            </div>
+
+            <div class="mb-2">
+                <label for="senha" class="form-label">Senha</label>
+                <div class="grupo-senha">
+                    <input type="password" class="campo-conta" id="senha" name="senha"
+                        placeholder="Sua senha" autocomplete="current-password" required>
+                    <button type="button" class="ver-senha" aria-label="Mostrar senha"><i class="bi bi-eye"></i></button>
+                    <span class="msg-erro"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-conta">Entrar</button>
+        </form>
+
+        <div class="dica-demo">
+            <i class="bi bi-lightbulb me-1"></i><strong>Contas de demonstração</strong><br>
+            Cliente: <code>davi@famapet.com</code> · senha <code>12345678</code><br>
+            Administrador: <code>admin@famapet.com</code> · senha <code>admin123</code>
+        </div>
+
+        <p class="rodape-cartao mt-3 mb-0">Ainda não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+
+        <div class="ajuda-conta">
+            <a href="https://wa.me/5511963171197?text=Preciso%20de%20ajuda%20para%20entrar%20na%20minha%20conta%20FamaPet."
+                target="_blank" rel="noopener">Precisa de ajuda?</a>
+        </div>
+{% endblock %}

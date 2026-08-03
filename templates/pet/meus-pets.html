@@ -1,0 +1,93 @@
+{% extends "base_painel.html" %}
+
+{% block titulo %}Meus pets — FamaPet{% endblock %}
+{% block data_pagina %}meus-pets{% endblock %}
+
+{% block painel %}
+            <div class="quadro-painel">
+                <h1 class="titulo-painel mb-3">Meus Pets:</h1>
+
+                <div class="barra-tabela">
+                    <div class="busca-tabela">
+                        <i class="bi bi-search"></i>
+                        <input type="search" id="buscaPets" placeholder="Procurar" aria-label="Procurar pets">
+                    </div>
+                    <button class="btn-cta ms-auto" id="botaoNovoPet">
+                        <i class="bi bi-plus-lg"></i> Adicionar pet
+                    </button>
+                </div>
+
+                <div class="tabela-rolagem">
+                    <table class="tabela-fama">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome do Pet</th>
+                                <th scope="col" id="colTutorPets" class="d-none">Tutor</th>
+                                <th scope="col">Sexo</th>
+                                <th scope="col">Idade</th>
+                                <th scope="col">Porte</th>
+                                <th scope="col">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoPets"></tbody>
+                    </table>
+                </div>
+
+                <nav class="paginacao-fama" id="paginacaoPets" aria-label="Paginação"></nav>
+            </div>
+{% endblock %}
+
+{% block modais %}
+    <div class="modal fade" id="modalPet" tabindex="-1" aria-labelledby="tituloModalPet" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="formPetPainel" novalidate>
+                    <div class="modal-header border-0 pb-0">
+                        <h2 class="modal-title fs-4" id="tituloModalPet">Cadastrar pet</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3 d-none" id="campoDonoPet">
+                            <label class="form-label" for="donoPet">Tutor:</label>
+                            <select class="campo-painel" id="donoPet" name="dono"></select>
+                            <span class="msg-erro"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="nomePetModal">Nome do pet:</label>
+                            <input type="text" class="campo-painel" id="nomePetModal" name="nomePet" placeholder="Ex.: Kate" required>
+                            <span class="msg-erro"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="porteModal">Porte:</label>
+                            <select class="campo-painel" id="porteModal" name="porte" required>
+                                <option value="" selected disabled>Selecione o porte</option>
+                                <option>Pequeno</option>
+                                <option>Médio</option>
+                                <option>Grande</option>
+                            </select>
+                            <span class="msg-erro"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="sexoModal">Sexo:</label>
+                            <select class="campo-painel" id="sexoModal" name="sexo" required>
+                                <option value="" selected disabled>Selecione o sexo</option>
+                                <option>Fêmea</option>
+                                <option>Macho</option>
+                            </select>
+                            <span class="msg-erro"></span>
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label" for="idadeModal">Idade (anos):</label>
+                            <input type="number" class="campo-painel" id="idadeModal" name="idade" min="0" max="35" placeholder="Ex.: 5" required>
+                            <span class="msg-erro"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn-contorno" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-cta">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

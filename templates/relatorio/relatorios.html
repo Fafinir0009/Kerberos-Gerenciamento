@@ -1,0 +1,59 @@
+{% extends "base_painel.html" %}
+
+{% block titulo %}Relatórios — FamaPet{% endblock %}
+{% block data_pagina %}relatorios{% endblock %}
+
+{% block painel %}
+            <h1 class="titulo-painel">Relatórios</h1>
+            <p class="subtitulo-painel">Visão geral do banho e tosa e agenda do dia.</p>
+
+            <div class="row g-3 mb-4">
+                {% for estat in estatisticas %}
+                <div class="col-6 col-xl-3">
+                    <div class="cartao-estatistica">
+                        <div class="icone-estat"><i class="bi {{ estat.icone }}"></i></div>
+                        <div class="valor" id="{{ estat.id }}">0</div>
+                        <div class="rotulo">{{ estat.rotulo }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="cartao-estatistica h-auto mb-4">
+                        <h2 class="fs-5 fw-bold mb-3">Serviços mais pedidos</h2>
+                        <div id="barrasServicos"></div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="cartao-estatistica">
+                                <div class="icone-estat"><i class="bi bi-people"></i></div>
+                                <div class="valor" id="estatClientes">0</div>
+                                <div class="rotulo">Clientes cadastrados</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="cartao-estatistica">
+                                <div class="icone-estat"><i class="bi bi-heart"></i></div>
+                                <div class="valor" id="estatPets">0</div>
+                                <div class="rotulo">Pets cadastrados</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="painel-agenda">
+                        <h3>
+                            Sua agenda
+                            <input type="date" id="diaAgenda" class="campo-painel"
+                                style="max-width:170px;background:#1C1A15;border-color:#33302a;color:#fff;color-scheme:dark"
+                                aria-label="Dia da agenda">
+                        </h3>
+                        <p class="sub">Consulte os seus atendimentos agendados por dia.</p>
+                        <div id="linhasAgenda"></div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
