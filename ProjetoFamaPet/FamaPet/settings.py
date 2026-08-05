@@ -79,4 +79,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CSRF_TRUSTED_ORIGINS = [
     'https://*.github.dev',
     'https://*.app.github.dev',
+    'https://localhost:8000',
+    'https://127.0.0.1:8000',
 ]

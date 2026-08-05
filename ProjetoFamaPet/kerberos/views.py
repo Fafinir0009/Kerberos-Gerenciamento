@@ -5,7 +5,7 @@ def home(request):
     return render(request, 'home/index.html')
 
 
-def listar_usuarios(request):
+def listar_clientes(request):
     usuarios = Usuario.objects.all()
     contexto = {'usuarios': usuarios}
     return render(request, 'usuario/clientes.html', contexto)
