@@ -14,9 +14,9 @@
     --cinza-input: #E0E0E0;
     --linha-tabela: #F7F6FE;
     --icone-circulo: #EAB236;
-    --texto-suave: #6B6B6B
+    --texto-suave: #6B6B6B;
     --fonte-marca: "Fredoka", "Poppins", sans-serif;
-    --fonte-base: "Poppins", system-ui, sans-serif
+    --fonte-base: "Poppins", system-ui, sans-serif;
     --raio: 14px;
     --raio-pill: 999px;
     --sombra-card: 0 10px 24px rgba(19, 15, 5, .08);
