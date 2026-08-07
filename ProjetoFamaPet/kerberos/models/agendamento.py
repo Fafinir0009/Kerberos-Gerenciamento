@@ -46,6 +46,12 @@ class Agendamento(models.Model):
         # Soma o valor de todos os serviços vinculados
         return sum(servico.valor for servico in self.servicos.all())
 
+    @property
+    def listaServicos(self):
+        return ", ".join(
+            servico.nome for servico in self.servicos.all()
+        )
+
     def __str__(self):
         return f"{self.pet.nome} - {self.data.strftime('%d/%m/%Y %H:%M')} ({self.status})"
 

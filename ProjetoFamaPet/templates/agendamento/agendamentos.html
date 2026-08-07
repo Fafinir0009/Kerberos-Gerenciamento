@@ -1,54 +1,87 @@
-{% extends "base_painel.html" %}
+{% extends "base/base.html" %}
+{% load static %}
 
-{% block titulo %}Meus agendamentos — FamaPet{% endblock %}
-{% block data_pagina %}agendamentos{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/style_agenda.css' %}">
+{% endblock %}
 
-{% block painel %}
-            <div class="quadro-painel">
-                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
-                    <div>
-                        <h1 class="titulo-painel">Meus agendamentos</h1>
-                        <p class="subtitulo-painel">Acompanhe, conclua ou cancele os horários marcados.</p>
-                    </div>
-                    <a href="{{ url_for('novo_agendamento') }}" class="btn-cta text-decoration-none">
-                        <i class="bi bi-plus-lg"></i> Novo agendamento
-                    </a>
-                </div>
+{% block titulo %}Agendamentos — FamaPet{% endblock %}
+{% block nav_agendamentos %}active{% endblock %}
 
-                <div class="barra-tabela">
-                    <div class="filtro-mostrar">
-                        <label for="filtroStatus">Show</label>
-                        <select id="filtroStatus">
-                            <option value="todos" selected>todos</option>
-                            <option value="agendado">agendados</option>
-                            <option value="concluido">concluídos</option>
-                            <option value="cancelado">cancelados</option>
-                        </select>
-                    </div>
-                    <div class="busca-tabela">
-                        <i class="bi bi-search"></i>
-                        <input type="search" id="buscaAgendamentos" placeholder="Pesquisar" aria-label="Pesquisar agendamentos">
-                    </div>
-                </div>
+{% block content %}
+<div class="container my-5" style="max-width: 650px;">
+  
+  <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
+    <div>
+      <h2 class="fw-bold mb-1">Sua agenda</h2>
+      <p class="text-muted small mb-0">Consulte os seus cortes de cabelo agendados por dia</p>
+    </div>
+    
+    <form method="GET" class="date-picker-btn px-3 py-2 d-flex align-items-center">
+      <i class="bi bi-calendar3 text-warning me-2"></i>
+      <input type="date" name="data" value="{{data_selecionada|date:'Y-m-d' }}" onchange="this.form.submit()">
+    </form>
+  </div>
 
-                <div class="tabela-rolagem">
-                    <table class="tabela-fama">
-                        <thead>
-                            <tr>
-                                <th scope="col">Pet</th>
-                                <th scope="col" id="colTutor" class="d-none">Responsável</th>
-                                <th scope="col">Data</th>
-                                <th scope="col">Horário</th>
-                                <th scope="col">Serviço</th>
-                                <th scope="col">Táxi Pet</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="corpoAgendamentos"></tbody>
-                    </table>
-                </div>
+  <div class="custom-card mb-4">
+    <div class="card-header-custom p-3 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-sun text-warning fs-5"></i>
+        <span class="text-period">Manhã</span>
+      </div>
+      <small class="text-muted fw-bold">09h-12h</small>
+    </div>
+    <div class="p-3">
+      {% for agendamentos in agendamentos_manha %}
+        <div class="d-flex align-items-center py-2">
+            <span class="fw-bold me-4" style="min-width: 50px;">{{ agendamentos.data|date:"H:i" }}</span>
+            <span class="text-secondary fw-medium">Tutor: {{ agendamentos.usuario.nome }} - Pet: {{ agendamentos.pet.nome}} - Serviço: {{agendamentos.listaServicos}}</span>
+      {% empty %}
+        <p class="text-muted small mb-0">Nenhum agendamento para este período.</p>
+      {% endfor %}
+    </div>
+  </div>
 
-                <nav class="paginacao-fama" id="paginacaoAgendamentos" aria-label="Paginação"></nav>
-            </div>
+  <div class="custom-card mb-4">
+    <div class="card-header-custom p-3 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-sunset text-warning fs-5"></i>
+        <span class="text-period">Tarde</span>
+      </div>
+      <small class="text-muted fw-bold">13h-18h</small>
+    </div>
+    <div class="p-3">
+      {% for agendamentos in agendamentos_tarde %}
+        <div class="d-flex align-items-center py-2">
+            <span class="fw-bold me-4" style="min-width: 50px;">{{ agendamentos.data|date:"H:i" }}</span>
+            <span class="text-secondary fw-medium">Tutor: {{ agendamentos.usuario.nome }} - Pet: {{ agendamentos.pet.nome}} - Serviço: {{agendamentos.listaServicos}}</span>
+
+        </div>
+      {% empty %}
+        <p class="text-muted small mb-0">Nenhum agendamento para este período.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="custom-card mb-4">
+    <div class="card-header-custom p-3 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-moon-stars text-warning fs-5"></i>
+        <span class="text-period">Noite</span>
+      </div>
+      <small class="text-muted fw-bold">19h-21h</small>
+    </div>
+    <div class="p-3">
+      {% for agendamentos in agendamentos_noite %}
+        <div class="d-flex align-items-center py-2">
+          <span class="fw-bold me-4" style="min-width: 50px;">{{ agendamentos.data|date:"H:i" }}</span>
+        <span class="text-secondary fw-medium">Tutor: {{ agendamentos.usuario.nome }} - Pet: {{ agendamentos.pet.nome}} - Serviço: {{agendamentos.listaServicos}}</span>
+        </div>
+      {% empty %}
+        <p class="text-muted small mb-0">Nenhum agendamento para este período.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
 {% endblock %}

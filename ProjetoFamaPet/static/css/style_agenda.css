@@ -1,0 +1,24 @@
+
+.custom-card {
+      border: 1.5px solid #2b2b2b;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-header-custom {
+      border-bottom: 1px solid #2b2b2b;
+      background-color: #fff;
+    }
+    .text-period {
+      color: #00c2c4;
+      font-weight: 600;
+    }
+    .date-picker-btn {
+      border: 1.5px solid #2b2b2b;
+      border-radius: 8px;
+    }
+    .date-picker-btn input {
+      border: none;
+      outline: none;
+      background: transparent;
+      cursor: pointer;
+    }
