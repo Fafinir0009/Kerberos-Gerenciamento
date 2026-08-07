@@ -1,94 +1,221 @@
-{% extends "base/base_site.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
 
-{% block meta %}
-    <meta name="description" content="FamaPet — banho, tosa à tesoura, banho de ozônio, acessórios e Táxi Pet. Agende online o cuidado do seu pet.">
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamaPet</title>
 
-{% block titulo %}FamaPet — Trazemos a melhor versão do seu pet!{% endblock %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
-{% block conteudo %}
+</head>
 
-    <header class="hero">
-        <span class="pata pata-1" aria-hidden="true"></span>
-        <span class="pata pata-2" aria-hidden="true"></span>
+<body>
 
-        <div class="container">
-            <div class="row align-items-center">
-
-                <div class="col-lg-6 hero-conteudo">
-                    <p class="hero-subtitulo revelar">Trazemos a melhor versão do seu pet!</p>
-
-                    <h1 class="hero-titulo revelar" data-atraso="1">
-                        Fama<span>Pet</span>
-                        <span class="pata pata-titulo" aria-hidden="true"></span>
-                    </h1>
-
-                    <div class="revelar mt-4" data-atraso="2"> 
-                        <a href="{% url 'login' %}?destino={% url 'novo_agendamento' %}" class="btn btn-agendar">Agende aqui</a>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 hero-arte revelar" data-atraso="1">
-                    <img src="{% static 'img/hero-dog.png' %}" alt="Cachorro da raça beagle" fetchpriority="high">
-                </div>
-
+    <header class="bg-white pt-3 pb-2 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'img/FamaPetLogo.svg' %}" alt="Logo FamaPet" class="img-fluid"
+                    style="height: 40px;">
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <a href="#" class="text-dark text-decoration-none fw-semibold">Entrar</a>
+                <a href="#" class="btn btn-black">Cadastre-se</a>
             </div>
         </div>
     </header>
 
-    <section class="diferenciais py-5" id="diferenciais">
-        <div class="container py-lg-4">
-
-            <h2 class="titulo-secao text-center mb-3 revelar">
-                Nossos <span>Diferenciais</span>
-            </h2>
-
-            <p class="subtitulo-secao text-center mb-5 revelar" data-atraso="1">
-                Vai muito além de aparar os pelos: transformamos o momento
-                num verdadeiro cuidado com o bem-estar do seu bichinho.
-            </p>
-
-            <div class="row g-4">
-                {% for card in diferenciais %}
-                <div class="col-md-6 col-lg-4 revelar" data-atraso="{{ forloop.counter0 }}">
-                    <article class="card-servico">
-                        <div class="cabecalho-card">
-                            <div class="icone"><i class="bi {{ card.icone }}" aria-hidden="true"></i></div>
-                            <h3>{{ card.titulo }}</h3>
-                        </div>
-                        <p>
-                            {{ card.texto }}
-                        </p>
-                    </article>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section class="contato py-5">
-        <span class="pata pata-contato" aria-hidden="true"></span>
-
-        <div class="container py-lg-4">
+    <section class="px-4" style="background-color: #FFC447;">
+        <div class="container">
             <div class="row align-items-center">
 
-                <div class="col-lg-5 text-center contato-foto revelar">
-                    {# 3. Imagem convertida para a tag {% static %} do Django #}
-                    <img src="{% static 'img/contact-dog.png' %}"
-                        alt="Cachorro preto de orelhas em pé olhando atentamente para a câmera">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <p class="fw-bold mb-1 fs-5">Trazemos a melhor versão do seu pet!</p>
+
+                    <h1 class="hero-title mb-4">
+                        <img src="{% static 'img/FamaPet.svg' %}" alt="FamaPet" class="img-fluid"
+                            style="max-height: 180px;">
+                    </h1>
+
+                    <a href="#" class="btn btn-black btn-lg">Agende aqui</a>
                 </div>
 
-                <div class="col-lg-7 revelar" data-atraso="1">
-                    <h2>Está com dúvidas?</h2>
-                    <p class="mb-4">Entre em contato com a gente e tenha mais informações.</p>
-                    <a href="https://wa.me/5511963171197?text=Ol%C3%A1%2C%20FamaPet!%20Quero%20mais%20informa%C3%A7%C3%B5es."
-                        target="_blank" rel="noopener" class="btn btn-conosco">
-                        Fale conosco!
-                    </a>
+                <div class="pt-4 col-lg-6 text-center text-lg-end">
+                    <img src="{% static 'img/dog-home.png' %}" alt="Cão da FamaPet" class="img-fluid"
+                        style="max-height: 380px;">
                 </div>
 
             </div>
         </div>
     </section>
-{% endblock %}
+
+    <section class="secao-diferenciais py-5">
+        <div class="container my-4">
+
+            <div class="text-center mb-5">
+                <h1 class="titulo-diferenciais fw-bold fs-1">Nossos <span class="texto_diferenciais">Diferenciais</span>
+                    </h2>
+                    <p class="text-muted mx-auto" style="max-width: 650px;">
+                        Vai muito além de aparar os pelos, transformamos o momento num verdadeiro cuidado com o
+                        bem-estar do
+                        seu bichinho.
+                    </p>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="diff-card">
+                        <div class="diff-card-header">
+                            <div class="diff-icon-circle">
+                                <i class="bi bi-scissors"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Banho e Tosa a Tesoura</h3>
+                        </div>
+                        <p class="mb-0">
+                            Dar banho regularmente é uma forma de cuidar da saúde de seu pet. Total atenção aos animais
+                            a fim de fazer do banho uma experiência divertida.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="diff-card">
+                        <div class="diff-card-header">
+                            <div class="diff-icon-circle">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Agendamentos Práticos</h3>
+                        </div>
+                        <p class="mb-0">
+                            Nada de filas ou espera! Com um sistema de agendamento simples e organizado, você escolhe o
+                            melhor horário e garante um atendimento tranquilo!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="diff-card">
+                        <div class="diff-card-header">
+                            <div class="diff-icon-circle">
+                                <i class="bi bi-bag-heart"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Acessórios</h3>
+                        </div>
+                        <p class="mb-0">
+                            Aqui você encontra variedades de acessórios pensados para deixar seu pet ainda mais estiloso
+                            e confortável, escolhidos com qualidade e carinho.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="diff-card">
+                        <div class="diff-card-header">
+                            <div class="diff-icon-circle">
+                                <i class="bi bi-car-front"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Táxi Pet</h3>
+                        </div>
+                        <p class="mb-0">
+                            O serviço Táxi Pet garante que seu pet seja transportado com todo cuidado e segurança. Ideal
+                            para quem tem o dia corrido e quer oferecer o melhor ao bichinho.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="diff-card">
+                        <div class="diff-card-header">
+                            <div class="diff-icon-circle">
+                                <i class="bi bi-droplet-half"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Banho de Ozônio</h3>
+                        </div>
+                        <p class="mb-0">
+                            Uma limpeza mais profunda que elimina bactérias e odores no seu bichinho. Ela ajuda na saúde
+                            da pele e reduz coceiras, além de deixar os pelos do seu pet macios.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="diff-card">
+                        <div class="diff-card-header">
+                            <div class="diff-icon-circle">
+                                <i class="bi bi-coin"></i>
+                            </div>
+                            <h3 class="h5 fw-bold mb-0">Preço Justo que Cabe no Bolso</h3>
+                        </div>
+                        <p class="mb-0">
+                            Oferecemos qualidade de verdade com valores honestos para você. Aqui na Fama Pet, você cuida
+                            do seu amigo de quatro patas sem pesar no orçamento.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-dark-section text-white py-5">
+        <div class="container py-3">
+            <div class="row align-items-center justify-content-center text-center text-md-start">
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <img src="{% static 'img/dogfaleconosco.svg' %}" alt="Cão com dúvidas" class="dog-circle-img">
+                </div>
+                <div class="col-md-7 offset-md-1">
+                    <h2 class="fw-bold fs-1 mb-2">Está com dúvidas?</h2>
+                    <p class="text-secondary mb-4">Entre em contato com a gente e tenha mais informações.</p>
+                    <a href="#" class="btn btn-yellow">Fale conosco!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-bg pt-5 pb-3">
+        <div class="container">
+            <div class="row g-4 pb-4 border-bottom border-dark border-opacity-25">
+                <div class="col-6 col-md-3">
+                    <h4 class="h3 fw-bold mb-3">Institucional</h4>
+                    <a href="#" class="footer-link">Políticas de Privacidade</a>
+                    <a href="#" class="footer-link">Regulamentos</a>
+                    <a href="#" class="footer-link">Política de Privacidade</a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4 class="h3 fw-bold mb-3">Atendimento</h4>
+                    <p class="small mb-1"><strong>Telefone:</strong> (11) 96377-1187</p>
+                    <p class="small mb-0"><strong>E-mail:</strong> contato@famapet.com.br</p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4 class="h3 fw-bold mb-3">Segurança</h4>
+                    <span class="badge bg-white text-dark p-2 border">
+                        <i class="bi bi-shield-check text-success me-1"></i> Google Safe
+                    </span>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4 class="h3 fw-bold mb-3">Redes Sociais</h4>
+                    <div class="d-flex gap-3 fs-5">
+                        <a href="#" class="text-dark"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-dark"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center pt-3">
+                <p class="small text-muted mb-0" style="font-size: 0.75rem;">
+                    Fama Pet - CNPJ XX.XXX.XXX/0001-XX - Av. Vereador Magalhães, 2116 - Vila Orestes, Santo André - SP -
+                    09220-210<br>
+                    © {% now "Y" %} Fama Pet. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
