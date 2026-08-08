@@ -1,8 +1,11 @@
 # models/agendamento.py
 
+from decimal import Decimal
+
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+
 
 class Agendamento(models.Model):
 
@@ -41,18 +44,33 @@ class Agendamento(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Agendamento"
+        verbose_name_plural = "Agendamentos"
+        ordering = ["-data"]
+
     @property
-    def valorTotal(self):
-        # Soma o valor de todos os serviços vinculados
-        return sum(servico.valor for servico in self.servicos.all())
+    def valor_total(self):
+        return sum(
+            (servico.valor for servico in self.servicos.all()),
+            Decimal("0.00")
+        )
 
     def __str__(self):
         return f"{self.pet.nome} - {self.data.strftime('%d/%m/%Y %H:%M')} ({self.status})"
 
     def clean(self):
         super().clean()
+        erros = {}
+
         if self.data and self.data < timezone.now():
-            raise ValidationError("Não é possível realizar agendamentos para datas no passado.")
+            erros["data"] = "Não é possível realizar agendamentos para datas no passado."
+
+        if self.pet_id and self.usuario_id and self.pet.usuario_id != self.usuario_id:
+            erros["pet"] = "O pet selecionado não pertence a este usuário."
+
+        if erros:
+            raise ValidationError(erros)
 
     def save(self, *args, **kwargs):
         self.full_clean()
