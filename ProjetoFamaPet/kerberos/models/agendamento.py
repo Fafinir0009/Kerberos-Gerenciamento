@@ -56,6 +56,12 @@ class Agendamento(models.Model):
             Decimal("0.00")
         )
 
+    @property
+    def listaServicos(self):
+        return ", ".join(
+            servico.nome for servico in self.servicos.all()
+        )
+
     def __str__(self):
         return f"{self.pet.nome} - {self.data.strftime('%d/%m/%Y %H:%M')} ({self.status})"
 

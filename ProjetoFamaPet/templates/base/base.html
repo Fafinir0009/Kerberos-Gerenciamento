@@ -10,6 +10,8 @@
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/fontes.css'%}" rel="stylesheet">
     <link href="{% static 'css/style_base.css'%}" rel="stylesheet">
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
@@ -43,10 +45,11 @@
         <nav class="mt-2">
             <a href="#" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
             <a href="#" class="nav-btn {% block nav_novo_agendamento %}{% endblock %}">Novo agendamento</a>
-            <a href="#" class="nav-btn {% block nav_meus_agendamentos %}{% endblock %}">Meus agendamentos</a>
+            <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Agendamentos</a>
             <a href="#" class="nav-btn {% block nav_vacinacao %}{% endblock %}">Minha vacinação</a>
-            <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Meus clientes</a>
-            <a href="{% url 'pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Meus pets</a>
+            <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
+            <a href="{% url 'pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
+            <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_relatorio %}{% endblock %}">Relatório</a>
         </nav>
     </div>
 
