@@ -1,12 +1,10 @@
 # models/usuario.py
-
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 
 class Usuario(models.Model):
-
     telefone_validator = RegexValidator(
         regex=r'^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$',
         message="Informe um telefone válido. Ex: (11) 91234-5678 ou 11912345678."
@@ -14,12 +12,13 @@ class Usuario(models.Model):
 
     nome = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    telefone = models.CharField(max_length=15, validators=[telefone_validator])
-
+    telefone = models.CharField(max_length=20, validators=[telefone_validator])  # was 15
     endereco = models.ForeignKey(
         "Endereco",
         on_delete=models.CASCADE,
-        related_name="usuarios"
+        related_name="usuarios",
+        null=True,
+        blank=True
     )
 
     class Meta:
@@ -42,6 +41,9 @@ class Usuario(models.Model):
 
         if self.email:
             self.email = self.email.strip().lower()
+
+        if self.telefone:
+            self.telefone = self.telefone.strip()
 
     def save(self, *args, **kwargs):
         self.full_clean()
