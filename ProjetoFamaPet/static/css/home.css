@@ -1,0 +1,182 @@
+:root {
+    --fp-yellow: #f5b027;
+    --fp-dark: #1b160e;
+    --fp-bg-light: #FDFBF3;
+    --fp-yellow-circle: #F2BD38;
+    --fp-title-yellow: #F5A623;
+    --fp-card-border: #1A1A1A;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #333;
+}
+
+/* Header & Hero */
+.bg-hero {
+    background-color: var(--fp-yellow);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+span.texto-laranja {
+    color: #FF6600;
+}
+
+
+/* Botões */
+.btn-black {
+    background-color: var(--fp-dark);
+    color: #fff;
+    border-radius: 20px;
+    padding: 8px 24px;
+    font-weight: 600;
+}
+
+.btn-black:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.btn-yellow {
+    background-color: var(--fp-yellow);
+    color: var(--fp-dark);
+    border-radius: 20px;
+    padding: 10px 32px;
+    font-weight: 700;
+}
+
+.btn-yellow:hover {
+    background-color: #e09f1f;
+    color: var(--fp-dark);
+}
+
+/* Seção Diferenciais */
+.secao-diferenciais {
+    background-color: var(--fp-bg-light);
+}
+
+span.texto_diferenciais {
+    color: #FFAE00
+}
+
+.titulo-diferenciais span {
+    color: var(--fp-title-yellow);
+}
+
+.diff-card {
+    background-color: #ffffff;
+    border: 2px solid var(--fp-card-border);
+    border-radius: 20px;
+    padding: 1.75rem;
+    height: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.diff-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+}
+
+.diff-icon-circle {
+    width: 50px;
+    height: 50px;
+    background-color: var(--fp-yellow-circle);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    color: #000000;
+}
+
+.diff-card p {
+    color: #333333;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Seção Fale Conosco */
+.bg-dark-section {
+    background-color: var(--fp-dark);
+}
+
+.dog-circle-img {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Rodapé */
+/* Fundo e cores gerais do Footer */
+.footer-bg {
+    background-color: var(--fp-yellow, #f5b027);
+    color: #1b160e;
+}
+
+/* Títulos das colunas */
+.footer-bg h4 {
+    color: #1b160e;
+    font-weight: 700;
+}
+
+/* Links institucionais */
+.footer-link {
+    color: #1b160e;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+/* Badge de Segurança (Google Safe) */
+.selo-google-safe {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.selo-google-safe i {
+    color: #0d9488; /* Verde/Azul para o escudo de verificação */
+    font-size: 1.1rem;
+}
+
+/* Ícones das Redes Sociais */
+.social-icon-link {
+    color: #1b160e;
+    font-size: 1.3rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social-icon-link:hover {
+    color: #000000;
+    transform: translateY(-2px);
+}
+
+/* Texto dos créditos de copyright e endereço */
+.footer-credits {
+    color: #2c2417;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    opacity: 0.85;
+}
