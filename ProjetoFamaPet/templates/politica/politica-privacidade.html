@@ -1,15 +1,123 @@
-{% extends "base_institucional.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
 
-{% block titulo %}Política de privacidade — FamaPet{% endblock %}
-{% block titulo_trilha %}Política de privacidade{% endblock %}
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block titulo %}Fama Pet{% endblock %}</title>
 
-{% block conteudo_politica %}
-        <h1>Política de Privacidade – Fama Pets</h1>
-        <p>A Fama Pets respeita a privacidade de seus clientes e está comprometida com a proteção dos dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
-        <p>Coletamos informações como nome, telefone, e-mail, endereço e dados do pet (nome, raça, idade e necessidades especiais) para realizar agendamentos, prestar os serviços de banho, tosa, estética, coleta e entrega (leva e traz), processar pagamentos e manter contato com os clientes.</p>
-        <p>Os dados poderão ser utilizados para envio de confirmações de agendamento, avisos, promoções e novidades, sempre respeitando a opção do cliente de cancelar esse recebimento.</p>
-        <p>A Fama Pets adota medidas de segurança para proteger as informações coletadas e não comercializa dados pessoais. Eles poderão ser compartilhados apenas quando necessário para a execução dos serviços ou por obrigação legal.</p>
-        <p>Caso autorizado pelo tutor, imagens dos pets poderão ser utilizadas em redes sociais e materiais de divulgação da empresa.</p>
-        <p>O cliente pode solicitar, a qualquer momento, a atualização, correção ou exclusão de seus dados, conforme previsto na LGPD.</p>
-        <p>Em caso de dúvidas sobre esta Política de Privacidade ou sobre o tratamento de seus dados, entre em contato com a Fama Pets pelos nossos canais de atendimento.</p>
-{% endblock %}
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/fontes.css' %}" rel="stylesheet">
+        <link href="{% static 'css/politica.css' %}" rel="stylesheet">
+        {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+        <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center">
+                <h5 class="m-0 fw-bold">Fama Pet</h5>
+                <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile"
+                        aria-controls="sidebarMobile">
+                        <i class="bi bi-list fs-4"></i>
+                </button>
+        </div>
+
+
+        <header class="pt-3 pb-2">
+                <div class="container d-flex justify-content-between align-items-center">
+                        <a href="#" class="navbar-brand d-flex align-items-center">
+                                <img src="{% static 'img/FamaPetLogo.svg' %}" alt="Logo FamaPet" class="img-fluid"
+                                        style="height: 40px;">
+                        </a>
+                        <div class="d-flex align-items-center gap-4">
+                                <a href="#" class="text-dark text-decoration-none">Entrar</a>
+                                <a href="#" class="btn-black">Cadastre-se</a>
+                        </div>
+                </div>
+        </header>
+
+
+        <main class="container conteudo-politica py-4">
+                {% block conteudo_politica %}
+                <h1>Política de Privacidade – Fama Pets</h1>
+                <p>A Fama Pets respeita a privacidade de seus clientes e está comprometida com a proteção dos dados
+                        pessoais, em
+                        conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
+                <p>Coletamos informações como nome, telefone, e-mail, endereço e dados do pet (nome, raça, idade e
+                        necessidades
+                        especiais) para realizar agendamentos, prestar os serviços de banho, tosa, estética, coleta e
+                        entrega
+                        (leva e traz), processar pagamentos e manter contato com os clientes.</p>
+                <p>Os dados poderão ser utilizados para envio de confirmações de agendamento, avisos, promoções e
+                        novidades,
+                        sempre respeitando a opção do cliente de cancelar esse recebimento.</p>
+                <p>A Fama Pets adota medidas de segurança para proteger as informações coletadas e não comercializa
+                        dados
+                        pessoais. Eles poderão ser compartilhados apenas quando necessário para a execução dos serviços
+                        ou por
+                        obrigação legal.</p>
+                <p>Caso autorizado pelo tutor, imagens dos pets poderão ser utilizadas em redes sociais e materiais de
+                        divulgação da empresa.</p>
+                <p>O cliente pode solicitar, a qualquer momento, a atualização, correção ou exclusão de seus dados,
+                        conforme
+                        previsto na LGPD.</p>
+                <p>Em caso de dúvidas sobre esta Política de Privacidade ou sobre o tratamento de seus dados, entre em
+                        contato
+                        com a Fama Pets pelos nossos canais de atendimento.</p>
+
+                {% endblock %}
+
+                <button type="submit" class="btn btn-black d-block m-auto mt-4" onclick="history.back()">voltar</button>
+
+        </main>
+
+
+
+        <footer class="footer-bg pt-5 pb-3">
+                <div class="container">
+                        <div class="row g-4 pb-4 border-bottom border-dark border-opacity-25">
+                                <div class="col-6 col-md-3">
+                                        <h4 class="h3 fw-bold mb-3">Institucional</h4>
+                                        <a href="#" class="footer-link">Políticas de Privacidade</a>
+                                        <a href="#" class="footer-link">Regulamentos</a>
+                                        <a href="#" class="footer-link">Política de Privacidade</a>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                        <h4 class="h3 fw-bold mb-3">Atendimento</h4>
+                                        <p class="small mb-1"><strong>Telefone:</strong> (11) 96377-1187</p>
+                                        <p class="small mb-0"><strong>E-mail:</strong> contato@famapet.com.br</p>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                        <h4 class="h3 fw-bold mb-3">Segurança</h4>
+                                        <span class="badge bg-white text-dark p-2 border">
+                                                <i class="bi bi-shield-check text-success me-1"></i> Google Safe
+                                        </span>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                        <h4 class="h3 fw-bold mb-3">Redes Sociais</h4>
+                                        <div class="d-flex gap-3 fs-5">
+                                                <a href="#" class="text-dark"><i class="bi bi-facebook"></i></a>
+                                                <a href="#" class="text-dark"><i class="bi bi-instagram"></i></a>
+                                                <a href="#" class="text-dark"><i class="bi bi-whatsapp"></i></a>
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="text-center pt-3">
+                                <p class="small text-muted mb-0" style="font-size: 0.75rem;">
+                                        Fama Pet - CNPJ XX.XXX.XXX/0001-XX - Av. Vereador Magalhães, 2116 - Vila
+                                        Orestes, Santo André - SP -
+                                        09220-210<br>
+                                        © {% now "Y" %} Fama Pet. Todos os direitos reservados.
+                                </p>
+                        </div>
+                </div>
+        </footer>
+
+
+
+</body>
+
+</html>

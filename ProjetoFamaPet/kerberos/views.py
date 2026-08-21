@@ -47,9 +47,17 @@ def agendamentos(request):
     
     return render(request, 'agendamento/agendamentos.html', contexto)
 
+def politica_privacidade(request):
+    return render(request, 'politica/politica-privacidade.html')
 
+def politica_transporte(request):
+    return render(request, 'politica/politica-transporte.html')
 
+def politica_regulamento(request):
+    return render(request, 'politica/regulamento.html')
 
+def vacina(request):
+    return render(request, 'vacina/vacina.html')
 
 
 
