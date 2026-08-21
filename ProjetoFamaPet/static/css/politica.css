@@ -1,0 +1,251 @@
+/* ==========================================================================
+   Variáveis Globais do Projeto
+   ========================================================================== */
+:root {
+    --amarelo: #FFC446;
+    --amarelo-escuro: #F0B536;
+    --amarelo-cta: #FFCC00;
+    --amarelo-suave: #E6B03F;
+    --laranja: #F88203;
+    --preto: #130F05;
+    --marrom: #1F1500;
+    --creme: #FFF9ED;
+    --azul: #53A8DD;
+    --ciano: #00C3D0;
+    --verde: #34C759;
+    --vermelho: #DC3545;
+    --cinza-input: #E0E0E0;
+    --linha-tabela: #F7F6FE;
+    --icone-circulo: #EAB236;
+    --texto-suave: #6B6B6B;
+    --fonte-marca: "Fredoka", "Poppins", sans-serif;
+    --fonte-base: "Poppins", system-ui, sans-serif;
+    --raio: 14px;
+    --raio-pill: 999px;
+    --sombra-card: 0 10px 24px rgba(19, 15, 5, .08);
+    --transicao: .25s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ==========================================================================
+   Estilos Gerais
+   ========================================================================== */
+body {
+    background-color: #ffffff;
+    color: var(--preto);
+    font-family: var(--fonte-base);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    text-align: center;
+}
+
+/* ==========================================================================
+   Cabeçalho e Botões
+   ========================================================================== */
+header {
+    background-color: #F8F8F8;
+}
+
+
+/* ==========================================================================
+   Ajustes de Botão e Cabeçalho
+   ========================================================================== */
+
+/* Botão Cadastre-se totalmente arredondado */
+a.btn-black {
+    background-color: var(--preto);
+    color: #ffffff;
+    font-family: var(--fonte-base);
+    font-weight: 700;   
+    border-radius: var(--raio-pill);
+    padding: 10px 28px;
+    border: none;
+    transition: background-color var(--transicao), transform var(--transicao);
+    text-decoration: none
+}
+
+.btn-black:hover {
+    background-color: var(--marrom);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Link Entrar */
+header a.text-dark {
+    font-size: 1.1rem;
+    font-weight: 700;
+    /* Deixa o "Entrar" com destaque em negrito */
+    color: var(--preto) !important;
+    transition: color var(--transicao);
+}
+
+header a.text-dark:hover {
+    color: var(--laranja) !important;
+}
+
+.btn-black {
+    background-color: var(--preto);
+    color: #ffffff;
+    font-family: var(--fonte-base);
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 18px;
+    border: none;
+    transition: background-color var(--transicao), transform var(--transicao);
+}
+
+.btn-black:hover {
+    background-color: var(--marrom);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+header a.text-dark {
+    transition: color var(--transicao);
+}
+
+header a.text-dark:hover {
+    color: var(--laranja) !important;
+}
+
+/* ==========================================================================
+   Conteúdo Principal (Política de Privacidade)
+   ========================================================================== */
+.conteudo-politica {
+    background-color: #ffffff;
+    border-radius: var(--raio);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--sombra-card);
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
+    max-width: 900px;
+}
+
+.conteudo-politica h1, h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--marrom);
+    margin-bottom: 2rem;
+}
+
+.conteudo-politica h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--marrom);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+
+}
+
+.conteudo-politica h4:first-of-type {
+    margin-top: 0;
+}
+
+.conteudo-politica p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--preto);
+    margin-bottom: 0.6rem;
+    text-align: center;
+}
+
+
+
+/* ==========================================================================
+   Rodapé
+   ========================================================================== */
+.footer-bg {
+    background-color: var(--amarelo);
+    color: var(--marrom);
+    margin-top: auto;
+}
+
+.footer-bg h4 {
+    color: var(--marrom);
+    font-weight: 700;
+    text-align: left;
+}
+
+.footer-link {
+    color: var(--marrom);
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    opacity: 0.9;
+    transition: transform var(--transicao), opacity var(--transicao);
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+/* Selo de Segurança */
+.selo-google-safe {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.selo-google-safe i {
+    color: #0d9488;
+    font-size: 1.1rem;
+}
+
+/* Redes Sociais */
+.social-icon-link {
+    color: var(--marrom);
+    font-size: 1.3rem;
+    transition: transform var(--transicao), color var(--transicao);
+}
+
+.social-icon-link:hover {
+    color: var(--preto);
+    transform: translateY(-3px);
+}
+
+/* Créditos */
+.footer-credits {
+    color: var(--marrom);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
+/* ==========================================================================
+   Responsividade
+   ========================================================================== */
+@media (max-width: 768px) {
+    .conteudo-politica {
+        padding: 1.75rem 1.25rem;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .conteudo-politica h1,h2 {
+        font-size: 1.5rem;
+    }
+
+    .conteudo-politica p {
+        text-align: left;
+    }
+
+    .footer-bg h4 {
+        text-align: center;
+    }
+}
