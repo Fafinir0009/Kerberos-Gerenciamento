@@ -56,6 +56,8 @@ def politica_transporte(request):
 def politica_regulamento(request):
     return render(request, 'politica/regulamento.html')
 
+def vacina(request):
+    return render(request, 'vacina/vacina.html')
 
 
 

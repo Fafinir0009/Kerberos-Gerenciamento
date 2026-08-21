@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +14,23 @@
 
     {% block extra_css %}{% endblock %}
 </head>
+
 <body>
 
     <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center">
         <h5 class="m-0 fw-bold">Fama Pet</h5>
-        <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile">
+        <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile"
+            aria-controls="sidebarMobile">
             <i class="bi bi-list fs-4"></i>
         </button>
     </div>
 
-    <div class="offcanvas-lg offcanvas-start sidebar-custom sidebar-desktop p-4 d-flex flex-column" tabindex="-1" id="sidebarMobile">
-        
+    <div class="offcanvas-lg offcanvas-start sidebar-custom sidebar-desktop p-4 d-flex flex-column" tabindex="-1"
+        id="sidebarMobile">
+
         <div class="offcanvas-header d-lg-none p-0 mb-3 justify-content-end">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMobile" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMobile"
+                aria-label="Close"></button>
         </div>
 
         <div class="text-center text-white mb-4">
@@ -34,17 +39,19 @@
             </div>
             <h4 class="fw-bold mb-0 text-white">
                 {% if user.is_authenticated %}
-                    {{ user.first_name|default:user.username }}
+                {{ user.first_name|default:user.username }}
                 {% else %}
-                    Visitante
+                Visitante
                 {% endif %}
             </h4>
 
         </div>
 
         <nav class="mt-2">
+            <a class="marca d-none d-sm-inline-flex" href="{% url 'home/index.html' %}" title="Voltar ao início">
+                <img src="./assets/img/logo.svg" alt="Início — FamaPet">
+            </a>
             <a href="#" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
-            <a href="#" class="nav-btn {% block nav_novo_agendamento %}{% endblock %}">Novo agendamento</a>
             <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Agendamentos</a>
             <a href="#" class="nav-btn {% block nav_vacinacao %}{% endblock %}">Minha vacinação</a>
             <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
@@ -53,11 +60,11 @@
         </nav>
     </div>
 
-   <main class="main-content p-4 p-md-5">
+    <main class="main-content p-4 p-md-5">
         <div class="container-fluid bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="min-height: 85vh;">
-            
+
             {% block content %}
-    
+
             {% endblock %}
 
         </div>
@@ -66,4 +73,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
