@@ -26,7 +26,7 @@
 body {
     background-color: #ffffff;
     color: var(--preto);
-    font-family: var(--fonte-base);
+    font-family: system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -36,63 +36,44 @@ h1,h2,h3,h4 {
     text-align: center;
 }
 
-header {
-    background-color: #F8F8F8;
+.bg-hero {
+    background-color: var(--fp-yellow);
 }
 
-a.btn-black {
-    background-color: var(--preto);
-    color: #ffffff;
-    font-family: var(--fonte-base);
-    font-weight: 700;   
-    border-radius: var(--raio-pill);
-    padding: 10px 28px;
-    border: none;
-    transition: background-color var(--transicao), transform var(--transicao);
-    text-decoration: none
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
 }
 
-.btn-black:hover {
-    background-color: var(--marrom);
-    color: #ffffff;
-    transform: translateY(-2px);
-}
-
-
-header a.text-dark {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--preto) !important;
-    transition: color var(--transicao);
-}
-
-header a.text-dark:hover {
-    color: var(--laranja) !important;
+span.texto-laranja {
+    color: #FF6600;
 }
 
 .btn-black {
-    background-color: var(--preto);
-    color: #ffffff;
-    font-family: var(--fonte-base);
+    background-color: var(--fp-dark);
+    color: #fff;
+    border-radius: 20px;
+    padding: 8px 24px;
     font-weight: 600;
-    border-radius: 8px;
-    padding: 8px 18px;
-    border: none;
-    transition: background-color var(--transicao), transform var(--transicao);
 }
 
 .btn-black:hover {
-    background-color: var(--marrom);
-    color: #ffffff;
-    transform: translateY(-2px);
+    background-color: #000;
+    color: #fff;
 }
 
-header a.text-dark {
-    transition: color var(--transicao);
+.btn-yellow {
+    background-color: var(--fp-yellow);
+    color: var(--fp-dark);
+    border-radius: 20px;
+    padding: 10px 32px;
+    font-weight: 700;
 }
 
-header a.text-dark:hover {
-    color: var(--laranja) !important;
+.btn-yellow:hover {
+    background-color: #e09f1f;
+    color: var(--fp-dark);
 }
 
 .conteudo-politica {

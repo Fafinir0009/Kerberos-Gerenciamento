@@ -15,64 +15,72 @@
 </head>
 
 <body>
-    
-    <header class="pt-3 pb-2">
+
+    <header class="py-3 border-bottom">
         <div class="container d-flex justify-content-between align-items-center">
-        	<a href="#" class="navbar-brand d-flex align-items-center">
-                <img src="{% static 'img/FamaPetLogo.svg' %}" alt="Logo FamaPet" class="img-fluid" style="height: 40px;">
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'img/FamaPetLogo.svg' %}" alt="Logo FamaPet" class="img-fluid" style="height: 35px; max-height: 40px;">
             </a>
-        	<div class="d-flex align-items-center gap-4">
-                <a href="#" class="text-dark text-decoration-none">Entrar</a>
-                <a href="#" class="btn-black">Cadastre-se</a>
+            <div class="d-flex align-items-center gap-2 gap-md-3">
+                <a href="#" class="text-dark text-decoration-none small fw-medium px-2 py-1">Entrar</a>
+                <a href="#" class="btn btn-dark btn-sm px-3 py-2 rounded-pill fw-semibold">Cadastre-se</a>
             </div>
-        </dv>
+        </div>
     </header>
+    
+    <main class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                {% block conteudo_politica %}
+                <h1 class="mb-4">Regulamento Geral – Fama Pets</h1>
+                <p>Para garantir a segurança, o bem-estar dos pets e a qualidade dos nossos serviços, solicitamos a observância das seguintes regras:</p>
 
+                <h4 class="h5 fw-bold mt-4 mb-2">1. Agendamentos</h4>
+                <p>Os serviços devem ser agendados previamente.</p>
+                <p>Em caso de atraso superior a 15 minutos, o atendimento poderá ser reagendado conforme disponibilidade.</p>
+                <p>Cancelamentos devem ser informados com antecedência.</p>
 
-    <main class="container conteudo-politica py-4">
-        {% block conteudo_politica %}
-        <h1>Regulamento Geral – Fama Pets</h1>
-        <p>Para garantir a segurança, o bem-estar dos pets e a qualidade dos nossos serviços, solicitamos a observânciadas seguintes regras:</p>
-        
-        <h4>1. Agendamentos</h4>
-        <p>Os serviços devem ser agendados previamente.</p>
-        <p>Em caso de atraso superior a 15 minutos, o atendimento poderá ser reagendado conforme disponibilidade.</p>
-        <p>Cancelamentos devem ser informados com antecedência.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">2. Saúde do Pet</h4>
+                <p>O tutor deve informar qualquer doença, alergia, gestação, uso de medicamentos ou comportamento agressivo do animal.</p>
+                <p>Pets com suspeita de doenças contagiosas não serão atendidos até a liberação veterinária.</p>
+                <p>A carteira de vacinação deve estar atualizada, especialmente para cães que frequentam o estabelecimento.</p>
 
-        <h4>2. Saúde do Pet</h4>
-        <p>O tutor deve informar qualquer doença, alergia, gestação, uso de medicamentos ou comportamento agressivo doanimal.</p>
-        <p>Pets com suspeita de doenças contagiosas não serão atendidos até a liberação veterinária.</p>
-        <p>A carteira de vacinação deve estar atualizada, especialmente para cães que frequentam o estabelecimento.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">3. Banho e Tosa</h4>
+                <p>O tipo de tosa será realizado conforme orientação do tutor e avaliação da equipe.</p>
+                <p>Caso o animal apresente nós excessivos que possam causar dor ou sofrimento, poderá ser necessária a realização de uma tosa mais baixa, sempre priorizando o bem-estar do pet.</p>
+                <p>A Fama Pets não se responsabiliza por irritações de pele, hematomas ou ferimentos decorrentes de nós severos, doenças preexistentes ou sensibilidade da pele.</p>
 
-        <h4>3. Banho e Tosa</h4>
-        <p>O tipo de tosa será realizado conforme orientação do tutor e avaliação da equipe.</p>
-        <p>Caso o animal apresente nós excessivos que possam causar dor ou sofrimento, poderá ser necessária a realização de uma tosa mais baixa, sempre priorizando o bem-estar do pet.</p>
-        <p>A Fama Pets não se responsabiliza por irritações de pele, hematomas ou ferimentos decorrentes de nós severos,doenças preexistentes ou sensibilidade da pele.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">4. Transporte (Leva e Traz)</h4>
+                <p>O serviço será realizado conforme disponibilidade de rotas e horários.</p>
+                <p>É obrigatória a presença de um responsável para entregar e receber o animal.</p>
+                <p>Caso não haja ninguém no local, poderá ser cobrada nova taxa para retorno.</p>
+                <p>O tutor autoriza o transporte do pet ao contratar este serviço.</p>
 
-        <h4>4. Transporte (Leva e Traz)</h4>
-        <p>O serviço será realizado conforme disponibilidade de rotas e horários.</p>
-        <p>É obrigatória a presença de um responsável para entregar e receber o animal.</p>
-        <p>Caso não haja ninguém no local, poderá ser cobrada nova taxa para retorno.</p>
-        <p>O tutor autoriza o transporte do pet ao contratar este serviço.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">5. Emergências</h4>
+                <p>Caso o pet apresente qualquer alteração de saúde durante o atendimento, a Fama Pets poderá encaminhá-lo para atendimento veterinário, comunicando o tutor o mais rápido possível.</p>
+                <p>As despesas veterinárias serão de responsabilidade do tutor.</p>
 
-        <h4>5. Emergências</h4>
-        <p>Caso o pet apresente qualquer alteração de saúde durante o atendimento, a Fama Pets poderá encaminhá-lo para atendimento veterinário, comunicando o tutor o mais rápido possível.</p>
-        <p>As despesas veterinárias serão de responsabilidade do tutor.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">6. Objetos Pessoais</h4>
+                <p>A Fama Pets não se responsabiliza por coleiras, roupas, laços ou outros acessórios deixados com o animal, salvo quando recebidos para uso durante o atendimento.</p>
 
-        <h4>6. Objetos Pessoais</h4>
-        <p>A Fama Pets não se responsabiliza por coleiras, roupas, laços ou outros acessórios deixados com o animal, salvo quando recebidos para uso durante o atendimento.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">7. Pagamento</h4>
+                <p>O pagamento deverá ser realizado na retirada do pet ou conforme a forma de pagamento previamente acordada.</p>
+                <p>Serviços adicionais solicitados durante o atendimento serão cobrados à parte.</p>
 
-        <h4>7. Pagamento</h4>
-        <p>O pagamento deverá ser realizado na retirada do pet ou conforme a forma de pagamento previamente acordada.</p>
-        <p>Serviços adicionais solicitados durante o atendimento serão cobrados à parte.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">8. Imagens</h4>
+                <p>Mediante autorização do tutor, fotos e vídeos dos pets poderão ser utilizados para divulgação da Fama Pets em redes sociais e materiais publicitários.</p>
 
-        <h4>8. Imagens</h4>
-        <p>Mediante autorização do tutor, fotos e vídeos dos pets poderão ser utilizados para divulgação da Fama Pets em redes sociais e materiais publicitários.</p>
+                <h4 class="h5 fw-bold mt-4 mb-2">9. Aceite</h4>
+                <p>Ao contratar qualquer serviço da Fama Pets, o tutor declara que leu, compreendeu e concorda com este regulamento, comprometendo-se a fornecer informações verdadeiras sobre seu animal e a respeitar as normas estabelecidas.</p>
+                {% endblock %}
 
-        <h4>9. Aceite</h4>
-        <p>Ao contratar qualquer serviço da Fama Pets, o tutor declara que leu, compreendeu e concorda com este regulamento, comprometendo-se a fornecer informações verdadeiras sobre seu animal e a respeitar as normas estabelecidas.</p>
-        {% endblock %}
-        <button type="submit" class="btn btn-black d-block m-auto mt-4" onclick="history.back()">voltar</button>
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-dark px-4" onclick="history.back()">Voltar</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="footer-bg pt-5 pb-3">
@@ -80,21 +88,26 @@
             <div class="row g-4 pb-4 border-bottom border-dark border-opacity-25">
                 <div class="col-6 col-md-3">
                     <h4 class="h3 fw-bold mb-3">Institucional</h4>
-                    <a href="{% url 'politica-privacidade'%}" class="footer-link">Políticas de Privacidade</a>
-                    <a href="{% url 'politica-transporte'%}" class="footer-link">Regulamentos</a>
-                    <a href="{% url 'politica-regulamento'%}" class="footer-link">Política de Privacidade</a>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{% url 'politica-privacidade' %}" class="footer-link">Políticas de Privacidade</a>
+                        <a href="{% url 'politica-regulamento' %}" class="footer-link">Regulamentos</a>
+                        <a href="{% url 'politica-transporte' %}" class="footer-link">Política de Transporte</a>
+                    </div>
                 </div>
+
                 <div class="col-6 col-md-3">
                     <h4 class="h3 fw-bold mb-3">Atendimento</h4>
                     <p class="small mb-1"><strong>Telefone:</strong> (11) 96377-1187</p>
                     <p class="small mb-0"><strong>E-mail:</strong> contato@famapet.com.br</p>
                 </div>
+
                 <div class="col-6 col-md-3">
                     <h4 class="h3 fw-bold mb-3">Segurança</h4>
                     <span class="badge bg-white text-dark p-2 border">
                         <i class="bi bi-shield-check text-success me-1"></i> Google Safe
                     </span>
                 </div>
+
                 <div class="col-6 col-md-3">
                     <h4 class="h3 fw-bold mb-3">Redes Sociais</h4>
                     <div class="d-flex gap-3 fs-5">
@@ -104,11 +117,10 @@
                     </div>
                 </div>
             </div>
+
             <div class="text-center pt-3">
                 <p class="small text-muted mb-0" style="font-size: 0.75rem;">
-                    Fama Pet - CNPJ XX.XXX.XXX/0001-XX - Av. Vereador Magalhães, 2116 - Vila
-                    Orestes, Santo André - SP -
-                    09220-210<br>
+                    Fama Pet - CNPJ XX.XXX.XXX/0001-XX - Av. Vereador Magalhães, 2116 - Vila Orestes, Santo André - SP - 09220-210<br>
                     © {% now "Y" %} Fama Pet. Todos os direitos reservados.
                 </p>
             </div>
