@@ -1,6 +1,3 @@
-/* ==========================================================================
-   Variáveis Globais do Projeto
-   ========================================================================== */
 :root {
     --amarelo: #FFC446;
     --amarelo-escuro: #F0B536;
@@ -26,9 +23,6 @@
     --transicao: .25s cubic-bezier(.4, 0, .2, 1);
 }
 
-/* ==========================================================================
-   Estilos Gerais
-   ========================================================================== */
 body {
     background-color: #ffffff;
     color: var(--preto);
@@ -38,26 +32,14 @@ body {
     flex-direction: column;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1,h2,h3,h4 {
     text-align: center;
 }
 
-/* ==========================================================================
-   Cabeçalho e Botões
-   ========================================================================== */
 header {
     background-color: #F8F8F8;
 }
 
-
-/* ==========================================================================
-   Ajustes de Botão e Cabeçalho
-   ========================================================================== */
-
-/* Botão Cadastre-se totalmente arredondado */
 a.btn-black {
     background-color: var(--preto);
     color: #ffffff;
@@ -76,11 +58,10 @@ a.btn-black {
     transform: translateY(-2px);
 }
 
-/* Link Entrar */
+
 header a.text-dark {
     font-size: 1.1rem;
     font-weight: 700;
-    /* Deixa o "Entrar" com destaque em negrito */
     color: var(--preto) !important;
     transition: color var(--transicao);
 }
@@ -114,9 +95,6 @@ header a.text-dark:hover {
     color: var(--laranja) !important;
 }
 
-/* ==========================================================================
-   Conteúdo Principal (Política de Privacidade)
-   ========================================================================== */
 .conteudo-politica {
     background-color: #ffffff;
     border-radius: var(--raio);
@@ -157,10 +135,6 @@ header a.text-dark:hover {
 }
 
 
-
-/* ==========================================================================
-   Rodapé
-   ========================================================================== */
 .footer-bg {
     background-color: var(--amarelo);
     color: var(--marrom);
@@ -189,7 +163,6 @@ header a.text-dark:hover {
     transform: translateX(3px);
 }
 
-/* Selo de Segurança */
 .selo-google-safe {
     display: inline-flex;
     align-items: center;
@@ -207,7 +180,6 @@ header a.text-dark:hover {
     font-size: 1.1rem;
 }
 
-/* Redes Sociais */
 .social-icon-link {
     color: var(--marrom);
     font-size: 1.3rem;
@@ -219,7 +191,6 @@ header a.text-dark:hover {
     transform: translateY(-3px);
 }
 
-/* Créditos */
 .footer-credits {
     color: var(--marrom);
     font-size: 0.8rem;
@@ -227,9 +198,6 @@ header a.text-dark:hover {
     opacity: 0.85;
 }
 
-/* ==========================================================================
-   Responsividade
-   ========================================================================== */
 @media (max-width: 768px) {
     .conteudo-politica {
         padding: 1.75rem 1.25rem;
