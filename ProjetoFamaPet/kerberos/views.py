@@ -6,6 +6,9 @@ from .models import Usuario, Pet, Agendamento
 def home(request):
     return render(request, 'home/index.html')
 
+def perfil(request):
+    return render(request, 'perfil/perfil.html')
+
 def listar_clientes(request):
     usuarios = Usuario.objects.all()
     contexto = {'usuarios': usuarios}

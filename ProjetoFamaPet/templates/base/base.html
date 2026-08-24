@@ -44,9 +44,6 @@
         </div>
 
         <nav class="mt-2">
-            <a class="marca d-none d-sm-inline-flex" href="{% url 'home/index.html' %}" title="Voltar ao início">
-                <img src="./assets/img/logo.svg" alt="Início — FamaPet">
-            </a>
             <a href="{% url 'perfil' %}" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
             <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Agendamentos</a>
             <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
@@ -54,6 +51,14 @@
             <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_relatorio %}{% endblock %}">Relatório</a>
             <a href="{% url 'vacina' %}" class="nav-btn {% block nav_vacina %}{% endblock %}">Vacinação</a>
         </nav>
+
+
+        <div class="logout mx-auto py-4">
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sair</button>
+            </form>
+        </div>
     </div>
 
     <main class="main-content p-4 p-md-5">
