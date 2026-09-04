@@ -17,8 +17,12 @@
 
 <body>
 
+    <!-- Header Mobile -->
     <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center">
-        <h5 class="m-0 fw-bold">Fama Pet</h5>
+        <div class="d-flex align-items-center gap-2">
+            <img src="{% static 'img/favicon.svg' %}" alt="FamaPet Logo" height="24">
+            <h5 class="m-0 fw-bold">FamaPet</h5>
+        </div>
         <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile"
             aria-controls="sidebarMobile">
             <i class="bi bi-list fs-4"></i>
@@ -33,28 +37,47 @@
                 aria-label="Close"></button>
         </div>
 
-        <div class="text-center text-white mb-4">
-            <div class="user-avatar mb-2">
-                <i class="bi bi-person-fill"></i>
+
+        <div class="logo text-center mb-4 d-flex align-items-center justify-content-center gap-2">
+            <img src="{% static 'img/favicon.svg' %}" alt="FamaPet Logo" height="32">
+            <span class="fs-4 fw-bold text-dark">FamaPet</span>
+        </div>
+
+
+        <div class="user-profile text-center text-white mb-4">
+            <div class="user-avatar avatar-circle mb-2 mx-auto d-flex align-items-center justify-content-center bg-white rounded-circle"
+                style="width: 60px; height: 60px;">
+                <i class="bi bi-person-fill text-warning fs-2"></i>
             </div>
-            <h4 class="fw-bold mb-0 text-white">
+            <h4 class="fw-bold mb-0 text-white fs-5">
                 {% if user.is_authenticated %}
                 {{ user.first_name|default:user.username }}
                 {% else %}
                 Visitante
                 {% endif %}
             </h4>
-
         </div>
 
-        <nav class="mt-2">
-            <a href="#" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
-            <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Agendamentos</a>
+        <nav class="nav-container">
+            <a href="#" class="nav-btn">Editar perfil</a>
             <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
-            <a href="{% url 'pets.' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
-            <a href="{% url 'relatorio/relatorio.html' %}" class="nav-btn {% block nav_relatorio %}{% endblock %}">Relatório</a>
+            <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Meus agendamentos</a>
+            <a href="{% url 'pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
+            <a href="{% url 'vacina' %}" class="nav-btn {% block nav_vacinacao %}{% endblock %}">Minha vacinação</a>
+            <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_relatorio %}{% endblock %}">Relatórios</a>
         </nav>
+
+
+
+
+        <div class="logout-container mt-auto pt-4 text-center">
+            <a href="#"
+                class="btn-logout text-dark fw-bold text-decoration-none d-flex align-items-center justify-content-center gap-2">
+                <i class="bi text-danger bi-box-arrow-right"></i> Sair da conta
+            </a>
+        </div>
     </div>
+
 
     <main class="main-content p-4 p-md-5">
         <div class="container-fluid bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="min-height: 85vh;">

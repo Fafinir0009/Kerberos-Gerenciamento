@@ -9,33 +9,34 @@
 {% block nav_agendamentos %}active{% endblock %}
 
 {% block content %}
-<div class="container my-4 my-md-5 px-3" style="max-width: 650px;">
-
-  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <div class="w-100 w-sm-auto">
-      <h2 class="fw-bold mb-1 h3">Sua agenda</h2>
-      <p class="text-muted small mb-0">Consulte os agendamentos de banho e tosa por dia</p>
+<div class="agenda-container">
+  <div class="d-flex justify-content-between align-items-start mb-4 gap-3 flex-wrap">
+    <div>
+      <h2 class="fw-bold mb-1 text-dark">Sua agenda</h2>
+      <p class="text-muted small mb-0 mb-2">Consulte os agendamentos de banho e tosa por dia</p>
     </div>
 
-    <div class="d-flex align-items-center flex-wrap gap-2 w-100 w-sm-auto">
-      <form method="GET" class="date-picker-btn px-3 py-2 d-flex align-items-center rounded border flex-grow-1 flex-sm-grow-0">
-        <i class="bi bi-calendar3 text-warning me-2"></i>
-        <input type="date" name="data" class="form-control form-control-sm border-0 p-0 shadow-none w-100" 
-               value="{{ data_selecionada|date:'Y-m-d' }}" onchange="this.form.submit()">
-      </form>
+<div class="d-flex align-items-center flex-wrap gap-2 ms-auto">
+    <form method="GET" class="date-picker-btn px-3 py-2 d-flex align-items-center rounded border">
+      <i class="bi bi-calendar3 text-warning me-2"></i>
+      <input type="date" name="data" class="form-control form-control-sm border-0 p-0 shadow-none" 
+             value="{{ data_selecionada|date:'Y-m-d' }}" onchange="this.form.submit()">
+    </form>
 
-      <a href="#" class="btn btn-cta d-inline-flex align-items-center justify-content-center gap-2 flex-grow-1 flex-sm-grow-0" style="font-size: 0.85rem; padding: 8px 16px;">
-        <i class="bi bi-person-plus-fill"></i> Novo Agendamento
-      </a>
+    <a href="#" class="btn btn-cta d-inline-flex align-items-center justify-content-center gap-2" style="font-size: 0.85rem; padding: 8px 16px;">
+      <i class="bi bi-person-plus-fill"></i> Novo Agendamento
+    </a>
 
-      <a href="#" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" title="Editar">
-        <i class="bi bi-pencil-square action-icon"></i>
-      </a>
-      <a href="#" class="btn btn-outline-danger btn-sm d-inline-flex align-items-center" title="Excluir">
-        <i class="bi bi-trash action-icon delete"></i>
-      </a>
-    </div>
+    <a href="#" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" title="Editar">
+      <i class="bi bi-pencil-square action-icon"></i>
+    </a>
+    <a href="#" class="btn btn-outline-danger btn-sm d-inline-flex align-items-center" title="Excluir">
+      <i class="bi bi-trash action-icon delete"></i>
+    </a>
   </div>
+
+  </div>
+
 
   <div class="custom-card mb-4">
     <div class="card-header-custom p-3 d-flex justify-content-between align-items-center">
@@ -48,7 +49,7 @@
     <div class="p-3">
       {% for agendamentos in agendamentos_manha %}
         <div class="d-flex align-items-start align-items-sm-center py-2 border-bottom border-light text-break">
-          <span class="fw-bold me-3 text-nowrap" style="min-width: 45px;">{{ agendamentos.data|date:"H:i" }}</span>
+          <span class="fw-bold me-3 text-nowrap text-dark" style="min-width: 45px;">{{ agendamentos.data|date:"H:i" }}</span>
           <span class="text-secondary fw-medium small">
             <strong>Tutor:</strong> {{ agendamentos.usuario.nome }}; 
             <strong>Pet:</strong> {{ agendamentos.pet.nome }}; 
@@ -60,6 +61,7 @@
       {% endfor %}
     </div>
   </div>
+
 
   <div class="custom-card mb-4">
     <div class="card-header-custom p-3 d-flex justify-content-between align-items-center">
@@ -72,7 +74,7 @@
     <div class="p-3">
       {% for agendamentos in agendamentos_tarde %}
         <div class="d-flex align-items-start align-items-sm-center py-2 border-bottom border-light text-break">
-          <span class="fw-bold me-3 text-nowrap" style="min-width: 45px;">{{ agendamentos.data|date:"H:i" }}</span>
+          <span class="fw-bold me-3 text-nowrap text-dark" style="min-width: 45px;">{{ agendamentos.data|date:"H:i" }}</span>
           <span class="text-secondary fw-medium small">
             <strong>Tutor:</strong> {{ agendamentos.usuario.nome }}; 
             <strong>Pet:</strong> {{ agendamentos.pet.nome }}; 
@@ -85,7 +87,8 @@
     </div>
   </div>
 
-  <div class="custom-card mb-4">
+
+  <div class="custom-card mb-0">
     <div class="card-header-custom p-3 d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-2">
         <i class="bi bi-moon-stars text-warning fs-5"></i>
@@ -96,7 +99,7 @@
     <div class="p-3">
       {% for agendamentos in agendamentos_noite %}
         <div class="d-flex align-items-start align-items-sm-center py-2 border-bottom border-light text-break">
-          <span class="fw-bold me-3 text-nowrap" style="min-width: 45px;">{{ agendamentos.data|date:"H:i" }}</span>
+          <span class="fw-bold me-3 text-nowrap text-dark" style="min-width: 45px;">{{ agendamentos.data|date:"H:i" }}</span>
           <span class="text-secondary fw-medium small">
             <strong>Tutor:</strong> {{ agendamentos.usuario.nome }}; 
             <strong>Pet:</strong> {{ agendamentos.pet.nome }}; 

@@ -1,0 +1,100 @@
+/* --- Estilos Gerais de Vacinação --- */
+
+.btn-warning {
+    background-color: var(--amarelo-cta, #FFCC00) !important;
+    border: none;
+}
+
+.btn-sm-custom {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.custom-select {
+    width: auto;
+    min-width: 90px;
+    border-radius: 8px;
+}
+
+.custom-select-sm {
+    width: auto;
+    border-radius: 8px;
+}
+
+/* Caixa de Busca com Ícone Interno */
+.search-box {
+    width: 100%;
+}
+
+.search-box .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0a0a0;
+    font-size: 0.9rem;
+}
+
+.search-box input {
+    width: 100%;
+    padding-left: 38px !important;
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+}
+
+.search-box input:focus {
+    border-color: #53A8DD;
+    box-shadow: 0 0 0 0.2rem rgba(83, 168, 221, 0.15);
+}
+
+/* --- Container e Tabela Responsiva --- */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+}
+
+/* Força largura mínima para que os títulos não esmaguem */
+.table-custom {
+    min-width: 680px; 
+}
+
+.table-header {
+    grid-template-columns: 0.6fr 2fr 2fr 2fr 1fr 1fr;
+    border-bottom: 2px solid #eaeaea;
+    font-size: 0.85rem;
+    align-items: center;
+}
+
+.table-header i {
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.table-body-empty {
+    border: 2px dashed #e2e8f0;
+    min-height: 220px;
+}
+
+/* --- Paginação --- */
+.pagination-container {
+    font-size: 0.9rem;
+}
+
+/* --- Ajustes Mobile --- */
+@media (max-width: 575.98px) {
+    .vacina-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .table-filters {
+        gap: 12px !important;
+    }
+
+    .filter-show {
+        justify-content: flex-start;
+    }
+}

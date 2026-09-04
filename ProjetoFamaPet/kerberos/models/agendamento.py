@@ -50,7 +50,7 @@ class Agendamento(models.Model):
         ordering = ["-data"]
 
     @property
-    def valor_total(self):
+    def valorTotal(self):
         return sum(
             (servico.valor for servico in self.servicos.all()),
             Decimal("0.00")

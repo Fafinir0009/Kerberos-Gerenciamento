@@ -1,24 +1,94 @@
+.agenda-container {
+  max-width: 650px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.agenda-container h2 {
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.date-picker-btn {
+  border: 1.5px solid #2b2b2b;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.date-picker-btn:focus-within {
+  border-color: #00c2c4;
+}
+
+.date-picker-btn input {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: #111827;
+}
+
+.btn-cta {
+  background-color: #ffc107;
+  color: #000000;
+  font-weight: 600;
+  border: 1.5px solid #2b2b2b;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-cta:hover {
+  background-color: #e0a800;
+  color: #000000;
+}
+
+.btn-outline-secondary,
+.btn-outline-danger {
+  border: 1.5px solid #c6cad8;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.action-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
 
 .custom-card {
-      border: 1.5px solid #2b2b2b;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .card-header-custom {
-      border-bottom: 1px solid #2b2b2b;
-      background-color: #fff;
-    }
-    .text-period {
-      color: #00c2c4;
-      font-weight: 600;
-    }
-    .date-picker-btn {
-      border: 1.5px solid #2b2b2b;
-      border-radius: 8px;
-    }
-    .date-picker-btn input {
-      border: none;
-      outline: none;
-      background: transparent;
-      cursor: pointer;
-    }
+  border: 1.5px solid #2b2b2b;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.card-header-custom {
+  border-bottom: 1.5px solid #2b2b2b;
+  background-color: #ffffff;
+}
+
+.text-period {
+  color: #00c2c4;
+  font-weight: 600;
+}
+
+.custom-card .border-bottom {
+  border-bottom-color: #f3f4f6 !important;
+}
+
+.custom-card .border-bottom:last-child {
+  border-bottom: none !important;
+}
+
+@media (max-width: 576px) {
+  .agenda-container {
+    padding: 1.25rem !important;
+  }
+  
+  .date-picker-btn,
+  .btn-cta {
+    width: 100%;
+  }
+}
