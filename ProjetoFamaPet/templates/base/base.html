@@ -46,12 +46,11 @@
         <nav class="mt-2">
             <a href="{% url 'perfil' %}" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
             <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Agendamentos</a>
-            <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
-            <a href="{% url 'pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
+            <a href="{% url 'listar_clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
+            <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
             <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_relatorio %}{% endblock %}">Relatório</a>
-            <a href="{% url 'vacina' %}" class="nav-btn {% block nav_vacina %}{% endblock %}">Vacinação</a>
+            <a href="#" class="nav-btn {% block nav_vacina %}{% endblock %}">Vacinação</a>
         </nav>
-
 
         <div class="logout mx-auto py-4">
             <form action="{% url 'logout' %}" method="post" style="display:inline;">

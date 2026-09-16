@@ -1,8 +1,59 @@
-{% extends "base/base.html" %}
+{% extends 'base/base.html' %}
 
-{% block titulo %}Editar perfil — FamaPet{% endblock %}
-{% block nav_perfil %}active{% endblock %}
+{% block title %} Perfil - Fama Pet{% endblock %}
+
+{% block nav_perfil%}active{% endblock %}
 
 {% block content %}
-    <h1 class="titulo-painel mb-4">Editar perfil:</h1>       
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Editar Meu Perfil</h4>
+                </div>
+                
+                <div class="card-body">
+                    
+                    <!-- Exibição de mensagens do Django (ex: "Perfil atualizado com sucesso!") -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Formulário -->
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+                      
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'perfil' %}" class="btn btn-secondary me-md-2">Voltar</a>
+                            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Script rápido para adicionar a classe 'form-control' nos inputs do Django -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputs = document.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+            if (!input.classList.contains('form-control') && !input.classList.contains('form-check-input')) {
+                input.classList.add('form-control');
+            }
+        });
+    });
+</script>
 {% endblock %}
