@@ -1,76 +1,59 @@
-{% extends "base_painel.html" %}
+{% extends 'base/base.html' %}
 
-{% block titulo %}Editar perfil — FamaPet{% endblock %}
-{% block data_pagina %}perfil{% endblock %}
+{% block title %} Perfil - Fama Pet{% endblock %}
 
-{% block painel %}
-            <h1 class="titulo-painel mb-4">Editar perfil:</h1>
+{% block nav_perfil%}active{% endblock %}
 
-            <form id="formPerfil" style="max-width:860px" novalidate>
-
-                <div class="grupo-perfil">
-                    <div class="mb-3 campo-editavel">
-                        <label class="form-label" for="perfilNome">Nome:</label>
-                        <input type="text" class="campo-conta" id="perfilNome" name="nome" autocomplete="name" required>
-                        <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        <span class="msg-erro"></span>
-                    </div>
-                    <div class="mb-3 campo-editavel">
-                        <label class="form-label" for="perfilEmail">Email:</label>
-                        <input type="email" class="campo-conta" id="perfilEmail" name="email" autocomplete="email" required>
-                        <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        <span class="msg-erro"></span>
-                    </div>
-                    <div class="mb-3 campo-editavel">
-                        <label class="form-label" for="perfilTelefone">Telefone:</label>
-                        <input type="tel" class="campo-conta" id="perfilTelefone" name="telefone"
-                            data-mascara="telefone" inputmode="numeric" autocomplete="tel" required>
-                        <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        <span class="msg-erro"></span>
-                    </div>
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Editar Meu Perfil</h4>
                 </div>
+                
+                <div class="card-body">
+                    
+                    <!-- Exibição de mensagens do Django (ex: "Perfil atualizado com sucesso!") -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-                <div class="grupo-perfil">
-                    <div class="row">
-                        <div class="col-6 col-md-4 mb-3 campo-editavel">
-                            <label class="form-label" for="perfilCep">CEP</label>
-                            <input type="text" class="campo-conta" id="perfilCep" name="cep"
-                                data-mascara="cep" inputmode="numeric" autocomplete="postal-code">
-                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-6 col-md-3 offset-md-3 mb-3 campo-editavel">
-                            <label class="form-label" for="perfilNumero">Número</label>
-                            <input type="text" class="campo-conta" id="perfilNumero" name="numero" inputmode="numeric">
-                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3 campo-editavel">
-                            <label class="form-label" for="perfilRua">Rua</label>
-                            <input type="text" class="campo-conta" id="perfilRua" name="rua" autocomplete="address-line1">
-                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        </div>
-                        <div class="col-md-6 mb-3 campo-editavel">
-                            <label class="form-label" for="perfilBairro">Bairro</label>
-                            <input type="text" class="campo-conta" id="perfilBairro" name="bairro">
-                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
+                    <!-- Formulário -->
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
 
-                <div class="grupo-perfil">
-                    <p class="titulo-grupo mb-1">Alterar senha <span class="fw-normal text-muted">(opcional)</span></p>
-                    <div class="mb-3 grupo-senha" style="max-width:420px">
-                        <input type="password" class="campo-conta" id="perfilNovaSenha" name="novaSenha"
-                            placeholder="Nova senha (8+ caracteres)" autocomplete="new-password">
-                        <button type="button" class="ver-senha" aria-label="Mostrar senha"><i class="bi bi-eye"></i></button>
-                        <span class="msg-erro"></span>
-                    </div>
-                </div>
+                        {{ form.as_p }}
+                      
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'perfil' %}" class="btn btn-secondary me-md-2">Voltar</a>
+                            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+                        </div>
+                    </form>
 
-                <div class="d-flex justify-content-center gap-3 mt-4">
-                    <button type="button" id="perfilVoltar" class="btn-cta" style="min-width:130px">Voltar</button>
-                    <button type="submit" class="btn-cta" style="min-width:130px">Salvar</button>
                 </div>
-            </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Script rápido para adicionar a classe 'form-control' nos inputs do Django -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputs = document.querySelectorAll("input, select, textarea");
+        inputs.forEach(input => {
+            if (!input.classList.contains('form-control') && !input.classList.contains('form-check-input')) {
+                input.classList.add('form-control');
+            }
+        });
+    });
+</script>
 {% endblock %}

@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Fama Pet{% endblock %}</title>
-
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/fontes.css'%}" rel="stylesheet">
@@ -13,17 +13,19 @@
 
     {% block extra_css %}{% endblock %}
 </head>
+
 <body>
 
     <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center">
         <h5 class="m-0 fw-bold">Fama Pet</h5>
-        <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile">
+        <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile"
+            aria-controls="sidebarMobile">
             <i class="bi bi-list fs-4"></i>
         </button>
     </div>
 
     <div class="offcanvas-lg offcanvas-start sidebar-custom sidebar-desktop p-4 d-flex flex-column" tabindex="-1" id="sidebarMobile">
-        
+
         <div class="offcanvas-header d-lg-none p-0 mb-3 justify-content-end">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMobile" aria-label="Close"></button>
         </div>
@@ -34,30 +36,35 @@
             </div>
             <h4 class="fw-bold mb-0 text-white">
                 {% if user.is_authenticated %}
-                    {{ user.first_name|default:user.username }}
+                {{ user.first_name|default:user.username }}
                 {% else %}
-                    Visitante
+                Visitante
                 {% endif %}
             </h4>
-
         </div>
 
         <nav class="mt-2">
-            <a href="#" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
+            <a href="{% url 'perfil' %}" class="nav-btn {% block nav_perfil %}{% endblock %}">Editar perfil</a>
             <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %}">Agendamentos</a>
-            <a href="{% url 'clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
-            <a href="{% url 'pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
+            <a href="{% url 'listar_clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %}">Clientes</a>
+            <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_pets %}{% endblock %}">Lista de Pets</a>
             <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_relatorio %}{% endblock %}">Relatório</a>
+            <a href="#" class="nav-btn {% block nav_vacina %}{% endblock %}">Vacinação</a>
         </nav>
+
+        <div class="logout mx-auto py-4">
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sair</button>
+            </form>
+        </div>
     </div>
 
-   <main class="main-content p-4 p-md-5">
+    <main class="main-content p-4 p-md-5">
         <div class="container-fluid bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="min-height: 85vh;">
-            
             {% block content %}
-    
-            {% endblock %}
 
+            {% endblock %}
         </div>
     </main>
 
