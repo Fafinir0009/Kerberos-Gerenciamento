@@ -1,5 +1,5 @@
 from django import forms
-from ..models.usuario import Usuario
+from ..models import Usuario
 
 
 class NomeValidationMixin:

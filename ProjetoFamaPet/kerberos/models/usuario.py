@@ -60,6 +60,11 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
     )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="usuario",
+    )
 
     # Controle de Acesso nativo do Django
     is_staff = models.BooleanField(default=False)
