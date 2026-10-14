@@ -2,16 +2,7 @@ from django import forms
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from ..models import Usuario
-
-
-class NomeValidationMixin:
-    def clean_nome(self):
-        nome = self.cleaned_data.get("nome", "").strip()
-        if len(nome) < 3:
-            raise forms.ValidationError(
-                "O nome deve ter pelo menos 3 caracteres."
-            )
-        return nome
+from .mixins import NomeValidationMixin
 
 
 class UsuarioForm(NomeValidationMixin, forms.ModelForm):
@@ -36,6 +27,11 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ['nome', 'email', 'telefone']
+        error_messages = {
+            'email': {
+                'unique': "Já existe um usuário cadastrado com este e-mail.",
+            },
+        }
         widgets = {
             'nome': forms.TextInput(attrs={
                 'placeholder': 'Nome completo',
@@ -68,11 +64,6 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
             except DjangoValidationError as error:
                 raise forms.ValidationError(error.messages) from error
         return senha
-        error_messages = {
-            'email': {
-                'unique': "Já existe um usuário cadastrado com este e-mail.",
-            },
-        }
 
     def clean_email(self):
         email = self.cleaned_data.get('email', '')
@@ -114,11 +105,9 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
         """Preenche o username com o e-mail, aplica a criptografia e salva."""
         usuario = super().save(commit=False)
         
-        # Define o e-mail limpo como o username obrigatório
         email_limpo = self.cleaned_data.get("email")
         usuario.username = email_limpo
         
-        # Aplica a hash de senha nativa do Django
         senha = self.cleaned_data.get('senha')
         if senha:
             usuario.set_password(senha)

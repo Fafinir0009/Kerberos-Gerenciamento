@@ -1,8 +1,6 @@
 from decimal import Decimal
 from datetime import timedelta
 from django.db import models
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 
 
 class Agendamento(models.Model):

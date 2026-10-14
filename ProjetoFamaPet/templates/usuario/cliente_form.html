@@ -7,7 +7,6 @@
 <div class="container-fluid px-3 px-md-4 py-4">
     <div class="content-wrapper mx-auto" style="max-width: 900px;">
         
-        <!-- Cabeçalho e Navegação -->
         <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
             <div>
                 <nav aria-label="breadcrumb">
@@ -25,7 +24,6 @@
             </a>
         </div>
 
-        <!-- Alertas do Django -->
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-4 shadow-sm" role="alert">
@@ -35,13 +33,11 @@
             {% endfor %}
         {% endif %}
 
-        <!-- Cartão do Formulário -->
         <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
             <div class="card-body p-4 p-md-5">
                 <form method="POST" novalidate>
                     {% csrf_token %}
 
-                    <!-- SEÇÃO 1: Dados do Usuário -->
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex align-items-center gap-2 mb-3 text-primary">
                             <i class="bi bi-person-vcard fs-4"></i>
@@ -100,7 +96,6 @@
                         </div>
                     </div>
 
-                    <!-- SEÇÃO 2: Dados do Endereço -->
                     <div class="mb-4 pb-2">
                         <div class="d-flex align-items-center gap-2 mb-3 text-primary">
                             <i class="bi bi-geo-alt fs-4"></i>
@@ -166,7 +161,6 @@
                         </div>
                     </div>
 
-                    <!-- Botões de Ação -->
                     <div class="d-flex flex-column flex-sm-row justify-content-end align-items-stretch align-items-sm-center gap-2 pt-3 border-top">
                         <a href="{% url 'listar_clientes' %}" class="btn btn-light px-4">Cancelar</a>
                         <button type="submit" class="btn btn-primary px-4 d-inline-flex align-items-center justify-content-center gap-2">
@@ -180,7 +174,6 @@
     </div>
 </div>
 
-<!-- Autocompletar CEP com a API ViaCEP -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const cepInput = document.getElementById('{{ endereco_form.cep.id_for_label }}');

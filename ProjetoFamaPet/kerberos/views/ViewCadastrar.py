@@ -12,24 +12,16 @@ def cadastrar_usuario(request):
     if request.method == 'POST':
         form_usuario = UsuarioForm(request.POST)
         form_endereco = EnderecoForm(request.POST)
-        form_pet = PetForm(request.POST, request.FILES)  # request.FILES se o pet tiver foto
+        form_pet = PetForm(request.POST)
 
         if form_usuario.is_valid() and form_endereco.is_valid() and form_pet.is_valid():
-            # 1. Salva o Usuário (Garante is_staff=False por padrão e gera a senha com hash)
             usuario = form_usuario.save(commit=False)
-            usuario.is_staff = False
-            
-            # Se o UsuarioForm usar senha em texto puro, converta para hash aqui se necessário:
-            # usuario.set_password(form_usuario.cleaned_data['password'])
-            
             usuario.save()
 
-            # 2. Salva o Endereço vinculado ao Usuário recém-criado
             endereco = form_endereco.save(commit=False)
             endereco.usuario = usuario
             endereco.save()
 
-            # 3. Salva o Pet vinculado ao Usuário
             pet = form_pet.save(commit=False)
             pet.usuario = usuario
             pet.save()

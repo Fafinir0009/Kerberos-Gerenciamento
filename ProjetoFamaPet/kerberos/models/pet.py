@@ -32,7 +32,6 @@ class Pet(models.Model):
         null=True, 
         verbose_name="Observação"
     )
-    # APONTAMENTO CORRETO: Referência relativa ao modelo Usuario dentro da mesma app
     usuario = models.ForeignKey(
         'Usuario',
         on_delete=models.CASCADE,

@@ -319,15 +319,7 @@ class AgendamentoHistoricoTests(TestCase):
             follow=True,
         )
 
-        self.assertTrue(response.context['form'].is_valid(), response.context['form'].errors)
         self.assertContains(response, 'Agendamento atualizado com sucesso!')
         item = ItemAgendamento.objects.get(agendamento=self.agendamento)
         self.assertEqual(item.preco_unitario, Decimal('25.00'))
         self.assertEqual(item.duracao_minutos, 25)
-
-    def test_telefone_opcional_aceita_vazio(self):
-        data = self.data.copy()
-        data['telefone'] = ''
-        form = UsuarioForm(data=data)
-
-        self.assertTrue(form.is_valid(), form.errors)

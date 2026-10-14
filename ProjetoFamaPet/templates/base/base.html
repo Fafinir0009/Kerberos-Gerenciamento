@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Fama Pet{% endblock %}</title>
     
-    <!-- CSS Bootstrap e Estilos -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/fontes.css' %}" rel="stylesheet">
@@ -18,7 +17,6 @@
 
 <body class="{% if user.is_authenticated %}{% if user.is_staff %}layout-admin{% else %}layout-cliente{% endif %}{% else %}layout-visitante{% endif %}">
 
-    <!-- Header Mobile -->
     <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center">
         <h5 class="m-0 fw-bold">Fama Pet</h5>
         <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile">
@@ -26,7 +24,6 @@
         </button>
     </div>
 
-    <!-- Sidebar Lateral -->
    <div class="offcanvas-lg offcanvas-start sidebar-custom sidebar-desktop p-4 d-flex flex-column vh-100 overflow-y-auto" tabindex="-1" id="sidebarMobile">
 
         <div class="offcanvas-header d-lg-none p-0 mb-3 justify-content-end">
@@ -45,18 +42,14 @@
                 </small>
         </div>
 
-        <!-- Navegação Principal -->
         <nav class="mt-2 flex-grow-1">
     {% if user.is_authenticated %}
         
         {% if user.is_staff %}
-            <!-- ================= MENU ADMINISTRADOR ================= -->
             <span class="text-white-50 small px-2 fw-bold text-uppercase d-block mb-2">Atendimentos</span>
-            <!-- Nome alterado para nav_admin_agendamentos -->
             <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_admin_agendamentos %}{% endblock %} mb-2">
                 <i class="bi bi-calendar-check me-2"></i>Todos Agendamentos
             </a>
-            <!-- Nome alterado para nav_admin_pets -->
             <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_admin_pets %}{% endblock %} mb-2">
                 <i class="bi bi-card-list me-2"></i>Todos os Pets
             </a>
@@ -74,7 +67,6 @@
             </a>
 
         {% else %}
-            <!-- ================= MENU CLIENTE ================= -->
             <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %} mb-2">
                 <i class="bi bi-calendar-event me-2"></i>Meus Agendamentos
             </a>
@@ -90,7 +82,6 @@
     {% endif %}
 </nav>
 
-        <!-- Botão de Sair (Exibido apenas para usuários logados) -->
         {% if user.is_authenticated %}
             <div class="logout mx-auto py-3 mt-auto w-100 text-center border-top border-secondary">
                 <form action="{% url 'logout' %}" method="post" class="d-inline">
@@ -104,10 +95,8 @@
 
     </div>
 
-    <!-- Conteúdo Principal -->
     <main class="main-content p-4 p-md-5">
         
-        <!-- Mensagens de Feedback do Django (Éxito, Erros, Avisos) -->
         {% if messages %}
             <div class="mb-4">
                 {% for message in messages %}
@@ -125,7 +114,6 @@
         </div>
     </main>
 
-    <!-- Bootstrap Bundle JS -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% block extra_js %}{% endblock %}
 

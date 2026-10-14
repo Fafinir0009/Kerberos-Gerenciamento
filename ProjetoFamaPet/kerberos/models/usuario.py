@@ -61,11 +61,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         blank=True,
     )
 
-    # Controle de Acesso nativo do Django
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-
-    # Controle de Acesso nativo do Django
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 

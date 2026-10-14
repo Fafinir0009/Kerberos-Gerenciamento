@@ -30,22 +30,17 @@ class AgendamentoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.usuario = usuario
 
-        # 1. Regra de Negócio por Perfil
         if usuario and getattr(usuario, "is_authenticated", False):
             if usuario.is_staff:
-                # Administrador/Staff pode selecionar QUALQUER pet cadastrado no petshop
                 self.fields["pet"].queryset = Pet.objects.all().select_related("usuario")
-                # Exibe o nome do Tutor ao lado do nome do Pet para o Admin não se confundir
                 self.fields["pet"].label_from_instance = (
                     lambda obj: f"{obj.nome} (Tutor: {obj.usuario.nome})"
                 )
             else:
-                # Cliente comum só seleciona seus próprios pets
                 self.fields["pet"].queryset = Pet.objects.filter(usuario=usuario)
         else:
             self.fields["pet"].queryset = Pet.objects.none()
 
-        # 2. Se for edição, pré-carrega os serviços selecionados
         if self.instance and self.instance.pk:
             servicos_existentes = list(
                 item.servico_id for item in self.instance.itens.all()

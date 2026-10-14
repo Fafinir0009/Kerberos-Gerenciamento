@@ -9,6 +9,16 @@ from kerberos.forms.FormAgendamento import AgendamentoForm
 from kerberos.models.agendamento import Agendamento, ItemAgendamento
 
 
+def _criar_item_agendamento(agendamento, servico):
+    ItemAgendamento.objects.create(
+        agendamento=agendamento,
+        servico=servico,
+        servico_nome=servico.nome,
+        preco_unitario=servico.valor,
+        duracao_minutos=servico.duracao_minutos,
+    )
+
+
 @login_required
 def agendamentos(request):
     data_str = request.GET.get('data')
@@ -62,13 +72,7 @@ def criar_agendamento(request):
             # Congela os serviços nos itens
             servicos_selecionados = form.cleaned_data['servicos']
             for servico in servicos_selecionados:
-                ItemAgendamento.objects.create(
-                    agendamento=agendamento,
-                    servico=servico,
-                    servico_nome=servico.nome,
-                    preco_unitario=servico.valor,
-                    duracao_minutos=servico.duracao_minutos
-                )
+                _criar_item_agendamento(agendamento, servico)
 
             messages.success(request, 'Agendamento cadastrado com sucesso!')
             return redirect('agendamentos')
@@ -113,13 +117,7 @@ def editar_agendamento(request, pk):
             for servico_id, servico in servicos_selecionados.items():
                 if servico_id in itens_existentes:
                     continue
-                ItemAgendamento.objects.create(
-                    agendamento=agendamento,
-                    servico=servico,
-                    servico_nome=servico.nome,
-                    preco_unitario=servico.valor,
-                    duracao_minutos=servico.duracao_minutos
-                )
+                _criar_item_agendamento(agendamento, servico)
 
             messages.success(request, 'Agendamento atualizado com sucesso!')
             return redirect('agendamentos')

@@ -9,7 +9,6 @@
     <div>
         <h2 class="fw-bold mb-4 brand-font" style="font-size: 2rem;">Lista de Pets</h2>
 
-        <!-- Alertas de Sucesso / Erro do Django -->
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-4 shadow-sm" role="alert">
@@ -61,12 +60,10 @@
                         <td class="py-3">{{ pet.get_porte_display|default:pet.porte }}</td>
                         <td class="py-3">{{ pet.data_de_nascimento|date:"d/m/Y"|default:"-" }}</td>
                         <td class="text-center py-3" style="border-radius: 0 var(--raio) var(--raio) 0;">
-                            <!-- Botão Editar -->
                             <a href="{% url 'editar_pet' pet.pk %}" class="text-decoration-none me-2" title="Editar">
                                 <i class="bi bi-pencil-square action-icon fs-5"></i>
                             </a>
 
-                            <!-- Formulário POST Correto para Deletar -->
                             <form action="{% url 'deletar_pet' pet.id %}" method="POST" class="d-inline" data-confirm-message="Tem certeza que deseja remover este pet?">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-link p-0 text-decoration-none border-0 bg-transparent" title="Excluir">
@@ -86,7 +83,6 @@
             </table>
         </div>
 
-        <!-- Componente de Paginação (se aplicável) -->
         {% if page_obj.has_other_pages %}
         <nav class="mt-4">
             <ul class="pagination justify-content-center">

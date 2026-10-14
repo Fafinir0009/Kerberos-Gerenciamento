@@ -7,7 +7,6 @@ from django.db.models import Q
 
 from ..forms.FormPet import PetForm
 from ..models.pet import Pet
-from ..models.usuario import Usuario  # Modelo customizado Usuario
 
 
 def _get_pet_or_404(user, pk):
@@ -33,14 +32,12 @@ def listar_pets(request):
     """
     query = request.GET.get('q', '').strip()
     
-    # JOIN Otimizado com o modelo Usuario (previne N+1 queries)
     pets_list = Pet.objects.select_related('usuario')
 
     # REGRA DE ACESSO: clientes veem apenas os seus próprios pets
     if not request.user.is_staff:
         pets_list = pets_list.filter(usuario=request.user)
 
-    # Busca/Filtro opcional por texto
     if query:
         filtros = Q(nome__icontains=query) | Q(raca__icontains=query)
         
@@ -50,7 +47,6 @@ def listar_pets(request):
             
         pets_list = pets_list.filter(filtros)
 
-    # Paginação (10 itens por página)
     paginator = Paginator(pets_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

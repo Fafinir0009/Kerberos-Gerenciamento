@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 
 def politica_privacidade(request):
     return render(request, 'politica/politica-privacidade.html')
