@@ -25,7 +25,11 @@
                 <h1 class="auth-title mb-4">Acessar<br>conta:</h1>
 
                 <!-- Mensagem de Erro de Credenciais (Se o usuário ou senha estiverem errados) -->
-                {% if form.errors %}
+                {% if custom_error %}
+                  <div class="alert alert-danger py-2 small mb-3 text-center" role="alert">
+                    {{ custom_error }}
+                  </div>
+                {% elif form.errors %}
                   <div class="alert alert-danger py-2 small mb-3 text-center" role="alert">
                     Nome de usuário ou senha incorretos.
                   </div>

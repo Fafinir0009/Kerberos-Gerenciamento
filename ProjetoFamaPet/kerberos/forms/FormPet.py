@@ -70,11 +70,9 @@ class PetForm(NomeValidationMixin, forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
 
-        # Se não for staff, associa ao perfil de Usuario correspondente ao e-mail do login
+        # Usuários comuns devem ser associados diretamente ao perfil autenticado.
         if self.user and not self.user.is_staff and not instance.pk:
-            usuario_perfil = Usuario.objects.filter(email=self.user.email).first()
-            if usuario_perfil:
-                instance.usuario = usuario_perfil
+            instance.usuario = self.user
 
         if commit:
             instance.save()

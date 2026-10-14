@@ -9,10 +9,10 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
-SECRET_KEY = env('DJANGO_SECRET_KEY', default='chave-secreta-dev-local')
-DEBUG = env('DEBUG', default=True)
+DEBUG = env('DEBUG', default=False)
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='django-insecure-dev-only-change-me')
 
-ALLOWED_HOSTS = ['*', '.github.dev', '.app.github.dev']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '[::1]'])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -76,15 +76,36 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.github.dev',
-    'https://*.app.github.dev',
-    'https://localhost:8000',
-    'https://127.0.0.1:8000',
-]
+CSRF_TRUSTED_ORIGINS = env.list(
+    'CSRF_TRUSTED_ORIGINS',
+    default=[
+        'https://*.github.dev',
+        'https://*.app.github.dev',
+        'https://localhost:8000',
+        'https://127.0.0.1:8000',
+    ]
+)
