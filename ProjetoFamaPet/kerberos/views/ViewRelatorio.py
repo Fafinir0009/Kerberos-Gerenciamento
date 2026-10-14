@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.db.models import Sum, Count, F
+from django.db.models import Sum, Count
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -24,7 +24,7 @@ def relatorio(request):
         data_inicio = hoje.replace(day=1)
         data_fim = hoje
 
-    # 2. Define o QuerySet Base de Agendamentos Concluídos/Passados
+    # 2. Relatórios consideram apenas atendimentos concluídos e já realizados.
     if request.user.is_staff:
         agendamentos_qs = Agendamento.objects.all()
     else:
@@ -32,6 +32,8 @@ def relatorio(request):
 
     # Aplica o intervalo de datas (filtra por dia completo)
     agendamentos_qs = agendamentos_qs.filter(
+        status=Agendamento.StatusChoices.CONCLUIDO,
+        data__lte=timezone.now(),
         data__date__gte=data_inicio,
         data__date__lte=data_fim
     ).prefetch_related('itens').select_related('usuario', 'pet').order_by('-data')

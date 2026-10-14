@@ -1,11 +1,15 @@
-from datetime import date
+from datetime import date, timedelta
+from decimal import Decimal
 
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from kerberos.forms.FormPet import PetForm
 from kerberos.forms.FormUsuario import UsuarioForm
+from kerberos.models.agendamento import Agendamento, ItemAgendamento
 from kerberos.models.pet import Pet
+from kerberos.models.servico import Servico
 from kerberos.models.usuario import Usuario
 
 
@@ -112,3 +116,83 @@ class UsuarioFormPasswordTests(TestCase):
         self.assertTrue(
             usuario_atualizado.check_password('Existing-Strong-Password!2026')
         )
+
+    def test_telefone_opcional_aceita_vazio(self):
+        data = self.data.copy()
+        data['telefone'] = ''
+        form = UsuarioForm(data=data)
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+
+class RelatorioAtendimentosTests(TestCase):
+    def setUp(self):
+        self.staff = Usuario.objects.create_user(
+            username='staff@example.com',
+            email='staff@example.com',
+            nome='Equipe',
+            password='Strong-Staff-Password!2026',
+            is_staff=True,
+        )
+        self.cliente = Usuario.objects.create_user(
+            username='cliente-relatorio@example.com',
+            email='cliente-relatorio@example.com',
+            nome='Cliente Relatório',
+            password='Strong-Client-Password!2026',
+        )
+        self.pet = Pet.objects.create(
+            nome='Nina',
+            data_de_nascimento=date(2022, 2, 1),
+            raca='SRD',
+            porte='Pequeno',
+            usuario=self.cliente,
+        )
+        self.servico = Servico.objects.create(
+            nome='Banho relatório',
+            valor=Decimal('30.00'),
+            duracao_minutos=30,
+        )
+
+    def criar_agendamento(self, status, data):
+        agendamento = Agendamento.objects.create(
+            usuario=self.cliente,
+            pet=self.pet,
+            data=data,
+            status=status,
+        )
+        ItemAgendamento.objects.create(
+            agendamento=agendamento,
+            servico=self.servico,
+            servico_nome=self.servico.nome,
+            preco_unitario=Decimal('30.00'),
+            duracao_minutos=30,
+        )
+        return agendamento
+
+    def test_relatorio_conta_somente_atendimentos_concluidos_passados(self):
+        agora = timezone.now()
+        self.criar_agendamento(Agendamento.StatusChoices.CONCLUIDO, agora - timedelta(hours=1))
+        self.criar_agendamento(Agendamento.StatusChoices.CANCELADO, agora - timedelta(hours=2))
+        self.criar_agendamento(Agendamento.StatusChoices.PENDENTE, agora - timedelta(hours=3))
+        self.criar_agendamento(Agendamento.StatusChoices.CONCLUIDO, agora + timedelta(hours=1))
+
+        self.client.force_login(self.staff)
+        response = self.client.get(
+            reverse('relatorio'),
+            {
+                'data_inicio': (agora.date() - timedelta(days=1)).isoformat(),
+                'data_fim': agora.date().isoformat(),
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['total_atendimentos'], 1)
+        self.assertEqual(response.context['total_faturamento'], Decimal('30.00'))
+
+    def test_telefone_opcional_aceita_vazio(self):
+        data = self.data.copy()
+        data['telefone'] = ''
+        form = UsuarioForm(data=data)
+
+        self.assertTrue(form.is_valid(), form.errors)

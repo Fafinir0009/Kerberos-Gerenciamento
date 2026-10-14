@@ -81,7 +81,10 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
         return email
 
     def clean_telefone(self):
-        telefone = self.cleaned_data.get('telefone', '').strip()
+        telefone = (self.cleaned_data.get('telefone') or '').strip()
+        if not telefone:
+            return ''
+
         numeros = "".join(filter(str.isdigit, telefone))
 
         if len(numeros) not in (10, 11):
