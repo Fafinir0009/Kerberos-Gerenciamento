@@ -106,10 +106,20 @@ def editar_agendamento(request, pk):
                 agendamento.usuario = form.cleaned_data['pet'].usuario
             agendamento.save()
 
-            # Recria os itens com os novos preços/serviços
-            agendamento.itens.all().delete()
-            servicos_selecionados = form.cleaned_data['servicos']
-            for servico in servicos_selecionados:
+            itens_existentes = {
+                item.servico_id: item for item in agendamento.itens.all()
+            }
+            servicos_selecionados = {
+                servico.pk: servico for servico in form.cleaned_data['servicos']
+            }
+
+            for servico_id, item in itens_existentes.items():
+                if servico_id not in servicos_selecionados:
+                    item.delete()
+
+            for servico_id, servico in servicos_selecionados.items():
+                if servico_id in itens_existentes:
+                    continue
                 ItemAgendamento.objects.create(
                     agendamento=agendamento,
                     servico=servico,

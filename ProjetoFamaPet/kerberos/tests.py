@@ -190,6 +190,63 @@ class RelatorioAtendimentosTests(TestCase):
         self.assertEqual(response.context['total_atendimentos'], 1)
         self.assertEqual(response.context['total_faturamento'], Decimal('30.00'))
 
+
+class AgendamentoHistoricoTests(TestCase):
+    def setUp(self):
+        self.cliente = Usuario.objects.create_user(
+            username='cliente-agendamento@example.com',
+            email='cliente-agendamento@example.com',
+            nome='Cliente Agendamento',
+            password='Strong-Client-Password!2026',
+        )
+        self.pet = Pet.objects.create(
+            nome='Toby',
+            data_de_nascimento=date(2021, 4, 12),
+            raca='SRD',
+            porte='Médio',
+            usuario=self.cliente,
+        )
+        self.servico = Servico.objects.create(
+            nome='Banho histórico',
+            valor=Decimal('30.00'),
+            duracao_minutos=30,
+        )
+        self.agendamento = Agendamento.objects.create(
+            usuario=self.cliente,
+            pet=self.pet,
+            data=timezone.now() + timedelta(days=2),
+        )
+        ItemAgendamento.objects.create(
+            agendamento=self.agendamento,
+            servico=self.servico,
+            servico_nome=self.servico.nome,
+            preco_unitario=Decimal('25.00'),
+            duracao_minutos=25,
+        )
+
+    def test_edicao_preserva_snapshot_de_servico_inativo(self):
+        self.servico.valor = Decimal('50.00')
+        self.servico.duracao_minutos = 60
+        self.servico.ativo = False
+        self.servico.save()
+
+        self.client.force_login(self.cliente)
+        response = self.client.post(
+            reverse('editar_agendamento', args=[self.agendamento.pk]),
+            {
+                'pet': self.pet.pk,
+                'data': timezone.localtime(self.agendamento.data).strftime('%Y-%m-%dT%H:%M'),
+                'servicos': [self.servico.pk],
+            },
+            follow=True,
+        )
+
+        self.assertTrue(response.context['form'].is_valid(), response.context['form'].errors)
+        self.assertContains(response, 'Agendamento atualizado com sucesso!')
+        item = ItemAgendamento.objects.get(agendamento=self.agendamento)
+        self.assertEqual(item.preco_unitario, Decimal('25.00'))
+        self.assertEqual(item.duracao_minutos, 25)
+
     def test_telefone_opcional_aceita_vazio(self):
         data = self.data.copy()
         data['telefone'] = ''

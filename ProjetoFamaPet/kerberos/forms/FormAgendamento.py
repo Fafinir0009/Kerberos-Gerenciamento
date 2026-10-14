@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import Q
 from kerberos.models.agendamento import Agendamento
 from kerberos.models.pet import Pet
 from kerberos.models.servico import Servico
@@ -46,9 +47,13 @@ class AgendamentoForm(forms.ModelForm):
 
         # 2. Se for edição, pré-carrega os serviços selecionados
         if self.instance and self.instance.pk:
-            self.fields["servicos"].initial = [
+            servicos_existentes = list(
                 item.servico_id for item in self.instance.itens.all()
-            ]
+            )
+            self.fields["servicos"].queryset = Servico.objects.filter(
+                Q(ativo=True) | Q(pk__in=servicos_existentes)
+            )
+            self.fields["servicos"].initial = servicos_existentes
 
     def clean_pet(self):
         pet = self.cleaned_data.get("pet")
