@@ -67,7 +67,7 @@
                             </a>
 
                             <!-- Formulário POST Correto para Deletar -->
-                            <form action="{% url 'deletar_pet' pet.id %}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja remover o pet {{ pet.nome }}?');">
+                            <form action="{% url 'deletar_pet' pet.id %}" method="POST" class="d-inline" data-confirm-message="Tem certeza que deseja remover este pet?">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-link p-0 text-decoration-none border-0 bg-transparent" title="Excluir">
                                     <i class="bi bi-trash action-icon text-danger fs-5"></i>
@@ -106,4 +106,8 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pet-confirm-delete.js' %}" defer></script>
 {% endblock %}

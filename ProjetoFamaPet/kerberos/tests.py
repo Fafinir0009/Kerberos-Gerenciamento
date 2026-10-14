@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
+from kerberos.forms.FormAdminUsuario import AdminUsuarioCreationForm
 from kerberos.forms.FormPet import PetForm
 from kerberos.forms.FormUsuario import UsuarioForm
 from kerberos.models.agendamento import Agendamento, ItemAgendamento
@@ -66,6 +67,20 @@ class PetAuthorizationTests(TestCase):
         pet = form.save()
         self.assertEqual(pet.usuario, self.cliente_a)
 
+    def test_confirmacao_de_exclusao_nao_interpola_nome_em_javascript(self):
+        self.pet_a.nome = "Rex'); alert(1);//"
+        self.pet_a.save()
+        self.client.force_login(self.cliente_a)
+
+        response = self.client.get(reverse('listar_pets'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'onsubmit=')
+        self.assertContains(
+            response,
+            'data-confirm-message="Tem certeza que deseja remover este pet?"',
+        )
+
 
 class UsuarioFormPasswordTests(TestCase):
     def setUp(self):
@@ -123,6 +138,49 @@ class UsuarioFormPasswordTests(TestCase):
         form = UsuarioForm(data=data)
 
         self.assertTrue(form.is_valid(), form.errors)
+
+
+class UsuarioLoginTests(TestCase):
+    def test_usuario_pode_entrar_com_email_quando_username_e_diferente(self):
+        usuario = Usuario.objects.create_user(
+            username='nome-interno',
+            email='cliente-login@example.com',
+            nome='Cliente Login',
+            password='Strong-Login-Password!2026',
+        )
+
+        response = self.client.post(
+            reverse('login'),
+            {
+                'username': usuario.email,
+                'password': 'Strong-Login-Password!2026',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            int(self.client.session['_auth_user_id']),
+            usuario.pk,
+        )
+
+    def test_admin_cria_usuario_com_senha_hasheada(self):
+        senha = 'Strong-Admin-Password!2026'
+        form = AdminUsuarioCreationForm(data={
+            'username': 'usuario-criado-admin',
+            'email': 'admin-created@example.com',
+            'nome': 'Usuário Criado',
+            'telefone': '',
+            'password1': senha,
+            'password2': senha,
+            'is_active': True,
+            'is_staff': False,
+        })
+
+        self.assertTrue(form.is_valid(), form.errors)
+        usuario = form.save()
+
+        self.assertTrue(usuario.check_password(senha))
+        self.assertNotEqual(usuario.password, senha)
 
 
 class RelatorioAtendimentosTests(TestCase):
@@ -223,6 +281,26 @@ class AgendamentoHistoricoTests(TestCase):
             preco_unitario=Decimal('25.00'),
             duracao_minutos=25,
         )
+
+    def test_lista_mostra_agendamento_fora_de_faixa_de_turno(self):
+        data_agendamento = timezone.localtime(self.agendamento.data).replace(
+            hour=12, minute=30, second=0, microsecond=0
+        )
+        self.agendamento.data = data_agendamento
+        self.agendamento.save(update_fields=['data'])
+        self.client.force_login(self.cliente)
+
+        response = self.client.get(
+            reverse('agendamentos'),
+            {'data': data_agendamento.date().isoformat()},
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '12:30')
+        self.assertContains(response, self.pet.nome)
+        self.assertContains(response, self.servico.nome)
+        self.assertNotContains(response, 'Manhã')
 
     def test_edicao_preserva_snapshot_de_servico_inativo(self):
         self.servico.valor = Decimal('50.00')

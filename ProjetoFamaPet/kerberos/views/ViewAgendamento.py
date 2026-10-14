@@ -35,16 +35,9 @@ def agendamentos(request):
         .order_by('data')
     )
 
-    agendamentos_manha = [a for a in agendamentos_lista if 9 <= a.data.hour < 12]
-    agendamentos_tarde = [a for a in agendamentos_lista if 13 <= a.data.hour < 18]
-    agendamentos_noite = [a for a in agendamentos_lista if 19 <= a.data.hour <= 21]
-
     contexto = {
         'agendamentos': agendamentos_lista,
         'data_selecionada': data_selecionada,
-        'agendamentos_manha': agendamentos_manha,
-        'agendamentos_tarde': agendamentos_tarde,
-        'agendamentos_noite': agendamentos_noite,
     }
 
     return render(request, 'agendamento/agendamentos.html', contexto)

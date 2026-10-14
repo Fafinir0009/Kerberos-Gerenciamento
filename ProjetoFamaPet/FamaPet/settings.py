@@ -76,6 +76,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'kerberos.Usuario'
+AUTHENTICATION_BACKENDS = [
+    'kerberos.backends.EmailOrUsernameBackend',
+]
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'listar_pets'

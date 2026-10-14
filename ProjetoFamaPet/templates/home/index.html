@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FamaPet</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 
@@ -33,7 +33,7 @@
                     <h1 class="hero-title mb-4">
                         <img src="{% static 'img/FamaPet.svg' %}" alt="FamaPet" class="img-fluid" style="max-height: 180px;">
                     </h1>
-                    <a href="#" class="btn btn-black btn-lg">Agende aqui</a>
+                    <a href="{% url 'cadastro' %}" class="btn btn-black btn-lg">Agende aqui</a>
                 </div>
                 <div class="pt-4 col-lg-6 text-center text-lg-end">
                     <img src="{% static 'img/dog-home.png' %}" alt="Cão da FamaPet" class="img-fluid"
@@ -46,8 +46,7 @@
     <section class="secao-diferenciais py-5">
         <div class="container my-4">
             <div class="text-center mb-5">
-                <h1 class="titulo-diferenciais fw-bold fs-1">Nossos <span class="texto_diferenciais">Diferenciais</span>
-                    </h2>
+                <h2 class="titulo-diferenciais fw-bold fs-1">Nossos <span class="texto_diferenciais">Diferenciais</span></h2>
                     <p class="text-muted mx-auto" style="max-width: 650px;">
                         Vai muito além de aparar os pelos, transformamos o momento num verdadeiro cuidado com o
                         bem-estar do
@@ -159,7 +158,7 @@
                 <div class="col-md-7 offset-md-1">
                     <h2 class="fw-bold fs-1 mb-2">Está com dúvidas?</h2>
                     <p class="text-secondary mb-4">Entre em contato com a gente e tenha mais informações.</p>
-                    <a href="#" class="btn btn-yellow">Fale conosco!</a>
+                    <a href="mailto:contato@famapet.com.br" class="btn btn-yellow">Fale conosco!</a>
                 </div>
             </div>
         </div>
