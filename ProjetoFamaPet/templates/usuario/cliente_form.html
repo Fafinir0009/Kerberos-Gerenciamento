@@ -81,6 +81,22 @@
                                     <div class="invalid-feedback d-block mt-1 small">{{ form.telefone.errors|join:", " }}</div>
                                 {% endif %}
                             </div>
+                            {% if not usuario %}
+                                <div class="col-md-6">
+                                    <label for="{{ form.senha.id_for_label }}" class="form-label fw-semibold text-secondary small">Senha</label>
+                                    {{ form.senha }}
+                                    {% if form.senha.errors %}
+                                        <div class="invalid-feedback d-block mt-1 small">{{ form.senha.errors|join:", " }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.confirmar_senha.id_for_label }}" class="form-label fw-semibold text-secondary small">Confirmar senha</label>
+                                    {{ form.confirmar_senha }}
+                                    {% if form.confirmar_senha.errors %}
+                                        <div class="invalid-feedback d-block mt-1 small">{{ form.confirmar_senha.errors|join:", " }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 

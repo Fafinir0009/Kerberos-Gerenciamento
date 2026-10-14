@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from ..models import Usuario
 
 
@@ -21,8 +23,6 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
             "autocomplete": "new-password",
             "class": "form-control",
         }),
-        min_length=6,
-        error_messages={"min_length": "A senha deve ter no mínimo 6 caracteres."}
     )
     confirmar_senha = forms.CharField(
         label="Confirme a Senha",
@@ -53,6 +53,21 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
                 'class': 'form-control',
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['senha'].required = False
+            self.fields['confirmar_senha'].required = False
+
+    def clean_senha(self):
+        senha = self.cleaned_data.get('senha')
+        if senha:
+            try:
+                validate_password(senha, self.instance)
+            except DjangoValidationError as error:
+                raise forms.ValidationError(error.messages) from error
+        return senha
         error_messages = {
             'email': {
                 'unique': "Já existe um usuário cadastrado com este e-mail.",
@@ -87,7 +102,7 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
         senha = cleaned_data.get("senha")
         confirmar_senha = cleaned_data.get("confirmar_senha")
 
-        if senha and confirmar_senha and senha != confirmar_senha:
+        if (senha or confirmar_senha) and senha != confirmar_senha:
             self.add_error("confirmar_senha", "As senhas não coincidem.")
 
         return cleaned_data
@@ -101,7 +116,11 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
         usuario.username = email_limpo
         
         # Aplica a hash de senha nativa do Django
-        usuario.set_password(self.cleaned_data["senha"])
+        senha = self.cleaned_data.get('senha')
+        if senha:
+            usuario.set_password(senha)
+        elif not usuario.pk:
+            usuario.set_unusable_password()
         usuario.is_staff = False  # Garante perfil de Cliente por padrão
         
         if commit:

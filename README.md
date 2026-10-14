@@ -24,6 +24,32 @@ Portal do Cliente (Tutor)
 
 **Como Rodar o Projeto**
 
-Siga os passos abaixo para rodar a aplicação localmente na sua máquina:
+Requer Python compatível com as dependências listadas em `requirements.txt`.
 
-... em processo
+```bash
+cd ProjetoFamaPet
+python -m venv .venv
+source .venv/bin/activate
+pip install -r ../requirements.txt
+cp .env.example .env
+```
+
+Gere uma chave secreta e configure `DJANGO_SECRET_KEY` no arquivo `.env`:
+
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+Depois, inicialize o banco e execute o servidor local:
+
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+Para produção, configure `DEBUG=False`, `DJANGO_SECRET_KEY`, `ALLOWED_HOSTS`,
+`CSRF_TRUSTED_ORIGINS` e `DATABASE_URL` com valores próprios do ambiente. Sirva
+a aplicação exclusivamente por HTTPS. Configure `USE_X_FORWARDED_PROTO=True`
+somente quando um proxy confiável remover e definir esse cabeçalho. Habilite
+`SECURE_HSTS_INCLUDE_SUBDOMAINS` ou `SECURE_HSTS_PRELOAD` somente se todos os
+subdomínios relevantes estiverem permanentemente preparados para HTTPS.
