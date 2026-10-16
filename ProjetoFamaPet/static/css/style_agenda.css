@@ -1,24 +1,58 @@
-
+/* Container e Cartões */
 .custom-card {
-      border: 1.5px solid #2b2b2b;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .card-header-custom {
-      border-bottom: 1px solid #2b2b2b;
-      background-color: #fff;
-    }
-    .text-period {
-      color: #00c2c4;
-      font-weight: 600;
-    }
-    .date-picker-btn {
-      border: 1.5px solid #2b2b2b;
-      border-radius: 8px;
-    }
-    .date-picker-btn input {
-      border: none;
-      outline: none;
-      background: transparent;
-      cursor: pointer;
-    }
+  border: 1px solid #eaeaea;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.custom-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.card-header-custom {
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fafbfc;
+  padding: 1rem 1.25rem;
+}
+
+/* Campos de Data / Filtro */
+.date-picker-btn {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.date-picker-btn:focus-within {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.15);
+}
+
+.date-picker-btn input {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Textos e Detalhes */
+.text-period {
+  color: #00c2c4;
+  font-weight: 600;
+}
+
+.agendamento-item {
+  transition: background-color 0.15s ease;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 4px;
+}
+
+.agendamento-item:hover {
+  background-color: #fcfcfc;
+}
