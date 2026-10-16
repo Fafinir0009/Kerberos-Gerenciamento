@@ -1,80 +1,137 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block titulo %}Serviços — FamaPet{% endblock %}
+{% block title %}Serviços — FamaPet{% endblock %}
+{% block nav_servicos %}active{% endblock %}
 
 {% block content %}
-<div class="container my-4 my-md-5 px-3" style="max-width: 800px;">
-
-  {% if messages %}
-    <div class="mb-4">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-
-  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+<div class="d-flex flex-column h-100 justify-content-between">
     <div>
-      <h2 class="fw-bold mb-1 h3">Catálogo de Serviços</h2>
-      <p class="text-muted small mb-0">Gerencie os serviços e valores oferecidos no petshop</p>
-    </div>
-    <a href="{% url 'criar_servico' %}" class="btn btn-warning text-white fw-bold d-inline-flex align-items-center gap-2 shadow-sm">
-      <i class="bi bi-plus-lg"></i> Novo Serviço
-    </a>
-  </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold mb-1 brand-font text-dark" style="font-size: 2rem;">Catálogo de Serviços</h2>
+                <p class="text-muted small mb-0">Gerencie os serviços e valores oferecidos no petshop</p>
+            </div>
 
-  <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Nome</th>
-            <th>Duração</th>
-            <th>Preço</th>
-            <th>Status</th>
-            <th class="text-end">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for servico in servicos %}
-            <tr>
-              <td>
-                <strong class="d-block text-dark">{{ servico.nome }}</strong>
-                {% if servico.descricao %}
-                  <small class="text-muted">{{ servico.descricao|truncatewords:10 }}</small>
-                {% endif %}
-              </td>
-              <td><i class="bi bi-clock me-1 text-muted"></i>{{ servico.duracao_minutos }} min</td>
-              <td class="fw-bold text-success">R$ {{ servico.valor }}</td>
-              <td>
-                {% if servico.ativo %}
-                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Ativo</span>
-                {% else %}
-                  <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">Inativo</span>
-                {% endif %}
-              </td>
-              <td class="text-end">
-                <a href="{% url 'editar_servico' servico.id %}" class="btn btn-sm btn-outline-secondary me-1" title="Editar">
-                  <i class="bi bi-pencil-square"></i>
+            <div>
+                <a href="{% url 'criar_servico' %}" class="btn btn-warning text-dark fw-bold d-inline-flex align-items-center justify-content-center gap-2 shadow-sm px-3.5 py-2 rounded-3 text-nowrap" style="background-color: var(--amarelo-cta); font-size: 0.85rem; transition: all var(--transicao);">
+                    <i class="bi bi-plus-lg"></i> Novo Serviço
                 </a>
-                <a href="{% url 'deletar_servico' servico.id %}" class="btn btn-sm btn-outline-danger" title="Excluir/Inativar">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </td>
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="5" class="text-center text-muted py-4">Nenhum serviço cadastrado até o momento.</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
+            </div>
+        </div>
 
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-4 shadow-sm" role="alert" style="border-radius: var(--raio);">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="card border-0 shadow-sm rounded-3 mb-4 p-3 bg-white" style="border-radius: var(--raio) !important;">
+            <form method="GET" class="d-flex align-items-center gap-2">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 ps-3" style="border-radius: 10px 0 0 10px; border-color: var(--cinza-input);">
+                        <i class="bi bi-search text-muted" style="font-size: 0.9rem;"></i>
+                    </span>
+                    <input type="text" name="q" value="{{ request.GET.q|default:'' }}" class="form-control border-start-0 ps-2 shadow-none" placeholder="Procurar serviço por nome..." style="border-radius: 0 10px 10px 0; border-color: var(--cinza-input); padding: 10px;">
+                </div>
+                <button type="submit" class="btn btn-light border fw-semibold px-4 text-nowrap" style="border-radius: 10px;">Buscar</button>
+                {% if request.GET.q %}
+                    <a href="{% url 'listar_servicos' %}" class="btn btn-outline-secondary px-3 text-nowrap" style="border-radius: 10px;" title="Limpar busca">Limpar</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle mb-0">
+                <thead>
+                    <tr class="text-muted border-bottom" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <th class="fw-bold ps-3 pb-3 text-secondary">Nome</th>
+                        <th class="fw-bold pb-3 text-secondary">Duração</th>
+                        <th class="fw-bold pb-3 text-secondary">Preço</th>
+                        <th class="fw-bold pb-3 text-secondary">Status</th>
+                        <th class="fw-bold text-center pb-3 text-secondary">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for servico in servicos %}
+                    <tr style="background-color: var(--linha-tabela); border-bottom: 6px solid #fff; transition: background-color 0.15s ease;">
+                        <td class="fw-bold py-3.5 ps-3 text-dark" style="border-radius: var(--raio) 0 0 var(--raio);">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-warning bg-opacity-20 text-dark rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; min-width: 32px; min-height: 32px;">
+                                    <i class="bi bi-scissors fs-6"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block text-dark">{{ servico.nome }}</span>
+                                    {% if servico.descricao %}
+                                        <small class="text-muted fw-normal">{{ servico.descricao|truncatewords:8 }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3.5 text-secondary">
+                            <i class="bi bi-clock me-1 text-muted"></i>{{ servico.duracao_minutos }} min
+                        </td>
+                        <td class="py-3.5 fw-bold text-success">R$ {{ servico.valor }}</td>
+                        <td class="py-3.5">
+                            {% if servico.ativo %}
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-15 px-2 py-1 fw-semibold">Ativo</span>
+                            {% else %}
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-15 px-2 py-1 fw-semibold">Inativo</span>
+                            {% endif %}
+                        </td>
+                        
+                        <td class="text-center py-3.5" style="border-radius: 0 var(--raio) var(--raio) 0;">
+                            <div class="d-flex justify-content-center align-items-center gap-1">
+                                <a href="{% url 'editar_servico' servico.pk %}" class="btn btn-sm btn-light border text-secondary rounded-2" title="Editar serviço {{ servico.nome }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <a href="{% url 'deletar_servico' servico.pk %}" class="btn btn-sm btn-light border text-danger rounded-2" title="Excluir serviço {{ servico.nome }}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="text-muted mb-2">
+                                <i class="bi bi-search fs-1 opacity-50"></i>
+                            </div>
+                            <p class="text-muted mb-0">
+                                {% if request.GET.q %}
+                                    Nenhum serviço encontrado para a busca "{{ request.GET.q }}".
+                                {% else %}
+                                    Nenhum serviço cadastrado até o momento.
+                                {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if page_obj and page_obj.has_other_pages %}
+        <nav class="mt-4 pt-2">
+            <ul class="pagination justify-content-center gap-1">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link rounded-2" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&laquo; Primeira</a></li>
+                    <li class="page-item"><a class="page-link rounded-2" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Anterior</a></li>
+                {% endif %}
+
+                <li class="page-item disabled"><span class="page-link border-0 bg-transparent text-muted fw-semibold">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span></li>
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link rounded-2" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Próxima</a></li>
+                    <li class="page-item"><a class="page-link rounded-2" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Última &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

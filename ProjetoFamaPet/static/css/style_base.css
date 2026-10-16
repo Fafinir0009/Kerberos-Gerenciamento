@@ -104,6 +104,81 @@ h1, h2, h3, h4, .brand-font {
     color: var(--vermelho);
 }
 
+/* Card de Formulário */
+.form-card {
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-card);
+  border: none;
+  background-color: #ffffff;
+}
+
+.form-card-header {
+  background-color: var(--creme);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1.25rem 1.5rem;
+}
+
+/* Estilização dos Inputs e Controles */
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 1.5px solid var(--cinza-input);
+  padding: 10px 14px;
+  font-family: var(--fonte-base);
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--amarelo-suave);
+  box-shadow: 0 0 0 0.25rem rgba(255, 196, 70, 0.25);
+}
+
+/* Estilização do Container de Serviços (Checkboxes/Radios) */
+.servicos-container {
+  background-color: var(--creme);
+  border: 1.5px dashed var(--amarelo-suave) !important;
+  border-radius: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.servicos-container ul, .servicos-container div {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.servicos-container li, .servicos-container label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* Customização de Checkbox e Radio */
+.form-check-input:checked {
+  background-color: var(--laranja);
+  border-color: var(--laranja);
+}
+
+/* Botão Principal do Formulário */
+.btn-salvar {
+  background-color: var(--amarelo-cta);
+  color: var(--marrom);
+  font-weight: 700;
+  border: none;
+  border-radius: var(--raio);
+  padding: 12px;
+  transition: all var(--transicao);
+}
+
+.btn-salvar:hover {
+  background-color: var(--amarelo-escuro);
+  color: var(--marrom);
+  transform: translateY(-1px);
+}
+
 @media (min-width: 992px) {
     .sidebar-desktop {
         position: fixed;
