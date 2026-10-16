@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from kerberos import views
 from kerberos.views.ViewHome import home
 
 urlpatterns = [

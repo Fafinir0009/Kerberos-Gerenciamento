@@ -1,6 +1,6 @@
-import os 
 import environ 
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,10 +9,19 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
-SECRET_KEY = env('DJANGO_SECRET_KEY', default='chave-secreta-dev-local')
-DEBUG = env('DEBUG', default=True)
+DEBUG = env('DEBUG', default=False)
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='')
+if (
+    not SECRET_KEY
+    or SECRET_KEY.startswith('django-insecure-')
+    or len(SECRET_KEY) < 50
+    or len(set(SECRET_KEY)) < 5
+):
+    raise ImproperlyConfigured(
+        'Defina DJANGO_SECRET_KEY com pelo menos 50 caracteres aleatórios.'
+    )
 
-ALLOWED_HOSTS = ['*', '.github.dev', '.app.github.dev']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '[::1]'])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -66,6 +75,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'kerberos.Usuario'
+AUTHENTICATION_BACKENDS = [
+    'kerberos.backends.EmailOrUsernameBackend',
+]
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'listar_pets'
@@ -76,15 +88,33 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+SECURE_REFERRER_POLICY = 'same-origin'
+if env.bool('USE_X_FORWARDED_PROTO', default=False):
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
+        'SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False
+    )
+    SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD', default=False)
+
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.github.dev',
-    'https://*.app.github.dev',
-    'https://localhost:8000',
-    'https://127.0.0.1:8000',
-]
+CSRF_TRUSTED_ORIGINS = env.list(
+    'CSRF_TRUSTED_ORIGINS',
+    default=[],
+)

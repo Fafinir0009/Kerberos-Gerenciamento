@@ -9,6 +9,16 @@ from kerberos.forms.FormAgendamento import AgendamentoForm
 from kerberos.models.agendamento import Agendamento, ItemAgendamento
 
 
+def _criar_item_agendamento(agendamento, servico):
+    ItemAgendamento.objects.create(
+        agendamento=agendamento,
+        servico=servico,
+        servico_nome=servico.nome,
+        preco_unitario=servico.valor,
+        duracao_minutos=servico.duracao_minutos,
+    )
+
+
 @login_required
 def agendamentos(request):
     data_str = request.GET.get('data')
@@ -35,16 +45,9 @@ def agendamentos(request):
         .order_by('data')
     )
 
-    agendamentos_manha = [a for a in agendamentos_lista if 9 <= a.data.hour < 12]
-    agendamentos_tarde = [a for a in agendamentos_lista if 13 <= a.data.hour < 18]
-    agendamentos_noite = [a for a in agendamentos_lista if 19 <= a.data.hour <= 21]
-
     contexto = {
         'agendamentos': agendamentos_lista,
         'data_selecionada': data_selecionada,
-        'agendamentos_manha': agendamentos_manha,
-        'agendamentos_tarde': agendamentos_tarde,
-        'agendamentos_noite': agendamentos_noite,
     }
 
     return render(request, 'agendamento/agendamentos.html', contexto)
@@ -69,13 +72,7 @@ def criar_agendamento(request):
             # Congela os serviços nos itens
             servicos_selecionados = form.cleaned_data['servicos']
             for servico in servicos_selecionados:
-                ItemAgendamento.objects.create(
-                    agendamento=agendamento,
-                    servico=servico,
-                    servico_nome=servico.nome,
-                    preco_unitario=servico.valor,
-                    duracao_minutos=servico.duracao_minutos
-                )
+                _criar_item_agendamento(agendamento, servico)
 
             messages.success(request, 'Agendamento cadastrado com sucesso!')
             return redirect('agendamentos')
@@ -106,17 +103,21 @@ def editar_agendamento(request, pk):
                 agendamento.usuario = form.cleaned_data['pet'].usuario
             agendamento.save()
 
-            # Recria os itens com os novos preços/serviços
-            agendamento.itens.all().delete()
-            servicos_selecionados = form.cleaned_data['servicos']
-            for servico in servicos_selecionados:
-                ItemAgendamento.objects.create(
-                    agendamento=agendamento,
-                    servico=servico,
-                    servico_nome=servico.nome,
-                    preco_unitario=servico.valor,
-                    duracao_minutos=servico.duracao_minutos
-                )
+            itens_existentes = {
+                item.servico_id: item for item in agendamento.itens.all()
+            }
+            servicos_selecionados = {
+                servico.pk: servico for servico in form.cleaned_data['servicos']
+            }
+
+            for servico_id, item in itens_existentes.items():
+                if servico_id not in servicos_selecionados:
+                    item.delete()
+
+            for servico_id, servico in servicos_selecionados.items():
+                if servico_id in itens_existentes:
+                    continue
+                _criar_item_agendamento(agendamento, servico)
 
             messages.success(request, 'Agendamento atualizado com sucesso!')
             return redirect('agendamentos')

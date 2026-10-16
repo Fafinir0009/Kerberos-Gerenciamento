@@ -38,7 +38,6 @@ class Endereco(models.Model):
     def clean(self):
         """Higienização de dados antes da validação."""
         if self.cep:
-            # Remove caracteres não numéricos para padronização
             cep_limpo = ''.join(filter(str.isdigit, self.cep))
             if len(cep_limpo) == 8:
                 self.cep = f"{cep_limpo[:5]}-{cep_limpo[5:]}"

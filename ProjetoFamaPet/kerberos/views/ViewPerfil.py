@@ -11,12 +11,10 @@ from kerberos.forms.FormUsuario import UsuarioForm
 def perfil(request):
     usuario = request.user
 
-    # Inicializa os formulários com os dados atuais
     form_usuario = UsuarioForm(instance=usuario)
     form_senha = PasswordChangeForm(user=usuario)
 
     if request.method == 'POST':
-        # 1. Se clicou em "Salvar Dados Pessoais"
         if 'btn_atualizar_dados' in request.POST:
             form_usuario = UsuarioForm(request.POST, instance=usuario)
             if form_usuario.is_valid():
@@ -26,7 +24,6 @@ def perfil(request):
             else:
                 messages.error(request, 'Por favor, corrija os erros nos dados pessoais.')
 
-        # 2. Se clicou em "Alterar Senha"
         elif 'btn_alterar_senha' in request.POST:
             form_senha = PasswordChangeForm(user=usuario, data=request.POST)
             if form_senha.is_valid():

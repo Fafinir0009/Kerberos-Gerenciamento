@@ -7,25 +7,18 @@ from django.db.models import Q
 
 from ..forms.FormPet import PetForm
 from ..models.pet import Pet
-from ..models.usuario import Usuario  # Modelo customizado Usuario
 
 
 def _get_pet_or_404(user, pk):
     """
-    Garante que a busca do Pet respeite as permissões (Prevenção de IDOR/BOLA).
-    - Staff/Admin: Acessa qualquer pet.
-    - Cliente comum: Acessa apenas os pets associados ao seu perfil Usuario (via e-mail).
+    Garante que a busca do Pet respeite as permissões.
+    - Staff/Admin: acessa qualquer pet.
+    - Cliente comum: acessa apenas os seus próprios pets.
     """
     if user.is_staff:
         queryset = Pet.objects.all()
     else:
-        # Localiza o registro de Usuario associado ao e-mail do login
-        usuario_perfil = Usuario.objects.filter(email=user.email).first()
-        if not usuario_perfil:
-            # Caso o usuário logado não tenha cadastro em Usuario, bloqueia acesso (404)
-            queryset = Pet.objects.none()
-        else:
-            queryset = Pet.objects.filter(usuario=usuario_perfil)
+        queryset = Pet.objects.filter(usuario=user)
 
     return get_object_or_404(queryset, pk=pk)
 
@@ -39,18 +32,12 @@ def listar_pets(request):
     """
     query = request.GET.get('q', '').strip()
     
-    # JOIN Otimizado com o modelo Usuario (previne N+1 queries)
     pets_list = Pet.objects.select_related('usuario')
 
-    # REGRA DE ACESSO: Filtra por perfil de Usuario se não for Administrador
+    # REGRA DE ACESSO: clientes veem apenas os seus próprios pets
     if not request.user.is_staff:
-        usuario_perfil = Usuario.objects.filter(email=request.user.email).first()
-        if not usuario_perfil:
-            pets_list = Pet.objects.none()
-        else:
-            pets_list = pets_list.filter(usuario=usuario_perfil)
+        pets_list = pets_list.filter(usuario=request.user)
 
-    # Busca/Filtro opcional por texto
     if query:
         filtros = Q(nome__icontains=query) | Q(raca__icontains=query)
         
@@ -60,7 +47,6 @@ def listar_pets(request):
             
         pets_list = pets_list.filter(filtros)
 
-    # Paginação (10 itens por página)
     paginator = Paginator(pets_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
