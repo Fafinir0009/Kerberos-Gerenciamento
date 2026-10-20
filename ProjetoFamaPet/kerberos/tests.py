@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 from decimal import Decimal
+import re
 
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
 
@@ -328,7 +329,7 @@ class RelatorioAtendimentosTests(TestCase):
         )
         return agendamento
 
-    def test_relatorio_conta_somente_atendimentos_concluidos_passados(self):
+    def test_relatorio_lista_todos_status_mas_fatura_so_concluidos_passados(self):
         agora = timezone.now()
         self.criar_agendamento(Agendamento.StatusChoices.CONCLUIDO, agora - timedelta(hours=1))
         self.criar_agendamento(Agendamento.StatusChoices.CANCELADO, agora - timedelta(hours=2))
@@ -340,14 +341,72 @@ class RelatorioAtendimentosTests(TestCase):
             reverse('relatorio'),
             {
                 'data_inicio': (agora.date() - timedelta(days=1)).isoformat(),
-                'data_fim': agora.date().isoformat(),
+                'data_fim': (agora.date() + timedelta(days=1)).isoformat(),
             },
             follow=True,
         )
 
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Total Faturado (concluídos)')
+        self.assertContains(response, 'Ticket Médio')
+        self.assertEqual(len(response.context['agendamentos']), 4)
+        self.assertIn(
+            Agendamento.StatusChoices.PENDENTE,
+            {agendamento.status for agendamento in response.context['agendamentos']},
+        )
+        self.assertIn(
+            Agendamento.StatusChoices.CANCELADO,
+            {agendamento.status for agendamento in response.context['agendamentos']},
+        )
         self.assertEqual(response.context['total_atendimentos'], 1)
         self.assertEqual(response.context['total_faturamento'], Decimal('30.00'))
+
+    def test_cliente_acessa_historico_apenas_dos_proprios_agendamentos(self):
+        agora = timezone.now()
+        agendamento_cliente = self.criar_agendamento(
+            Agendamento.StatusChoices.CONCLUIDO,
+            agora - timedelta(days=1),
+        )
+
+        outro_cliente = Usuario.objects.create_user(
+            username='outro-cliente@example.com',
+            email='outro-cliente@example.com',
+            nome='Outro Cliente',
+            password='Strong-Client-Password!2026',
+        )
+        outro_pet = Pet.objects.create(
+            nome='Bolt',
+            data_de_nascimento=date(2021, 5, 1),
+            raca='SRD',
+            porte='Médio',
+            usuario=outro_cliente,
+        )
+        Agendamento.objects.create(
+            usuario=outro_cliente,
+            pet=outro_pet,
+            data=agora - timedelta(days=1),
+        )
+
+        self.client.force_login(self.cliente)
+        response = self.client.get(
+            reverse('relatorio'),
+            {
+                'data_inicio': (agora.date() - timedelta(days=2)).isoformat(),
+                'data_fim': agora.date().isoformat(),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            [agendamento.pk for agendamento in response.context['agendamentos']],
+            [agendamento_cliente.pk],
+        )
+        self.assertContains(response, 'Histórico de Atendimentos')
+        self.assertContains(response, 'Histórico de Agendamentos')
+        self.assertNotContains(response, 'Total Investido')
+        self.assertNotContains(response, 'Atendimentos Concluídos')
+        self.assertNotContains(response, 'Ticket Médio')
+        self.assertNotContains(response, 'Bolt')
 
 
 class AgendamentoHistoricoTests(TestCase):
@@ -468,6 +527,60 @@ class AgendamentoHistoricoTests(TestCase):
         self.assertEqual(item.preco_unitario, Decimal('25.00'))
         self.assertEqual(item.duracao_minutos, 25)
 
+    def test_admin_altera_status_e_volta_para_data_selecionada(self):
+        admin = Usuario.objects.create_user(
+            username='admin-agendamento@example.com',
+            email='admin-agendamento@example.com',
+            nome='Admin Agendamento',
+            password='Strong-Admin-Password!2026',
+            is_staff=True,
+        )
+        self.client.force_login(admin)
+        data = timezone.localtime(self.agendamento.data).date().isoformat()
+
+        response = self.client.post(
+            reverse('alterar_status_agendamento', args=[self.agendamento.pk]),
+            {'status': Agendamento.StatusChoices.CONFIRMADO, 'data': data},
+        )
+
+        self.agendamento.refresh_from_db()
+        self.assertEqual(self.agendamento.status, Agendamento.StatusChoices.CONFIRMADO)
+        self.assertRedirects(
+            response,
+            f"{reverse('agendamentos')}?data={data}",
+        )
+
+    def test_alteracao_de_status_rejeita_valor_invalido(self):
+        admin = Usuario.objects.create_user(
+            username='admin-status@example.com',
+            email='admin-status@example.com',
+            nome='Admin Status',
+            password='Strong-Admin-Password!2026',
+            is_staff=True,
+        )
+        self.client.force_login(admin)
+
+        response = self.client.post(
+            reverse('alterar_status_agendamento', args=[self.agendamento.pk]),
+            {'status': 'Status inválido'},
+        )
+
+        self.agendamento.refresh_from_db()
+        self.assertEqual(self.agendamento.status, Agendamento.StatusChoices.PENDENTE)
+        self.assertRedirects(response, reverse('agendamentos'))
+
+    def test_cliente_nao_pode_alterar_status(self):
+        self.client.force_login(self.cliente)
+
+        response = self.client.post(
+            reverse('alterar_status_agendamento', args=[self.agendamento.pk]),
+            {'status': Agendamento.StatusChoices.CONFIRMADO},
+        )
+
+        self.agendamento.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.agendamento.status, Agendamento.StatusChoices.PENDENTE)
+
 
 class CadastroCompostoTests(TestCase):
     def test_cadastro_preserva_nome_do_tutor_e_do_pet_separadamente(self):
@@ -499,3 +612,42 @@ class CadastroCompostoTests(TestCase):
         pet = Pet.objects.get(usuario=usuario)
         self.assertEqual(usuario.nome, 'Tutor Exemplo')
         self.assertEqual(pet.nome, 'Chuchu')
+
+
+class PasswordChangeCsrfTests(TestCase):
+    def test_logout_funciona_apos_alterar_senha_sem_recarregar_manualmente(self):
+        usuario = Usuario.objects.create_user(
+            username='admin-csrf@example.com',
+            email='admin-csrf@example.com',
+            nome='Admin CSRF',
+            password='Original-Strong-Password!2026',
+            is_staff=True,
+        )
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(usuario)
+
+        perfil = client.get(reverse('perfil'))
+        token_senha = re.search(
+            rb'name="csrfmiddlewaretoken" value="([^"]+)"', perfil.content
+        ).group(1).decode()
+        csrf_antes = client.cookies['csrftoken'].value
+        resposta = client.post(
+            reverse('perfil'),
+            {
+                'csrfmiddlewaretoken': token_senha,
+                'old_password': 'Original-Strong-Password!2026',
+                'new_password1': 'Changed-Strong-Password!2026',
+                'new_password2': 'Changed-Strong-Password!2026',
+                'btn_alterar_senha': '1',
+            },
+            follow=True,
+        )
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertEqual(client.cookies['csrftoken'].value, csrf_antes)
+
+        resposta_logout = client.post(
+            reverse('logout'), {'csrfmiddlewaretoken': token_senha}
+        )
+
+        self.assertRedirects(resposta_logout, reverse('login'))

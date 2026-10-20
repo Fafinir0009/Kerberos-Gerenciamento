@@ -1,9 +1,14 @@
 from datetime import datetime
+from urllib.parse import urlencode
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 from kerberos.forms.FormAgendamento import AgendamentoForm
 from kerberos.models.agendamento import Agendamento, ItemAgendamento
@@ -48,9 +53,34 @@ def agendamentos(request):
     contexto = {
         'agendamentos': agendamentos_lista,
         'data_selecionada': data_selecionada,
+        'status_choices': Agendamento.StatusChoices.choices,
     }
 
     return render(request, 'agendamento/agendamentos.html', contexto)
+
+
+@staff_member_required
+@require_POST
+def alterar_status_agendamento(request, pk):
+    agendamento = get_object_or_404(Agendamento, pk=pk)
+    novo_status = request.POST.get('status')
+
+    if novo_status not in Agendamento.StatusChoices.values:
+        messages.error(request, 'O status selecionado não é válido.')
+    else:
+        agendamento.status = novo_status
+        agendamento.save(update_fields=['status', 'atualizado_em'])
+        messages.success(request, 'Status do agendamento atualizado com sucesso.')
+
+    data_str = request.POST.get('data', '')
+    try:
+        data_selecionada = datetime.strptime(data_str, '%Y-%m-%d').date()
+    except ValueError:
+        return redirect('agendamentos')
+
+    return redirect(
+        f"{reverse('agendamentos')}?{urlencode({'data': data_selecionada.isoformat()})}"
+    )
 
 
 @login_required

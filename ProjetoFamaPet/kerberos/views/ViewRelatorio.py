@@ -10,7 +10,8 @@ from kerberos.models.pet import Pet
 
 @login_required
 def relatorio(request):
-    hoje = timezone.now().date()
+    agora = timezone.now()
+    hoje = timezone.localdate(agora)
     data_inicio_str = request.GET.get('data_inicio')
     data_fim_str = request.GET.get('data_fim')
     pet_id = request.GET.get('pet_id')
@@ -28,8 +29,6 @@ def relatorio(request):
         agendamentos_qs = Agendamento.objects.filter(usuario=request.user)
 
     agendamentos_qs = agendamentos_qs.filter(
-        status=Agendamento.StatusChoices.CONCLUIDO,
-        data__lte=timezone.now(),
         data__date__gte=data_inicio,
         data__date__lte=data_fim
     ).prefetch_related('itens').select_related('usuario', 'pet').order_by('-data')
@@ -38,12 +37,20 @@ def relatorio(request):
         agendamentos_qs = agendamentos_qs.filter(pet_id=pet_id)
 
     agendamentos_list = list(agendamentos_qs)
-    
-    total_faturamento = sum(a.valor_total for a in agendamentos_list)
-    total_atendimentos = len(agendamentos_list)
+
+    concluidos_realizados = [
+        agendamento
+        for agendamento in agendamentos_list
+        if (
+            agendamento.status == Agendamento.StatusChoices.CONCLUIDO
+            and agendamento.data <= agora
+        )
+    ]
+    total_faturamento = sum(a.valor_total for a in concluidos_realizados)
+    total_atendimentos = len(concluidos_realizados)
     ticket_medio = (total_faturamento / total_atendimentos) if total_atendimentos > 0 else 0
 
-    itens_qs = ItemAgendamento.objects.filter(agendamento__in=agendamentos_list)
+    itens_qs = ItemAgendamento.objects.filter(agendamento__in=concluidos_realizados)
     ranking_servicos = (
         itens_qs.values('servico_nome')
         .annotate(

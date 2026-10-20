@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block title %}Histórico e Relatórios — FamaPet{% endblock %}
-{% block nav_relatorio %}active{% endblock %}
+{% block title %}{% if user.is_staff %}Relatório — FamaPet{% else %}Histórico — FamaPet{% endif %}{% endblock %}
+{% block nav_admin_relatorio %}active{% endblock %}
+{% block nav_historico_agendamentos %}active{% endblock %}
 
 {% block content %}
 <div class="d-flex flex-column h-100 justify-content-between">
@@ -10,9 +11,12 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
             <div>
                 <h2 class="fw-bold mb-1 brand-font text-dark" style="font-size: 2rem;">
-                    {% if user.is_staff %}Relatório de Atendimentos e Faturamento{% else %}Histórico de Atendimentos{% endif %}
+                    {% if user.is_staff %}Relatório de Agendamentos{% else %}Histórico de Agendamentos{% endif %}
                 </h2>
                 <p class="text-muted small mb-0">Consulte o histórico detalhado por período</p>
+                {% if user.is_staff %}
+                    <p class="text-muted small mb-0">A lista inclui todos os status. O faturamento e o ranking consideram apenas atendimentos concluídos e já realizados.</p>
+                {% endif %}
             </div>
         </div>
 
@@ -45,16 +49,17 @@
             </form>
         </div>
 
+        {% if user.is_staff %}
         <div class="row g-3 mb-4">
             <div class="col-md-4 col-12">
                 <div class="card border-0 shadow-sm rounded-3 p-3 text-center bg-white" style="border-radius: var(--raio) !important; border-left: 4px solid var(--amarelo-cta) !important;">
-                    <span class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Total {% if user.is_staff %}Faturado{% else %}Investido{% endif %}</span>
+                    <span class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Total Faturado (concluídos)</span>
                     <h3 class="fw-bold text-success mb-0 mt-1">R$ {{ total_faturamento|floatformat:2 }}</h3>
                 </div>
             </div>
             <div class="col-md-4 col-6">
                 <div class="card border-0 shadow-sm rounded-3 p-3 text-center bg-white" style="border-radius: var(--raio) !important; border-left: 4px solid #0dcaf0 !important;">
-                    <span class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Atendimentos</span>
+                    <span class="text-muted small fw-bold text-uppercase" style="letter-spacing: 0.5px;">Atendimentos Concluídos</span>
                     <h3 class="fw-bold text-dark mb-0 mt-1">{{ total_atendimentos }}</h3>
                 </div>
             </div>
@@ -66,7 +71,7 @@
             </div>
         </div>
 
-        {% if user.is_staff and ranking_servicos %}
+        {% if ranking_servicos %}
             <div class="card border-0 shadow-sm rounded-3 mb-4 bg-white" style="border-radius: var(--raio) !important;">
                 <div class="card-header bg-white py-3 border-bottom d-flex align-items-center">
                     <h5 class="fw-bold mb-0 text-dark h6"><i class="bi bi-trophy text-warning me-2"></i>Serviços Mais Realizados no Período</h5>
@@ -93,6 +98,7 @@
                 </div>
             </div>
         {% endif %}
+        {% endif %}
 
         <div class="card border-0 shadow-sm rounded-3 bg-white" style="border-radius: var(--raio) !important;">
             <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
@@ -106,7 +112,8 @@
                             <th class="fw-bold ps-3 pb-3 text-secondary">Data / Horário</th>
                             <th class="fw-bold pb-3 text-secondary">Pet</th>
                             {% if user.is_staff %}<th class="fw-bold pb-3 text-secondary">Tutor</th>{% endif %}
-                            <th class="fw-bold pb-3 text-secondary">Serviços Realizados</th>
+                            <th class="fw-bold pb-3 text-secondary">Serviços</th>
+                            <th class="fw-bold pb-3 text-secondary">Status</th>
                             <th class="fw-bold text-end pb-3 text-secondary pe-3">Valor Total</th>
                         </tr>
                     </thead>
@@ -131,13 +138,14 @@
                             <td class="py-3.5 text-secondary small">
                                 {{ a.lista_servicos|default:"Nenhum serviço" }}
                             </td>
+                            <td class="py-3.5 text-secondary small">{{ a.get_status_display }}</td>
                             <td class="text-end fw-bold text-success py-3.5 pe-3" style="border-radius: 0 var(--raio) var(--raio) 0;">
                                 R$ {{ a.valor_total|floatformat:2 }}
                             </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="{% if user.is_staff %}5{% else %}4{% endif %}" class="text-center py-5">
+                            <td colspan="{% if user.is_staff %}6{% else %}5{% endif %}" class="text-center py-5">
                                 <div class="text-muted mb-2">
                                     <i class="bi bi-search fs-1 opacity-50"></i>
                                 </div>

@@ -64,6 +64,23 @@
                 <strong>Status:</strong> 
                 <span class="badge bg-secondary bg-opacity-10 text-secondary fw-semibold">{{ agendamento.get_status_display }}</span>
               </div>
+              {% if user.is_staff %}
+                <form
+                  method="post"
+                  action="{% url 'alterar_status_agendamento' agendamento.id %}"
+                  class="d-flex align-items-center gap-2 mt-2"
+                >
+                  {% csrf_token %}
+                  <input type="hidden" name="data" value="{{ data_selecionada|date:'Y-m-d' }}">
+                  <label for="status-{{ agendamento.id }}" class="form-label mb-0">Alterar status:</label>
+                  <select id="status-{{ agendamento.id }}" name="status" class="form-select form-select-sm w-auto">
+                    {% for valor, rotulo in status_choices %}
+                      <option value="{{ valor }}" {% if agendamento.status == valor %}selected{% endif %}>{{ rotulo }}</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-outline-primary">Salvar</button>
+                </form>
+              {% endif %}
               
               <div class="text-muted mt-2 d-flex align-items-center gap-2" style="font-size: 0.8rem;">
                 <span><i class="bi bi-hourglass-split me-1"></i>{{ agendamento.duracao_total_minutos }} min (Até {{ agendamento.data_fim_estimada|date:"H:i" }})</span>
