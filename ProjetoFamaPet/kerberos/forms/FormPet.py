@@ -39,7 +39,14 @@ class PetForm(NomeValidationMixin, forms.ModelForm):
         self.user = user
 
         if 'data_de_nascimento' in self.fields:
-            self.fields['data_de_nascimento'].widget.attrs['max'] = timezone.now().date().isoformat()
+            hoje = timezone.now().date()
+            self.fields['data_de_nascimento'].widget.attrs['max'] = hoje.isoformat()
+            ano_minimo = hoje.year - Pet.IDADE_MAXIMA_ANOS
+            try:
+                data_minima = hoje.replace(year=ano_minimo)
+            except ValueError:
+                data_minima = hoje.replace(year=ano_minimo, day=28)
+            self.fields['data_de_nascimento'].widget.attrs['min'] = data_minima.isoformat()
 
         if user and user.is_staff:
             if 'usuario' in self.fields:

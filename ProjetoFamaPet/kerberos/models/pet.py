@@ -4,6 +4,7 @@ from django.utils import timezone
 
 
 class Pet(models.Model):
+    IDADE_MAXIMA_ANOS = 25
 
     class Porte(models.TextChoices):
         PEQUENO = "Pequeno", "Pequeno"
@@ -61,10 +62,28 @@ class Pet(models.Model):
         if self.observacao:
             self.observacao = self.observacao.strip()
 
-        if self.data_de_nascimento and self.data_de_nascimento > timezone.now().date():
-            raise ValidationError({
-                "data_de_nascimento": "A data de nascimento não pode ser maior que a data atual."
-            })
+        if self.data_de_nascimento:
+            hoje = timezone.now().date()
+            ano_limite = hoje.year - self.IDADE_MAXIMA_ANOS
+            if (
+                self.data_de_nascimento.year < ano_limite
+                or (
+                    self.data_de_nascimento.year == ano_limite
+                    and (self.data_de_nascimento.month, self.data_de_nascimento.day)
+                    < (hoje.month, hoje.day)
+                )
+            ):
+                raise ValidationError({
+                    "data_de_nascimento": (
+                        "A data de nascimento não pode ser anterior a "
+                        f"{self.IDADE_MAXIMA_ANOS} anos."
+                    )
+                })
+
+            if self.data_de_nascimento > hoje:
+                raise ValidationError({
+                    "data_de_nascimento": "A data de nascimento não pode ser maior que a data atual."
+                })
 
     def save(self, *args, **kwargs):
         self.full_clean()

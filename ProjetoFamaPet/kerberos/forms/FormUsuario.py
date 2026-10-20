@@ -113,7 +113,6 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
             usuario.set_password(senha)
         elif not usuario.pk:
             usuario.set_unusable_password()
-        usuario.is_staff = False  # Garante perfil de Cliente por padrão
         
         if commit:
             usuario.save()

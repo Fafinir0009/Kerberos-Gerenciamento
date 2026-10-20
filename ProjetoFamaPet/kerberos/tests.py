@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
+from kerberos.forms.FormAgendamento import AgendamentoForm
 from kerberos.forms.FormAdminUsuario import AdminUsuarioCreationForm
 from kerberos.forms.FormPet import PetForm
 from kerberos.forms.FormUsuario import UsuarioForm
@@ -66,6 +67,19 @@ class PetAuthorizationTests(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
         pet = form.save()
         self.assertEqual(pet.usuario, self.cliente_a)
+
+    def test_form_pet_rejeita_data_de_nascimento_anterior_a_100_anos(self):
+        data = {
+            'nome': 'Bidu',
+            'data_de_nascimento': '0001-01-01',
+            'raca': 'Shih Tzu',
+            'porte': 'Pequeno',
+            'observacao': '',
+        }
+        form = PetForm(data=data, user=self.cliente_a)
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('data_de_nascimento', form.errors)
 
     def test_confirmacao_de_exclusao_nao_interpola_nome_em_javascript(self):
         self.pet_a.nome = "Rex'); alert(1);//"
@@ -132,6 +146,28 @@ class UsuarioFormPasswordTests(TestCase):
             usuario_atualizado.check_password('Existing-Strong-Password!2026')
         )
 
+    def test_edicao_de_perfil_preserva_permissao_staff(self):
+        usuario = Usuario.objects.create_user(
+            username='admin@example.com',
+            email='admin@example.com',
+            nome='Administrador',
+            password='Existing-Strong-Password!2026',
+            is_staff=True,
+        )
+        data = {
+            'nome': 'Administrador Atualizado',
+            'email': 'admin@example.com',
+            'telefone': '(11) 91234-5678',
+            'senha': '',
+            'confirmar_senha': '',
+        }
+        form = UsuarioForm(data=data, instance=usuario)
+
+        self.assertTrue(form.is_valid(), form.errors)
+        usuario_atualizado = form.save()
+
+        self.assertTrue(usuario_atualizado.is_staff)
+
     def test_telefone_opcional_aceita_vazio(self):
         data = self.data.copy()
         data['telefone'] = ''
@@ -141,6 +177,12 @@ class UsuarioFormPasswordTests(TestCase):
 
 
 class UsuarioLoginTests(TestCase):
+    def test_tela_login_solicita_email(self):
+        response = self.client.get(reverse('login'))
+
+        self.assertContains(response, 'type="email"')
+        self.assertContains(response, 'E-mail')
+
     def test_usuario_pode_entrar_com_email_quando_username_e_diferente(self):
         usuario = Usuario.objects.create_user(
             username='nome-interno',
@@ -162,6 +204,65 @@ class UsuarioLoginTests(TestCase):
             int(self.client.session['_auth_user_id']),
             usuario.pk,
         )
+
+    def test_login_de_cliente_rejeita_username_que_nao_seja_email(self):
+        usuario = Usuario.objects.create_user(
+            username='cliente-login',
+            email='cliente-login@example.com',
+            nome='Cliente Login',
+            password='Strong-Login-Password!2026',
+        )
+
+        response = self.client.post(
+            reverse('login'),
+            {
+                'username': usuario.username,
+                'password': 'Strong-Login-Password!2026',
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+    def test_admin_pode_entrar_com_username(self):
+        usuario = Usuario.objects.create_user(
+            username='admin-login',
+            email='admin-login@example.com',
+            nome='Administrador',
+            password='Strong-Login-Password!2026',
+            is_staff=True,
+        )
+
+        response = self.client.post(
+            reverse('admin:login'),
+            {
+                'username': usuario.username,
+                'password': 'Strong-Login-Password!2026',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(int(self.client.session['_auth_user_id']), usuario.pk)
+
+    def test_admin_pode_entrar_com_email(self):
+        usuario = Usuario.objects.create_user(
+            username='admin-login',
+            email='admin-login@example.com',
+            nome='Administrador',
+            password='Strong-Login-Password!2026',
+            is_staff=True,
+        )
+
+        response = self.client.post(
+            reverse('admin:login'),
+            {
+                'username': usuario.email,
+                'password': 'Strong-Login-Password!2026',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(int(self.client.session['_auth_user_id']), usuario.pk)
 
     def test_admin_cria_usuario_com_senha_hasheada(self):
         senha = 'Strong-Admin-Password!2026'
@@ -282,6 +383,49 @@ class AgendamentoHistoricoTests(TestCase):
             duracao_minutos=25,
         )
 
+    def test_form_rejeita_agendamento_no_passado(self):
+        data_passada = timezone.localtime() - timedelta(days=1)
+        form = AgendamentoForm(
+            data={
+                'pet': self.pet.pk,
+                'data': data_passada.strftime('%Y-%m-%dT%H:%M'),
+                'servicos': [self.servico.pk],
+            },
+            usuario=self.cliente,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('data', form.errors)
+
+    def test_form_rejeita_data_de_agendamento_do_ano_0001(self):
+        form = AgendamentoForm(
+            data={
+                'pet': self.pet.pk,
+                'data': '0001-01-01T00:00',
+                'servicos': [self.servico.pk],
+            },
+            usuario=self.cliente,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('data', form.errors)
+
+    def test_edicao_de_agendamento_historico_preserva_data_original(self):
+        data_original = timezone.localtime() - timedelta(days=1)
+        self.agendamento.data = data_original
+        self.agendamento.save(update_fields=['data'])
+        form = AgendamentoForm(
+            data={
+                'pet': self.pet.pk,
+                'data': data_original.strftime('%Y-%m-%dT%H:%M'),
+                'servicos': [self.servico.pk],
+            },
+            instance=self.agendamento,
+            usuario=self.cliente,
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+
     def test_lista_mostra_agendamento_fora_de_faixa_de_turno(self):
         data_agendamento = timezone.localtime(self.agendamento.data).replace(
             hour=12, minute=30, second=0, microsecond=0
@@ -323,3 +467,35 @@ class AgendamentoHistoricoTests(TestCase):
         item = ItemAgendamento.objects.get(agendamento=self.agendamento)
         self.assertEqual(item.preco_unitario, Decimal('25.00'))
         self.assertEqual(item.duracao_minutos, 25)
+
+
+class CadastroCompostoTests(TestCase):
+    def test_cadastro_preserva_nome_do_tutor_e_do_pet_separadamente(self):
+        response = self.client.post(
+            reverse('cadastro'),
+            {
+                'usuario-nome': 'Tutor Exemplo',
+                'usuario-email': 'tutor-exemplo@example.com',
+                'usuario-telefone': '(11) 91234-5678',
+                'usuario-senha': 'Strong-Registration-Password!2026',
+                'usuario-confirmar_senha': 'Strong-Registration-Password!2026',
+                'endereco-cep': '01001-000',
+                'endereco-logradouro': 'Praça da Sé',
+                'endereco-numero': '1',
+                'endereco-complemento': '',
+                'endereco-bairro': 'Sé',
+                'endereco-cidade': 'São Paulo',
+                'endereco-uf': 'SP',
+                'pet-nome': 'Chuchu',
+                'pet-data_de_nascimento': '2021-02-01',
+                'pet-raca': 'SRD',
+                'pet-porte': 'Pequeno',
+                'pet-observacao': '',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        usuario = Usuario.objects.get(email='tutor-exemplo@example.com')
+        pet = Pet.objects.get(usuario=usuario)
+        self.assertEqual(usuario.nome, 'Tutor Exemplo')
+        self.assertEqual(pet.nome, 'Chuchu')

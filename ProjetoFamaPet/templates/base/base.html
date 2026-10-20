@@ -38,9 +38,6 @@
             <h5 class="fw-bold mb-0 text-white text-truncate px-2" title="{{ user.first_name|default:user.username }}">
                 {{ usuario.name|default:user.username }}
             </h5>
-            <small class="badge {% if user.is_staff %}bg-danger text-white{% else %}bg-info text-dark{% endif %} mt-2 px-2.5 py-1 fw-semibold shadow-sm" style="border-radius: 6px;">
-                {% if user.is_staff %}Administrador{% else %}Cliente{% endif %}
-            </small>
         </div>
 
         <nav class="mt-2 flex-grow-1">

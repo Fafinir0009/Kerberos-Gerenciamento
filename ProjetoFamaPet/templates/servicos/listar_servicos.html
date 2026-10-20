@@ -20,15 +20,6 @@
             </div>
         </div>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-4 shadow-sm" role="alert" style="border-radius: var(--raio);">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-
         <div class="card border-0 shadow-sm rounded-3 mb-4 p-3 bg-white" style="border-radius: var(--raio) !important;">
             <form method="GET" class="d-flex align-items-center gap-2">
                 <div class="input-group">

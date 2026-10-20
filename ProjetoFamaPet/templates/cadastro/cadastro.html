@@ -107,6 +107,9 @@
                           <div class="mb-3">
                             <label for="{{ field.id_for_label }}" class="form-label small fw-bold">{{ field.label }}</label>
                             {{ field }}
+                            {% if field.name == 'cep' %}
+                              <div id="cep-status" class="form-text" role="status" aria-live="polite"></div>
+                            {% endif %}
                             {% if field.errors %}
                               <div class="text-danger small mt-1">{{ field.errors.0 }}</div>
                             {% endif %}
@@ -143,5 +146,6 @@
     </div>
 
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/cep-viacep.js' %}"></script>
 </body>
 </html>
