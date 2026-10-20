@@ -12,16 +12,7 @@
 {% block content %}
 <div class="container my-4 my-md-5 px-3" style="max-width: 800px;">
 
-  {% if messages %}
-    <div class="mb-4">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+
 
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
@@ -62,9 +53,6 @@
             </span>
 
             <div class="small text-secondary">
-              <div class="text-dark mb-1">
-                <strong>Tutor:</strong> <span class="text-dark">{{ agendamento.usuario.nome|default:agendamento.usuario.email }}</span>
-              </div>
               <div class="mb-1">
                 <strong>Pet:</strong> <span class="badge bg-warning bg-opacity-15 text-dark border border-warning border-opacity-25 px-2 py-1">{{ agendamento.pet.nome }}</span>
               </div>
