@@ -585,6 +585,15 @@ class AgendamentoHistoricoTests(TestCase):
 
 
 class CadastroCompostoTests(TestCase):
+    def test_cadastro_exibe_regras_de_senha_de_forma_resumida(self):
+        response = self.client.get(reverse('cadastro'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            'Mínimo de 8 caracteres. Evite dados pessoais e senhas comuns; não use apenas números.',
+        )
+
     def test_cadastro_preserva_nome_do_tutor_e_do_pet_separadamente(self):
         response = self.client.post(
             reverse('cadastro'),

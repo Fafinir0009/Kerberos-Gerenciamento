@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acessar Conta — Fama Pet</title>
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body class="position-relative">
@@ -15,6 +16,13 @@
     <div class="min-vh-100 d-flex align-items-center justify-content-center position-relative z-1 py-4">
         <div class="auth-wrapper" style="max-width: 420px; width: 100%;">
             
+          <div class="px-2 mb-2">
+                <a href="{% url 'home' %}" class="btn btn-home d-inline-flex align-items-center justify-content-center gap-2">
+              <i class="bi bi-house-door" aria-hidden="true"></i>
+              Voltar à página inicial
+            </a>
+          </div>
+
             <div class="d-flex justify-content-between px-2 mb-2">
                 <a href="{% url 'login' %}" class="tab-link active">Entrar</a>
                 <a href="{% url 'cadastro' %}" class="tab-link inactive">Cadastrar</a>
@@ -59,12 +67,18 @@
                     
                     <div class="mb-3 text-start">
                         <label for="id_password" class="form-label small fw-bold">Senha</label>
-                        <input type="password" 
-                               name="password" 
-                               id="id_password" 
-                               class="form-control {% if form.errors %}is-invalid{% endif %}" 
-                               placeholder="Digite sua senha" 
-                               required>
+                      <div class="input-group">
+                        <input type="password"
+                             name="password"
+                             id="id_password"
+                             class="form-control {% if form.errors %}is-invalid{% endif %}"
+                             placeholder="Digite sua senha"
+                             autocomplete="current-password"
+                             required>
+                            <button class="btn btn-password-toggle" type="button" data-password-toggle data-password-target="id_password" aria-controls="id_password" aria-label="Mostrar senha" aria-pressed="false" title="Mostrar senha">
+                          <i class="bi bi-eye" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </div>
 
                     <div class="text-center mt-4">
@@ -81,5 +95,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/password-toggle.js' %}" defer></script>
 </body>
 </html>
