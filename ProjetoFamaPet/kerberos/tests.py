@@ -592,6 +592,7 @@ class CadastroCompostoTests(TestCase):
                 'usuario-telefone': '(11) 91234-5678',
                 'usuario-senha': 'Strong-Registration-Password!2026',
                 'usuario-confirmar_senha': 'Strong-Registration-Password!2026',
+                'usuario-aceita_regulamento': 'on',
                 'endereco-cep': '01001-000',
                 'endereco-logradouro': 'Praça da Sé',
                 'endereco-numero': '1',
@@ -612,6 +613,18 @@ class CadastroCompostoTests(TestCase):
         pet = Pet.objects.get(usuario=usuario)
         self.assertEqual(usuario.nome, 'Tutor Exemplo')
         self.assertEqual(pet.nome, 'Chuchu')
+
+    def test_cadastro_rejeita_sem_aceite_do_regulamento(self):
+        response = self.client.post(reverse('cadastro'), {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Regulamento Geral')
+        self.assertContains(response, 'name="usuario-aceita_regulamento"')
+        self.assertContains(response, 'Li e concordo com o regulamento.')
+        self.assertIn(
+            'aceita_regulamento', response.context['form_usuario'].errors
+        )
+        self.assertEqual(Usuario.objects.count(), 0)
 
 
 class PasswordChangeCsrfTests(TestCase):

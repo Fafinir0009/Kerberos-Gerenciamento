@@ -7,6 +7,12 @@ from .mixins import NomeValidationMixin
 
 class UsuarioForm(NomeValidationMixin, forms.ModelForm):
 
+    aceita_regulamento = forms.BooleanField(
+        label="Li e concordo com o regulamento.",
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+    )
+
     senha = forms.CharField(
         label="Senha",
         widget=forms.PasswordInput(attrs={
@@ -51,7 +57,9 @@ class UsuarioForm(NomeValidationMixin, forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        exigir_aceite = kwargs.pop("exigir_aceite", False)
         super().__init__(*args, **kwargs)
+        self.fields['aceita_regulamento'].required = exigir_aceite
         if self.instance.pk:
             self.fields['senha'].required = False
             self.fields['confirmar_senha'].required = False

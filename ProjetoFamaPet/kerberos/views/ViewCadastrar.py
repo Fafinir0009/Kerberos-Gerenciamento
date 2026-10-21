@@ -10,7 +10,9 @@ from ..forms.FormPet import PetForm
 @transaction.atomic
 def cadastrar_usuario(request):
     if request.method == 'POST':
-        form_usuario = UsuarioForm(request.POST, prefix='usuario')
+        form_usuario = UsuarioForm(
+            request.POST, prefix='usuario', exigir_aceite=True
+        )
         form_endereco = EnderecoForm(request.POST, prefix='endereco')
         form_pet = PetForm(request.POST, prefix='pet')
 
@@ -31,7 +33,7 @@ def cadastrar_usuario(request):
         else:
             messages.error(request, 'Por favor, corrija os erros apontados nos formulários abaixo.')
     else:
-        form_usuario = UsuarioForm(prefix='usuario')
+        form_usuario = UsuarioForm(prefix='usuario', exigir_aceite=True)
         form_endereco = EnderecoForm(prefix='endereco')
         form_pet = PetForm(prefix='pet')
 
