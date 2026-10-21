@@ -11,6 +11,7 @@
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/fontes.css' %}" rel="stylesheet">
     <link href="{% static 'css/style_base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/brand.css' %}" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -18,7 +19,9 @@
 <body class="{% if user.is_authenticated %}{% if user.is_staff %}layout-admin{% else %}layout-cliente{% endif %}{% else %}layout-visitante{% endif %}">
 
     <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center shadow-sm sticky-top">
-        <h5 class="m-0 fw-bold brand-font text-dark">Fama Pet</h5>
+        <a href="{% url 'home' %}" class="site-brand">
+            <img src="{% static 'img/logo.png' %}" alt="" class="site-brand__logo">
+        </a>
         <button class="btn btn-light shadow-sm d-flex align-items-center justify-content-center p-2 rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile">
             <i class="bi bi-list fs-4"></i>
         </button>
@@ -29,6 +32,11 @@
         <div class="offcanvas-header d-lg-none p-0 mb-3 justify-content-end">
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMobile" aria-label="Fechar"></button>
         </div>
+
+        <a href="{% url 'home' %}" class="site-brand site-brand--sidebar">
+            <img src="{% static 'img/logo.png' %}" alt="" class="site-brand__logo">
+            <span class="site-brand__name">Fama Pet</span>
+        </a>
 
         <div class="text-center text-white mb-4">
             <div class="user-avatar mb-2 d-inline-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle p-3" style="width: 70px; height: 70px;">

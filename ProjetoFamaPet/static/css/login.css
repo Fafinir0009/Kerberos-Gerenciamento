@@ -1,4 +1,9 @@
  
+:root {
+    --auth-blue: #51a7e0;
+    --auth-blue-hover: #3b91c9;
+}
+
 body {
     background-color: #dddfe0;
     font-family: Arial, sans-serif;
@@ -26,10 +31,19 @@ body {
     text-decoration: none;
 }
 .tab-link.active {
-    color: #0088cc !important;
+    color: var(--auth-blue) !important;
 }
 .tab-link.inactive {
     color: #222222 !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--auth-blue);
+}
+
+.nav-pills .nav-link:not(.active):hover {
+    color: var(--auth-blue);
 }
 
 .btn-home {
@@ -121,24 +135,24 @@ body {
 }
 
 .auth-card .input-group > .btn-password-toggle:hover {
-    color: #0088cc;
+    color: var(--auth-blue);
     background-color: #d0d0d0;
 }
 
 .auth-card .input-group > .btn-password-toggle:focus-visible {
     z-index: 5;
-    color: #0088cc;
-    border-color: #0088cc;
-    box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.2);
+    color: var(--auth-blue);
+    border-color: var(--auth-blue);
+    box-shadow: 0 0 0 2px rgba(81, 167, 224, 0.2);
 }
 
 .auth-card input:focus {
-    border: 2px solid #0088cc;
+    border: 2px solid var(--auth-blue);
 }
 
 /* Botão Azul */
 .btn-custom {
-    background-color: #51a7e0;
+    background-color: var(--auth-blue);
     color: white;
     border: none;
     border-radius: 4px;
@@ -148,7 +162,7 @@ body {
 }
 
 .btn-custom:hover {
-    background-color: #3b91c9;
+    background-color: var(--auth-blue-hover);
     color: white;
 }
 
@@ -163,7 +177,7 @@ body {
 }
 
 .help-link {
-    color: #51a7e0;
+    color: var(--auth-blue);
     font-size: 0.8rem;
     text-decoration: none;
 }
