@@ -54,6 +54,8 @@ class PetAuthorizationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.pet_a.nome)
         self.assertNotContains(response, self.pet_b.nome)
+        self.assertContains(response, self.cliente_a.nome)
+        self.assertNotContains(response, self.cliente_a.email)
 
     def test_form_pet_associa_usuario_logado(self):
         data = {

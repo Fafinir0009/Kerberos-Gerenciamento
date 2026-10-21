@@ -68,7 +68,7 @@
                 <form
                   method="post"
                   action="{% url 'alterar_status_agendamento' agendamento.id %}"
-                  class="d-flex align-items-center gap-2 mt-2"
+                  class="d-flex flex-wrap align-items-center gap-2 mt-2"
                 >
                   {% csrf_token %}
                   <input type="hidden" name="data" value="{{ data_selecionada|date:'Y-m-d' }}">

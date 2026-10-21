@@ -35,8 +35,8 @@
                 <i class="bi {% if user.is_staff %}bi-shield-lock-fill{% elif user.is_authenticated %}bi-person-fill{% else %}bi-person-circle{% endif %} fs-1 text-white"></i>
             </div>
             
-            <h5 class="fw-bold mb-0 text-white text-truncate px-2" title="{{ user.first_name|default:user.username }}">
-                {{ usuario.name|default:user.username }}
+            <h5 class="fw-bold mb-0 text-white text-truncate px-2" title="{{ user.nome|default:user.username }}">
+                {{ user.nome|default:user.username }}
             </h5>
         </div>
 
@@ -97,7 +97,7 @@
 
     </div>
 
-    <main class="main-content p-3 p-md-5">
+    <main class="main-content p-2 p-sm-3 p-md-4 p-xl-5">
         
 
         {% if messages %}
@@ -111,7 +111,7 @@
             </div>
         {% endif %}
 
-        <div class="container-fluid bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="min-height: 85vh;">
+        <div class="container-fluid bg-white p-2 p-sm-3 p-md-4 p-xl-5 rounded-4 shadow-sm border" style="min-height: 85vh;">
             {% block content %}
             {% endblock %}
         </div>
