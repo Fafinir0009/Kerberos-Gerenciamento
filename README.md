@@ -30,7 +30,7 @@ Requer Python compatível com as dependências listadas em `requirements.txt`.
 
 ```powershell
 cd ProjetoFamaPet
-python -m venv .venv
+python -m venv venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r ..\requirements.txt
 Copy-Item .env.example .env
