@@ -31,7 +31,7 @@ Requer Python compatível com as dependências listadas em `requirements.txt`.
 ```powershell
 cd ProjetoFamaPet
 python -m venv venv
-.\.venv\Scripts\Activate.ps1
+venv\Scripts\Activate.ps1
 python -m pip install -r ..\requirements.txt
 Copy-Item .env.example .env
 ```
@@ -43,6 +43,10 @@ na sessão atual e tente ativar novamente:
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
+na pasta raiz:
+```
+pip install -r requirements.txt
+```
 Gere uma chave secreta e configure `DJANGO_SECRET_KEY` no arquivo `.env`:
 
 ```powershell

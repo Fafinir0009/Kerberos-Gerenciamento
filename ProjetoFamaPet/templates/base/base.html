@@ -53,7 +53,7 @@
                 {% if user.is_staff %}
                     <span class="text-white-50 small px-2 fw-bold text-uppercase d-block mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">Atendimentos</span>
                     <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_admin_agendamentos %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
-                        <i class="bi bi-calendar-check me-2 fs-5"></i>Todos Agendamentos
+                        <i class="bi bi-calendar-check me-2 fs-5"></i>Agendamentos
                     </a>
                     <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_admin_pets %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
                         <i class="bi bi-card-list me-2 fs-5"></i>Todos os Pets
@@ -74,7 +74,7 @@
 
                 {% else %}
                     <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
-                        <i class="bi bi-calendar-event me-2 fs-5"></i>Meus Agendamentos
+                        <i class="bi bi-calendar-event me-2 fs-5"></i>Agendamentos
                     </a>
                     <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_pets %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
                         <i class="bi bi-heart-pulse me-2 fs-5"></i>Meus Pets
@@ -107,7 +107,7 @@
 
     <main class="main-content p-2 p-sm-3 p-md-4 p-xl-5">
         
-
+    
         {% if messages %}
             <div class="mb-4">
                 {% for message in messages %}

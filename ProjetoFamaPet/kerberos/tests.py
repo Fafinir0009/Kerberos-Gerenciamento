@@ -179,6 +179,38 @@ class UsuarioFormPasswordTests(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
 
 
+class CadastroUsuarioPetTests(TestCase):
+    def test_cadastro_separa_nome_do_tutor_e_do_pet(self):
+        response = self.client.post(
+            reverse('cadastro'),
+            {
+                'usuario-nome': 'Ana Tutora',
+                'usuario-email': 'ana@example.com',
+                'usuario-telefone': '(11) 91234-5678',
+                'usuario-senha': 'Strong-Password!2026',
+                'usuario-confirmar_senha': 'Strong-Password!2026',
+                'endereco-cep': '01001-000',
+                'endereco-logradouro': 'Praça da Sé',
+                'endereco-numero': '1',
+                'endereco-complemento': '',
+                'endereco-bairro': 'Sé',
+                'endereco-cidade': 'São Paulo',
+                'endereco-uf': 'SP',
+                'pet-nome': 'Rex',
+                'pet-data_de_nascimento': '2021-01-15',
+                'pet-raca': 'Vira-lata',
+                'pet-porte': 'Pequeno',
+                'pet-observacao': '',
+            },
+        )
+
+        self.assertRedirects(response, reverse('login'))
+        usuario = Usuario.objects.get(email='ana@example.com')
+        pet = Pet.objects.get(nome='Rex')
+        self.assertEqual(usuario.nome, 'Ana Tutora')
+        self.assertEqual(pet.usuario, usuario)
+
+
 class UsuarioLoginTests(TestCase):
     def test_tela_login_solicita_email(self):
         response = self.client.get(reverse('login'))
