@@ -9,14 +9,16 @@
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/brand.css' %}">
 </head>
 
 <body>
 
     <header class="py-3 border-bottom">
         <div class="container d-flex justify-content-between align-items-center">
-            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
-                <img src="{% static 'img/FamaPetLogo.svg' %}" alt="Logo FamaPet" class="img-fluid" style="height: 35px; max-height: 40px;">
+            <a href="{% url 'home' %}" class="navbar-brand site-brand">
+                <img src="{% static 'img/logo.png' %}" alt="" class="site-brand__logo">
+                <span class="site-brand__name">Fama Pet</span>
             </a>
             <div class="d-flex align-items-center gap-2 gap-md-3">
                 <a href="{% url 'login'%}" class="text-dark text-decoration-none small fw-medium px-2 py-1">Entrar</a>
@@ -31,12 +33,14 @@
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <p class="fw-bold mb-1 fs-5">Trazemos a melhor versão do seu pet!</p>
                     <h1 class="hero-title mb-4">
-                        <img src="{% static 'img/FamaPet.svg' %}" alt="FamaPet" class="img-fluid" style="max-height: 180px;">
+                        <span class="hero-brand-lockup">
+                            <img src="{% static 'img/FamaPet.svg' %}" alt="Fama Pet" class="hero-brand-wordmark">
+                        </span>
                     </h1>
                     <a href="{% url 'cadastro' %}" class="btn btn-black btn-lg">Agende aqui</a>
                 </div>
                 <div class="pt-4 col-lg-6 text-center text-lg-end">
-                    <img src="{% static 'img/dog-home.png' %}" alt="Cão da FamaPet" class="img-fluid"
+                    <img src="{% static 'img/image.png' %}" alt="Cão da FamaPet" class="img-fluid"
                         style="max-height: 400px;">
                 </div>
             </div>
@@ -158,7 +162,7 @@
                 <div class="col-md-7 offset-md-1">
                     <h2 class="fw-bold fs-1 mb-2">Está com dúvidas?</h2>
                     <p class="text-secondary mb-4">Entre em contato com a gente e tenha mais informações.</p>
-                    <a href="mailto:contato@famapet.com.br" class="btn btn-yellow">Fale conosco!</a>
+                    <a href="https://wa.me/5511963771187?text=Estou+com+dúvidas." class="btn btn-yellow">Fale conosco!</a>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 from django import forms
 from django.db.models import Q
+from django.utils import timezone
 from kerberos.models.agendamento import Agendamento
 from kerberos.models.pet import Pet
 from kerberos.models.servico import Servico
@@ -30,6 +31,10 @@ class AgendamentoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.usuario = usuario
 
+        agora = timezone.localtime()
+        if not self.instance.pk or not self.instance.data or self.instance.data >= agora:
+            self.fields['data'].widget.attrs['min'] = agora.strftime('%Y-%m-%dT%H:%M')
+
         if usuario and getattr(usuario, "is_authenticated", False):
             if usuario.is_staff:
                 self.fields["pet"].queryset = Pet.objects.all().select_related("usuario")
@@ -56,3 +61,16 @@ class AgendamentoForm(forms.ModelForm):
         if self.usuario and not self.usuario.is_staff and pet and pet.usuario != self.usuario:
             raise forms.ValidationError("O pet selecionado não pertence à sua conta.")
         return pet
+
+    def clean_data(self):
+        data = self.cleaned_data.get('data')
+        if not data or data >= timezone.now():
+            return data
+
+        if self.instance.pk and self.instance.data:
+            data_existente = self.instance.data.replace(second=0, microsecond=0)
+            data_enviada = data.replace(second=0, microsecond=0)
+            if data_enviada == data_existente:
+                return data
+
+        raise forms.ValidationError('Escolha uma data e horário futuros.')

@@ -1,13 +1,20 @@
 from datetime import timedelta
 
+from django import forms
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.utils import timezone
 
 
+class EmailAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(label='E-mail')
+
+
 class login(LoginView):
     template_name = 'login/login.html'
+    authentication_form = EmailAuthenticationForm
     max_login_attempts = 5
     lockout_minutes = 5
 

@@ -12,8 +12,6 @@
 {% block content %}
 <div class="container my-4 my-md-5 px-3" style="max-width: 800px;">
 
-
-
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
       <h2 class="fw-bold mb-3 text-dark" style="font-size: 2.25rem;">Agenda de Serviços</h2>
@@ -63,6 +61,27 @@
                 <strong>Status:</strong> 
                 <span class="badge bg-secondary bg-opacity-10 text-secondary fw-semibold">{{ agendamento.get_status_display }}</span>
               </div>
+              {% if user.is_staff %}
+                <form
+                  method="post"
+                  action="{% url 'alterar_status_agendamento' agendamento.id %}"
+                  class="row g-2 align-items-center mt-2"
+                >
+                  {% csrf_token %}
+                  <input type="hidden" name="data" value="{{ data_selecionada|date:'Y-m-d' }}">
+                  <label for="status-{{ agendamento.id }}" class="col-12 col-sm-auto form-label mb-0">Alterar status:</label>
+                  <div class="col-12 col-sm">
+                    <select id="status-{{ agendamento.id }}" name="status" class="form-select form-select-sm">
+                      {% for valor, rotulo in status_choices %}
+                        <option value="{{ valor }}" {% if agendamento.status == valor %}selected{% endif %}>{{ rotulo }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-12 col-sm-auto d-grid">
+                    <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                  </div>
+                </form>
+              {% endif %}
               
               <div class="text-muted mt-2 d-flex align-items-center gap-2" style="font-size: 0.8rem;">
                 <span><i class="bi bi-hourglass-split me-1"></i>{{ agendamento.duracao_total_minutos }} min (Até {{ agendamento.data_fim_estimada|date:"H:i" }})</span>

@@ -26,11 +26,47 @@ Portal do Cliente (Tutor)
 
 Requer Python compatível com as dependências listadas em `requirements.txt`.
 
+### Windows (PowerShell)
+
+```powershell
+cd ProjetoFamaPet
+python -m venv venv
+venv\Scripts\Activate.ps1
+python -m pip install -r ..\requirements.txt
+Copy-Item .env.example .env
+```
+
+Se o PowerShell bloquear a ativação do ambiente virtual, libere scripts apenas
+na sessão atual e tente ativar novamente:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+na pasta raiz:
+```
+pip install -r requirements.txt
+```
+Gere uma chave secreta e configure `DJANGO_SECRET_KEY` no arquivo `.env`:
+
+```powershell
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+Depois, inicialize o banco e execute o servidor local, ainda dentro de `ProjetoFamaPet`:
+
+```powershell
+python manage.py migrate
+python manage.py runserver
+```
+
+### Linux/macOS (Bash)
+
 ```bash
 cd ProjetoFamaPet
 python -m venv .venv
 source .venv/bin/activate
-pip install -r ../requirements.txt
+python -m pip install -r ../requirements.txt
 cp .env.example .env
 ```
 
@@ -40,7 +76,7 @@ Gere uma chave secreta e configure `DJANGO_SECRET_KEY` no arquivo `.env`:
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-Depois, inicialize o banco e execute o servidor local:
+Depois, inicialize o banco e execute o servidor local, ainda dentro de `ProjetoFamaPet`:
 
 ```bash
 python manage.py migrate

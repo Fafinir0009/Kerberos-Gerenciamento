@@ -179,6 +179,10 @@ h1, h2, h3, h4, .brand-font {
   transform: translateY(-1px);
 }
 
+div.col-12.col-sm{
+  width: 140px;
+}
+
 @media (min-width: 992px) {
     .sidebar-desktop {
         position: fixed;

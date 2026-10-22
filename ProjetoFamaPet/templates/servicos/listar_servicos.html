@@ -20,26 +20,23 @@
             </div>
         </div>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show mb-4 shadow-sm" role="alert" style="border-radius: var(--raio);">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-
         <div class="card border-0 shadow-sm rounded-3 mb-4 p-3 bg-white" style="border-radius: var(--raio) !important;">
-            <form method="GET" class="d-flex align-items-center gap-2">
-                <div class="input-group">
+            <form method="GET" class="row g-2 align-items-center">
+                <div class="col-12 col-sm">
+                  <div class="input-group">
                     <span class="input-group-text bg-white border-end-0 ps-3" style="border-radius: 10px 0 0 10px; border-color: var(--cinza-input);">
                         <i class="bi bi-search text-muted" style="font-size: 0.9rem;"></i>
                     </span>
                     <input type="text" name="q" value="{{ request.GET.q|default:'' }}" class="form-control border-start-0 ps-2 shadow-none" placeholder="Procurar serviço por nome..." style="border-radius: 0 10px 10px 0; border-color: var(--cinza-input); padding: 10px;">
+                  </div>
                 </div>
-                <button type="submit" class="btn btn-light border fw-semibold px-4 text-nowrap" style="border-radius: 10px;">Buscar</button>
+                <div class="col-12 col-sm-auto d-grid">
+                    <button type="submit" class="btn btn-light border fw-semibold px-4 text-nowrap" style="border-radius: 10px;">Buscar</button>
+                </div>
                 {% if request.GET.q %}
-                    <a href="{% url 'listar_servicos' %}" class="btn btn-outline-secondary px-3 text-nowrap" style="border-radius: 10px;" title="Limpar busca">Limpar</a>
+                    <div class="col-12 col-sm-auto d-grid">
+                        <a href="{% url 'listar_servicos' %}" class="btn btn-outline-secondary px-3 text-nowrap" style="border-radius: 10px;" title="Limpar busca">Limpar</a>
+                    </div>
                 {% endif %}
             </form>
         </div>
@@ -117,7 +114,7 @@
 
         {% if page_obj and page_obj.has_other_pages %}
         <nav class="mt-4 pt-2">
-            <ul class="pagination justify-content-center gap-1">
+            <ul class="pagination justify-content-center gap-1 flex-wrap">
                 {% if page_obj.has_previous %}
                     <li class="page-item"><a class="page-link rounded-2" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">&laquo; Primeira</a></li>
                     <li class="page-item"><a class="page-link rounded-2" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Anterior</a></li>

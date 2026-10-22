@@ -1,4 +1,9 @@
  
+:root {
+    --auth-blue: #51a7e0;
+    --auth-blue-hover: #3b91c9;
+}
+
 body {
     background-color: #dddfe0;
     font-family: Arial, sans-serif;
@@ -26,10 +31,44 @@ body {
     text-decoration: none;
 }
 .tab-link.active {
-    color: #0088cc !important;
+    color: var(--auth-blue) !important;
 }
 .tab-link.inactive {
     color: #222222 !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--auth-blue);
+}
+
+.nav-pills .nav-link:not(.active):hover {
+    color: var(--auth-blue);
+}
+
+.btn-home {
+    min-height: 40px;
+    padding: 8px 14px;
+    color: #222;
+    background-color: #fabb35;
+    border: 1px solid #e5a927;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-home:hover {
+    color: #222;
+    background-color: #f0ad25;
+    border-color: #d99b1e;
+}
+
+.btn-home:focus-visible {
+    color: #222;
+    outline: 3px solid rgba(0, 136, 204, 0.45);
+    outline-offset: 2px;
 }
 
 /* Cartão Branco */
@@ -75,13 +114,45 @@ body {
     outline: none;
 }
 
+.auth-card .input-group > input.form-control {
+    width: 1%;
+    min-width: 0;
+    border-radius: 6px 0 0 6px;
+}
+
+.auth-card .input-group > .btn-password-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 38px;
+    padding: 0 12px;
+    color: #555;
+    background-color: #d8d8d8;
+    border: 1px solid #c0c0c0;
+    border-left: 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.auth-card .input-group > .btn-password-toggle:hover {
+    color: var(--auth-blue);
+    background-color: #d0d0d0;
+}
+
+.auth-card .input-group > .btn-password-toggle:focus-visible {
+    z-index: 5;
+    color: var(--auth-blue);
+    border-color: var(--auth-blue);
+    box-shadow: 0 0 0 2px rgba(81, 167, 224, 0.2);
+}
+
 .auth-card input:focus {
-    border: 2px solid #0088cc;
+    border: 2px solid var(--auth-blue);
 }
 
 /* Botão Azul */
 .btn-custom {
-    background-color: #51a7e0;
+    background-color: var(--auth-blue);
     color: white;
     border: none;
     border-radius: 4px;
@@ -91,18 +162,22 @@ body {
 }
 
 .btn-custom:hover {
-    background-color: #3b91c9;
+    background-color: var(--auth-blue-hover);
     color: white;
 }
 
 @media (max-width: 576px) {
+    .btn-home {
+        width: 100%;
+    }
+
     .btn-custom {
         width: 100%;
     }
 }
 
 .help-link {
-    color: #51a7e0;
+    color: var(--auth-blue);
     font-size: 0.8rem;
     text-decoration: none;
 }

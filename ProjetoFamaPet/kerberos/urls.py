@@ -7,7 +7,13 @@ from .views.ViewPet import (listar_pets, criar_pet, editar_pet, deletar_pet)
 from .views.ViewUsuario import (listar_clientes, criar_cliente, editar_cliente, deletar_cliente)
 from .views.ViewPoliticas import (politica_privacidade, politica_regulamento, politica_transporte)
 from .views.ViewRelatorio import (relatorio)
-from .views.ViewAgendamento import (agendamentos, criar_agendamento, editar_agendamento, deletar_agendamento)
+from .views.ViewAgendamento import (
+    agendamentos,
+    alterar_status_agendamento,
+    criar_agendamento,
+    editar_agendamento,
+    deletar_agendamento,
+)
 from .views.ViewServico import (listar_servicos, salvar_servico, deletar_servico)
 from .views.ViewPerfil import (perfil)
 from .views.ViewLogin import (login)
@@ -32,6 +38,11 @@ urlpatterns = [
     path('pets/<int:pk>/deletar/', login_required(deletar_pet), name='deletar_pet'),
 
     path('agendamentos/', login_required(agendamentos), name='agendamentos'),
+    path(
+        'agendamentos/<int:pk>/status/',
+        alterar_status_agendamento,
+        name='alterar_status_agendamento',
+    ),
     path('agendamentos/novo/', login_required(criar_agendamento), name='criar_agendamento'),
     path('agendamentos/<int:pk>/editar/', login_required(editar_agendamento), name='editar_agendamento'),
     path('agendamentos/<int:pk>/deletar/', login_required(deletar_agendamento), name='deletar_agendamento'),
@@ -41,7 +52,7 @@ urlpatterns = [
     path('clientes/<int:pk>/editar/', staff_member_required(editar_cliente), name='editar_cliente'),
     path('clientes/<int:pk>/deletar/', staff_member_required(deletar_cliente), name='deletar_cliente'),
 
-    path('relatorio/', staff_member_required(relatorio), name='relatorio'),
+    path('relatorio/', login_required(relatorio), name='relatorio'),
 
     path('servicos/', staff_member_required(listar_servicos), name='listar_servicos'),
     path('servicos/novo/', staff_member_required(salvar_servico), name='criar_servico'),

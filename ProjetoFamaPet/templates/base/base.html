@@ -11,6 +11,7 @@
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/fontes.css' %}" rel="stylesheet">
     <link href="{% static 'css/style_base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/brand.css' %}" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -18,7 +19,9 @@
 <body class="{% if user.is_authenticated %}{% if user.is_staff %}layout-admin{% else %}layout-cliente{% endif %}{% else %}layout-visitante{% endif %}">
 
     <div class="d-lg-none bg-warning p-3 d-flex justify-content-between align-items-center shadow-sm sticky-top">
-        <h5 class="m-0 fw-bold brand-font text-dark">Fama Pet</h5>
+        <a href="{% url 'home' %}" class="site-brand">
+            <img src="{% static 'img/logo.png' %}" alt="" class="site-brand__logo">
+        </a>
         <button class="btn btn-light shadow-sm d-flex align-items-center justify-content-center p-2 rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile">
             <i class="bi bi-list fs-4"></i>
         </button>
@@ -30,17 +33,19 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMobile" aria-label="Fechar"></button>
         </div>
 
+        <a href="{% url 'home' %}" class="site-brand site-brand--sidebar">
+            <img src="{% static 'img/logo.png' %}" alt="" class="site-brand__logo">
+            <span class="site-brand__name">Fama Pet</span>
+        </a>
+
         <div class="text-center text-white mb-4">
             <div class="user-avatar mb-2 d-inline-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle p-3" style="width: 70px; height: 70px;">
                 <i class="bi {% if user.is_staff %}bi-shield-lock-fill{% elif user.is_authenticated %}bi-person-fill{% else %}bi-person-circle{% endif %} fs-1 text-white"></i>
             </div>
             
-            <h5 class="fw-bold mb-0 text-white text-truncate px-2" title="{{ user.first_name|default:user.username }}">
-                {{ usuario.name|default:user.username }}
+            <h5 class="fw-bold mb-0 text-white text-truncate px-2" title="{{ user.nome|default:user.username }}">
+                {{ user.nome|default:user.username }}
             </h5>
-            <small class="badge {% if user.is_staff %}bg-danger text-white{% else %}bg-info text-dark{% endif %} mt-2 px-2.5 py-1 fw-semibold shadow-sm" style="border-radius: 6px;">
-                {% if user.is_staff %}Administrador{% else %}Cliente{% endif %}
-            </small>
         </div>
 
         <nav class="mt-2 flex-grow-1">
@@ -48,7 +53,7 @@
                 {% if user.is_staff %}
                     <span class="text-white-50 small px-2 fw-bold text-uppercase d-block mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">Atendimentos</span>
                     <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_admin_agendamentos %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
-                        <i class="bi bi-calendar-check me-2 fs-5"></i>Todos Agendamentos
+                        <i class="bi bi-calendar-check me-2 fs-5"></i>Agendamentos
                     </a>
                     <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_admin_pets %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
                         <i class="bi bi-card-list me-2 fs-5"></i>Todos os Pets
@@ -63,16 +68,19 @@
                     <a href="{% url 'listar_clientes' %}" class="nav-btn {% block nav_clientes %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
                         <i class="bi bi-people me-2 fs-5"></i>Clientes
                     </a>
-                    <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_relatorio %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
+                    <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_admin_relatorio %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
                         <i class="bi bi-bar-chart me-2 fs-5"></i>Relatórios
                     </a>
 
                 {% else %}
                     <a href="{% url 'agendamentos' %}" class="nav-btn {% block nav_agendamentos %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
-                        <i class="bi bi-calendar-event me-2 fs-5"></i>Meus Agendamentos
+                        <i class="bi bi-calendar-event me-2 fs-5"></i>Agendamentos
                     </a>
                     <a href="{% url 'listar_pets' %}" class="nav-btn {% block nav_pets %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
                         <i class="bi bi-heart-pulse me-2 fs-5"></i>Meus Pets
+                    </a>
+                    <a href="{% url 'relatorio' %}" class="nav-btn {% block nav_historico_agendamentos %}{% endblock %} mb-2 d-flex align-items-center rounded-3 px-3 py-2 text-decoration-none">
+                        <i class="bi bi-clock-history me-2 fs-5"></i>Histórico de Agendamentos
                     </a>
                 {% endif %}
 
@@ -97,7 +105,7 @@
 
     </div>
 
-    <main class="main-content p-3 p-md-5">
+    <main class="main-content p-2 p-sm-3 p-md-4 p-xl-5">
         
     
         {% if messages %}
@@ -111,7 +119,7 @@
             </div>
         {% endif %}
 
-        <div class="container-fluid bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="min-height: 85vh;">
+        <div class="container-fluid bg-white p-2 p-sm-3 p-md-4 p-xl-5 rounded-4 shadow-sm border" style="min-height: 85vh;">
             {% block content %}
             {% endblock %}
         </div>
